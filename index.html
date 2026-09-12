@@ -30,35 +30,99 @@
         .hero-section {
             position: relative;
             width: 100%;
-            height: 75vh;
-            /* Tvé vlastní pozadí s plynulým přechodem do tmavé barvy dole */
+            min-height: 80vh;
+            /* Tvé pozadí s přechodem do tmavé barvy dole */
             background: linear-gradient(to bottom, rgba(11, 7, 17, 0.3) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
                         url('https://github.com/user-attachments/assets/4037ab6f-2d0c-4583-bfef-74181d9f50c6') center/cover no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 40px 20px;
         }
 
         .hero-content {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
         }
 
+        /* Animace zvětšování a zmenšování loga */
         .main-logo {
             max-width: 360px;
             width: 80%;
             height: auto;
             filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.6));
-            transition: transform 0.3s ease;
+            animation: pulseLogo 3.5s ease-in-out infinite;
         }
 
-        .main-logo:hover {
-            transform: scale(1.03);
+        @keyframes pulseLogo {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5));
+            }
+            50% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 45px rgba(168, 85, 247, 0.85));
+            }
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5));
+            }
+        }
+
+        /* --- GLITCH TABULKA POD LOGEM --- */
+        .glitch-box {
+            background: rgba(18, 10, 31, 0.85);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 15px 35px;
+            border-radius: 14px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            position: relative;
+        }
+
+        .glitch-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #a855f7;
+            font-weight: 700;
+        }
+
+        .glitch-date {
+            font-family: 'Consolas', monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+            position: relative;
+        }
+
+        /* Glitch animace efekt */
+        .glitch-effect {
+            animation: glitch 0.3s infinite alternate;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); color: #c084fc; }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, -1px); color: #e9d5ff; }
+            80% { transform: translate(1px, 2px); }
+            100% { transform: translate(0); }
         }
 
         /* --- STŘEDNÍ SEKCIE (O SERVERU) --- */
         .about-section {
             background: linear-gradient(to bottom, #0b0711 0%, #07040b 100%);
-            padding: 60px 20px 90px 20px;
+            padding: 40px 20px 90px 20px;
             display: flex;
             justify-content: center;
         }
@@ -204,14 +268,21 @@
 </head>
 <body>
 
-    <!-- 1. HORNÍ SEKCIE BEZ HORNÍHO PANELU -->
+    <!-- 1. HORNÍ SEKCIE S ANIMOVANÝM LOGEM A GLITCH TABULKOU -->
     <section class="hero-section">
         <div class="hero-content">
+            <!-- Animované Zvětšující se Logo -->
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo">
+            
+            <!-- Glitch Tabulka pod logem -->
+            <div class="glitch-box">
+                <span class="glitch-label">Spuštění serveru</span>
+                <div class="glitch-date glitch-effect" id="glitch-date-text">??.??.2026</div>
+            </div>
         </div>
     </section>
 
-    <!-- 2. SEKCIE O SERVERU BEZ OBRÁZKU S DISCORD TLAČÍTKEM -->
+    <!-- 2. SEKCIE O SERVERU S DISCORD TLAČÍTKEM -->
     <section class="about-section">
         <div class="about-container">
             <h2 class="about-title">O našem serveru</h2>
@@ -230,7 +301,7 @@
         </div>
     </section>
 
-    <!-- 3. DOLNÍ LIŠTA (PATIČKA) BEZ NAVIGACE A IKON -->
+    <!-- 3. DOLNÍ LIŠTA (PATIČKA) -->
     <footer>
         <div class="footer-container">
             <!-- Sloupec 1: O projektu -->
@@ -261,6 +332,28 @@
             © 2026 Mystiland.eu | Všechna práva vyhrazena.
         </div>
     </footer>
+
+    <!-- SKRIPT PRO GLITCH EFEKT DATUMU -->
+    <script>
+        const glitchElement = document.getElementById('glitch-date-text');
+        
+        // Seznam náhodných kombinací glitčujících dat
+        const glitchFormats = [
+            "??.10.2026",
+            "15.?.2026",
+            "??.??.2026",
+            "28.11.????",
+            "?.??.2026",
+            "??.09.2026",
+            "01.?.????",
+            "??.??.????"
+        ];
+
+        setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * glitchFormats.length);
+            glitchElement.innerText = glitchFormats[randomIndex];
+        }, 180); // Mění se každých 180 milisekund
+    </script>
 
 </body>
 </html>
