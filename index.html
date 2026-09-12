@@ -35,7 +35,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Světelný fialový kruh uprostřed */
+        /* Světelný fialový efekt */
         .glow-overlay {
             position: absolute;
             width: 600px;
@@ -54,50 +54,37 @@
             padding: 40px 30px;
             max-width: 550px;
             width: 90%;
-            background: rgba(18, 10, 31, 0.65);
+            background: rgba(18, 10, 31, 0.7);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(168, 85, 247, 0.3);
+            border: 1px solid rgba(168, 85, 247, 0.35);
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(168, 85, 247, 0.25);
         }
 
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            background: rgba(168, 85, 247, 0.15);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: #c084fc;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+        /* Logo MystiLand */
+        .logo {
+            width: 140px;
+            height: auto;
+            border-radius: 16px;
             margin-bottom: 20px;
-            font-weight: 600;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            transition: transform 0.3s ease;
         }
 
-        .tag i {
-            color: #a855f7;
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: 3px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
             background: linear-gradient(135deg, #ffffff 30%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            text-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            color: #d8b4fe;
-            margin-bottom: 30px;
-            font-weight: 400;
+            margin-bottom: 25px;
+            text-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+            line-height: 1.3;
         }
 
         /* IP Adresa Box */
@@ -105,10 +92,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(10, 5, 20, 0.8);
+            background: rgba(10, 5, 20, 0.85);
             border: 1px dashed rgba(192, 132, 252, 0.5);
             padding: 12px 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -116,7 +103,7 @@
 
         .ip-box:hover {
             border-color: #a855f7;
-            background: rgba(20, 10, 35, 0.9);
+            background: rgba(20, 10, 35, 0.95);
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
         }
 
@@ -136,6 +123,14 @@
             gap: 6px;
         }
 
+        /* Discord text sekce dole */
+        .discord-info {
+            font-size: 1rem;
+            color: #d8b4fe;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
         /* Tlačítka */
         .buttons {
             display: flex;
@@ -148,7 +143,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 26px;
+            padding: 12px 28px;
             border-radius: 10px;
             text-decoration: none;
             font-weight: 700;
@@ -166,18 +161,6 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
         }
-
-        .btn-wiki {
-            background: rgba(168, 85, 247, 0.2);
-            color: #e9d5ff;
-            border: 1px solid rgba(168, 85, 247, 0.5);
-        }
-
-        .btn-wiki:hover {
-            background: rgba(168, 85, 247, 0.4);
-            transform: translateY(-3px);
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -185,25 +168,27 @@
     <div class="glow-overlay"></div>
 
     <div class="container">
-        <div class="tag">
-            <i class="fa-solid fa-cube"></i> Minecraft Server
-        </div>
+        <!-- Logo -->
+        <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="logo">
         
-        <h1>MystiLand</h1>
-        <p class="subtitle">Připravujeme pro vás nový svět. Již brzy!</p>
+        <!-- Hlavní text -->
+        <h1>Již brzy Minecraft server MystiLand</h1>
 
-        <!-- Klikací box s IP adresou -->
+        <!-- Klikací IP adresa -->
         <div class="ip-box" onclick="copyIP()">
             <span class="ip-text">play.mystiland.eu</span>
             <span class="copy-btn" id="copy-text"><i class="fa-regular fa-copy"></i> Zkopírovat</span>
         </div>
 
+        <!-- Text o Discordu dole -->
+        <p class="discord-info">
+            Připoj se na náš Discord server, ať ti neutečou žádné novinky, soutěže a informace o otevření!
+        </p>
+
+        <!-- Tlačítko na Discord -->
         <div class="buttons">
             <a href="https://discord.com/invite/3GWM5Vy2HV" class="btn btn-discord" target="_blank">
-                <i class="fa-brands fa-discord"></i> Discord Server
-            </a>
-            <a href="https://wiki.mystiland.eu" class="btn btn-wiki" target="_blank">
-                <i class="fa-solid fa-book"></i> Wiki
+                <i class="fa-brands fa-discord"></i> Připojit se na Discord
             </a>
         </div>
     </div>
