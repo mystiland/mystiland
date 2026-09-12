@@ -56,7 +56,7 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
             list-style: none;
         }
 
@@ -178,7 +178,7 @@
             100% { transform: translate(0); }
         }
 
-        /* --- STŘEDNÍ SEKCIE (CONTENT) --- */
+        /* --- HLAVNÍ OBSAH --- */
         .main-content {
             background: linear-gradient(to bottom, #0b0711 0%, #07040b 100%);
             padding: 40px 20px 80px 20px;
@@ -187,23 +187,17 @@
             align-items: center;
         }
 
-        /* 1. SEKCIE O SERVERU */
-        .about-container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 70px;
-        }
-
-        .about-title {
+        /* Společný styl pro hlavní nadpisy sekcí (bílý text + fialová čárka) */
+        .section-title {
             font-size: 2.4rem;
             font-weight: 800;
+            color: #ffffff;
             margin-bottom: 25px;
             position: relative;
             display: inline-block;
         }
 
-        .about-title::after {
+        .section-title::after {
             content: '';
             position: absolute;
             left: 50%;
@@ -215,61 +209,49 @@
             border-radius: 2px;
         }
 
+        /* 1. SEKCIE O SERVERU */
+        .about-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
         .about-description {
             color: #b3b0c2;
             font-size: 1.1rem;
             margin-top: 15px;
         }
 
-        /* 2. SEKCIE NOVINKY (VYPADÁ JAKO NA OBRÁZKU) */
+        /* 2. SEKCIE NOVINKY (BEZ RÁMEČKU) */
         .news-section {
             max-width: 950px;
             width: 100%;
-            margin-bottom: 70px;
+            margin-bottom: 80px;
             text-align: center;
-        }
-
-        .news-header-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #f97316; /* Oranžový nadpis podle vzoru */
-            margin-bottom: 5px;
-        }
-
-        .news-header-title span {
-            color: #ffffff;
         }
 
         .news-header-subtitle {
             color: #9ca3af;
             font-size: 0.95rem;
+            margin-top: 15px;
             margin-bottom: 35px;
         }
 
-        .news-card {
-            background: rgba(15, 12, 25, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 25px;
+        .news-item {
             display: flex;
-            gap: 30px;
+            gap: 35px;
             align-items: center;
             text-align: left;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .news-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(168, 85, 247, 0.4);
+            padding: 10px 0;
         }
 
         .news-image {
-            width: 42%;
+            width: 45%;
             min-width: 280px;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
 
         .news-image img {
@@ -284,17 +266,17 @@
         }
 
         .news-title {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .news-date {
-            color: #22c55e; /* Zelený text Vydání podle vzoru */
+            color: #22c55e;
             font-weight: 700;
             font-size: 0.95rem;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
         }
 
         .news-date span {
@@ -304,7 +286,7 @@
 
         .news-text {
             color: #9ca3af;
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             line-height: 1.6;
         }
 
@@ -341,7 +323,7 @@
             box-shadow: 0 6px 25px rgba(88, 101, 242, 0.65);
         }
 
-        /* --- DOLNÍ LIŠTA (PATIČKA - ROZŠÍŘENÝ SPODEK) --- */
+        /* --- DOLNÍ LIŠTA (PATIČKA - ROZŠÍŘENÉ MEZERY) --- */
         footer {
             background-color: #050308;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -349,13 +331,13 @@
         }
 
         .footer-container {
-            max-width: 1200px; /* Rozšířený obsah patičky */
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between; /* Roztáhne položky dále od sebe */
+            justify-content: space-between;
             align-items: flex-start;
             flex-wrap: wrap;
-            gap: 60px; /* Větší mezera mezi sloupci */
+            gap: 60px;
             padding-bottom: 40px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -465,7 +447,7 @@
 
         /* Responsive přizpůsobení mobilům */
         @media (max-width: 850px) {
-            .news-card {
+            .news-item {
                 flex-direction: column;
             }
             .news-image {
@@ -486,8 +468,10 @@
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
         </a>
 
+        <!-- Přidáno "Novinky" do menu -->
         <ul class="nav-links">
             <li><a href="#" class="active">Domů</a></li>
+            <li><a href="#novinky">Novinky</a></li>
             <li><a href="#">Tým</a></li>
             <li><a href="#">Pravidla</a></li>
             <li><a href="#">Wiki</a></li>
@@ -517,20 +501,20 @@
         
         <!-- 1. O NAŠEM SERVERU -->
         <div class="about-container">
-            <h2 class="about-title">O našem serveru</h2>
+            <h2 class="section-title">O našem serveru</h2>
             <p class="about-description">
                 Vítejte na MystiLand, jedinečném Minecraft serveru, který vám přináší nezapomenutelný herní zážitek! Naše komunita staví na přátelském prostředí, skvělém admin týmu a neustále vylepšovaných herních módech.
             </p>
         </div>
 
-        <!-- 2. NOVINKY Z MYSTILANDU (PODLE VZORU Z OBRÁZKU) -->
-        <section class="news-section">
-            <h2 class="news-header-title">Novinky ze světa <span>MystiLand</span></h2>
+        <!-- 2. NOVINKY Z MYSTILANDU (BÍLÝ NADPIS S FIALOVOU ČÁRKOU, BEZ RÁMEČKU) -->
+        <section class="news-section" id="novinky">
+            <h2 class="section-title">Novinky ze světa MystiLand</h2>
             <p class="news-header-subtitle">Buď neustále v obraze a nepromeškej žádnou akci na našem serveru...</p>
             
-            <div class="news-card">
+            <div class="news-item">
                 <div class="news-image">
-                    <!-- Sem si pak vložíš svůj vlastní obrázek z novinky -->
+                    <!-- Místo pro tvůj obrázek -->
                     <img src="https://images.unsplash.com/photo-1627856013091-fed6e4e30025?q=80&w=800&auto=format&fit=crop" alt="Novinka obrázek">
                 </div>
                 <div class="news-content">
@@ -556,7 +540,7 @@
 
     </main>
 
-    <!-- FOOTER (ROZŠÍŘENÁ PATIČKA) -->
+    <!-- FOOTER (PATIČKA) -->
     <footer>
         <div class="footer-container">
             <!-- Sloupec 1: O projektu -->
