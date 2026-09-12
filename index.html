@@ -30,79 +30,24 @@
         .hero-section {
             position: relative;
             width: 100%;
-            height: 85vh;
-            /* Background image s tmavým přechodem směrem dolů */
-            background: linear-gradient(to bottom, rgba(11, 7, 17, 0.4) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
-                        url('https://images.unsplash.com/photo-1627856013091-fed6e4e30025?q=80&w=1920') center/cover no-repeat;
+            height: 75vh;
+            /* Tvé vlastní pozadí s plynulým přechodem do tmavé barvy dole */
+            background: linear-gradient(to bottom, rgba(11, 7, 17, 0.3) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
+                        url('https://github.com/user-attachments/assets/4037ab6f-2d0c-4583-bfef-74181d9f50c6') center/cover no-repeat;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
         }
 
-        /* Navigační menu nahoře */
-        .navbar {
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .nav-logo {
-            height: 45px;
-            border-radius: 8px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #e0e0e0;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #a855f7;
-        }
-
-        .btn-store {
-            background-color: #5865F2;
-            color: white;
-            padding: 10px 22px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .btn-store:hover {
-            background-color: #4752c4;
-            transform: translateY(-2px);
-        }
-
-        /* Logo uprostřed hero sekce */
         .hero-content {
             text-align: center;
-            margin-bottom: 80px;
         }
 
         .main-logo {
-            max-width: 320px;
+            max-width: 360px;
             width: 80%;
             height: auto;
-            filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5));
+            filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.6));
             transition: transform 0.3s ease;
         }
 
@@ -113,30 +58,21 @@
         /* --- STŘEDNÍ SEKCIE (O SERVERU) --- */
         .about-section {
             background: linear-gradient(to bottom, #0b0711 0%, #07040b 100%);
-            padding: 80px 20px;
+            padding: 60px 20px 90px 20px;
             display: flex;
             justify-content: center;
         }
 
         .about-container {
-            max-width: 1100px;
+            max-width: 800px;
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            flex-wrap: wrap;
-        }
-
-        .about-text {
-            flex: 1;
-            min-width: 300px;
+            text-align: center;
         }
 
         .about-title {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             position: relative;
             display: inline-block;
         }
@@ -145,9 +81,10 @@
         .about-title::after {
             content: '';
             position: absolute;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             bottom: -8px;
-            width: 50px;
+            width: 60px;
             height: 4px;
             background-color: #a855f7;
             border-radius: 2px;
@@ -155,47 +92,56 @@
 
         .about-description {
             color: #b3b0c2;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .discord-box-text {
+            color: #d8b4fe;
             font-size: 1.05rem;
-            margin-top: 25px;
-            margin-bottom: 15px;
+            margin-top: 35px;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
-        /* Rámeček s postavičkou */
-        .about-image-box {
-            flex: 1;
-            min-width: 300px;
-            max-width: 450px;
-            background: rgba(18, 10, 31, 0.5);
-            border: 2px solid rgba(168, 85, 247, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            display: flex;
-            justify-content: center;
+        /* Tlačítko na Discord */
+        .btn-discord {
+            display: inline-flex;
             align-items: center;
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.15);
+            gap: 12px;
+            padding: 15px 35px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #5865F2, #4752C4);
+            color: white;
+            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.4);
+            transition: all 0.3s ease;
         }
 
-        .character-img {
-            max-width: 100%;
-            height: auto;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+        .btn-discord:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(88, 101, 242, 0.65);
         }
 
         /* --- PATIČKA (FOOTER) --- */
         footer {
             background-color: #050308;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 60px 20px 20px 20px;
+            padding: 50px 20px 20px 20px;
         }
 
         .footer-container {
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
             flex-wrap: wrap;
             gap: 40px;
-            padding-bottom: 40px;
+            padding-bottom: 30px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -207,8 +153,8 @@
         }
 
         .footer-logo {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 8px;
         }
 
@@ -226,14 +172,7 @@
 
         .footer-col {
             flex: 1;
-            min-width: 250px;
-        }
-
-        .footer-col h4 {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: #ffffff;
-            letter-spacing: 0.5px;
+            min-width: 280px;
         }
 
         .footer-col p {
@@ -242,39 +181,11 @@
             margin-bottom: 15px;
         }
 
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            color: #8a859b;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-col ul li a:hover {
-            color: #a855f7;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .social-icons a {
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
             color: #ffffff;
-            font-size: 1.2rem;
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: #a855f7;
-            transform: translateY(-3px);
+            letter-spacing: 0.5px;
         }
 
         .copyright {
@@ -293,49 +204,33 @@
 </head>
 <body>
 
-    <!-- 1. HORNÍ SEKCIE S PROSTŘEDNÍM LOGEM -->
+    <!-- 1. HORNÍ SEKCIE BEZ HORNÍHO PANELU -->
     <section class="hero-section">
-        <nav class="navbar">
-            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="nav-logo">
-            <ul class="nav-links">
-                <li><a href="#">Domů</a></li>
-                <li><a href="#">Náš tým</a></li>
-                <li><a href="#">Pravidla</a></li>
-                <li><a href="https://wiki.mystiland.eu" target="_blank">Wiki</a></li>
-            </ul>
-            <a href="https://discord.com/invite/3GWM5Vy2HV" class="btn-store" target="_blank">
-                <i class="fa-brands fa-discord"></i> Discord
-            </a>
-        </nav>
-
         <div class="hero-content">
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo">
         </div>
-        
-        <div></div> <!-- Pro zarovnání flexboxu -->
     </section>
 
-    <!-- 2. SEKCIE O SERVERU S POSTAVIČKOU -->
+    <!-- 2. SEKCIE O SERVERU BEZ OBRÁZKU S DISCORD TLAČÍTKEM -->
     <section class="about-section">
         <div class="about-container">
-            <div class="about-text">
-                <h2 class="about-title">O našem serveru</h2>
-                <p class="about-description">
-                    Vítejte na MystiLand, jedinečném Minecraft serveru, který vám přináší nezapomenutelný herní zážitek! Naše komunita staví na přátelském prostředí, skvělém admin týmu a neustále vylepšovaných herních módech.
-                </p>
-                <p class="about-description">
-                    Připojte se k nám ještě dnes na náš Discord server, objevujte nová dobrodružství a buďte u spuštění serveru mezi prvními!
-                </p>
-            </div>
+            <h2 class="about-title">O našem serveru</h2>
             
-            <div class="about-image-box">
-                <!-- Postavička (zastupný render) -->
-                <img src="https://minecraftskinstealer.com/render/steve/full" alt="Minecraft Postavička" class="character-img">
-            </div>
+            <p class="about-description">
+                Vítejte na MystiLand, jedinečném Minecraft serveru, který vám přináší nezapomenutelný herní zážitek! Naše komunita staví na přátelském prostředí, skvělém admin týmu a neustále vylepšovaných herních módech.
+            </p>
+            
+            <p class="discord-box-text">
+                Připoj se k nám na náš Discord server, buď u spuštění mezi prvními a nenech si ujít žádné novinky!
+            </p>
+
+            <a href="https://discord.com/invite/3GWM5Vy2HV" class="btn-discord" target="_blank">
+                <i class="fa-brands fa-discord"></i> Připojit se na Discord
+            </a>
         </div>
     </section>
 
-    <!-- 3. DOLNÍ LIŠTA (PATIČKA) -->
+    <!-- 3. DOLNÍ LIŠTA (PATIČKA) BEZ NAVIGACE A IKON -->
     <footer>
         <div class="footer-container">
             <!-- Sloupec 1: O projektu -->
@@ -355,28 +250,10 @@
                 </p>
             </div>
 
-            <!-- Sloupec 2: Navigace -->
-            <div class="footer-col" style="max-width: 200px;">
-                <h4>NAVIGACE</h4>
-                <ul>
-                    <li><a href="#">• Chci jít hrát</a></li>
-                    <li><a href="#">• Pravidla</a></li>
-                    <li><a href="#">• Tým</a></li>
-                    <li><a href="https://wiki.mystiland.eu" target="_blank">• Wiki</a></li>
-                </ul>
-            </div>
-
-            <!-- Sloupec 3: Kontakty -->
-            <div class="footer-col" style="max-width: 250px;">
+            <!-- Sloupec 2: Kontakty -->
+            <div class="footer-col" style="max-width: 300px;">
                 <h4>KONTAKTY</h4>
-                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none;">mystiland.info@email.com</a></p>
-                
-                <div class="social-icons">
-                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank"><i class="fa-brands fa-discord"></i></a>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                </div>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@email.com</a></p>
             </div>
         </div>
 
