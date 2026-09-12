@@ -43,12 +43,6 @@
             z-index: 1000;
         }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
         .nav-logo img {
             height: 45px;
             width: auto;
@@ -81,12 +75,6 @@
             border-radius: 8px;
         }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Oranžové tlačítko Obchod podle vzoru */
         .btn-shop {
             background: linear-gradient(135deg, #f59e0b, #d97706);
             color: #ffffff;
@@ -114,8 +102,8 @@
         .hero-section {
             position: relative;
             width: 100%;
-            min-height: 85vh;
-            padding-top: 100px; /* Odsazení kvůli fixní liště */
+            min-height: 80vh;
+            padding-top: 100px;
             background: linear-gradient(to bottom, rgba(11, 7, 17, 0.4) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
                         url('https://github.com/user-attachments/assets/4037ab6f-2d0c-4583-bfef-74181d9f50c6') center/cover no-repeat;
             display: flex;
@@ -132,7 +120,6 @@
             gap: 25px;
         }
 
-        /* Plynulá animace zvětšování a zmenšování loga */
         .main-logo {
             max-width: 360px;
             width: 80%;
@@ -142,21 +129,12 @@
         }
 
         @keyframes pulseLogo {
-            0% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5));
-            }
-            50% {
-                transform: scale(1.08);
-                filter: drop-shadow(0 0 45px rgba(168, 85, 247, 0.85));
-            }
-            100% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5));
-            }
+            0% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 45px rgba(168, 85, 247, 0.85)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5)); }
         }
 
-        /* --- GLITCH TABULKA POD LOGEM --- */
+        /* GLITCH TABULKA */
         .glitch-box {
             background: rgba(18, 10, 31, 0.85);
             border: 1px solid rgba(168, 85, 247, 0.5);
@@ -168,7 +146,6 @@
             flex-direction: column;
             align-items: center;
             gap: 5px;
-            position: relative;
         }
 
         .glitch-label {
@@ -186,10 +163,8 @@
             color: #ffffff;
             letter-spacing: 3px;
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
-            position: relative;
         }
 
-        /* Glitch animace efekt */
         .glitch-effect {
             animation: glitch 0.3s infinite alternate;
         }
@@ -203,18 +178,21 @@
             100% { transform: translate(0); }
         }
 
-        /* --- STŘEDNÍ SEKCIE (O SERVERU) --- */
-        .about-section {
+        /* --- STŘEDNÍ SEKCIE (CONTENT) --- */
+        .main-content {
             background: linear-gradient(to bottom, #0b0711 0%, #07040b 100%);
-            padding: 40px 20px 90px 20px;
+            padding: 40px 20px 80px 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
+        /* 1. SEKCIE O SERVERU */
         .about-container {
             max-width: 800px;
             width: 100%;
             text-align: center;
+            margin-bottom: 70px;
         }
 
         .about-title {
@@ -225,7 +203,6 @@
             display: inline-block;
         }
 
-        /* Fialová čárka pod nadpisem */
         .about-title::after {
             content: '';
             position: absolute;
@@ -241,19 +218,109 @@
         .about-description {
             color: #b3b0c2;
             font-size: 1.1rem;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 15px;
+        }
+
+        /* 2. SEKCIE NOVINKY (VYPADÁ JAKO NA OBRÁZKU) */
+        .news-section {
+            max-width: 950px;
+            width: 100%;
+            margin-bottom: 70px;
+            text-align: center;
+        }
+
+        .news-header-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #f97316; /* Oranžový nadpis podle vzoru */
+            margin-bottom: 5px;
+        }
+
+        .news-header-title span {
+            color: #ffffff;
+        }
+
+        .news-header-subtitle {
+            color: #9ca3af;
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+        }
+
+        .news-card {
+            background: rgba(15, 12, 25, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 25px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .news-image {
+            width: 42%;
+            min-width: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .news-content {
+            flex: 1;
+        }
+
+        .news-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .news-date {
+            color: #22c55e; /* Zelený text Vydání podle vzoru */
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+        }
+
+        .news-date span {
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        .news-text {
+            color: #9ca3af;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* 3. DISCORD SEKCIE */
+        .discord-container {
+            text-align: center;
+            max-width: 700px;
         }
 
         .discord-box-text {
             color: #d8b4fe;
-            font-size: 1.05rem;
-            margin-top: 35px;
+            font-size: 1.1rem;
             margin-bottom: 25px;
             font-weight: 600;
         }
 
-        /* Tlačítko na Discord */
         .btn-discord {
             display: inline-flex;
             align-items: center;
@@ -274,22 +341,22 @@
             box-shadow: 0 6px 25px rgba(88, 101, 242, 0.65);
         }
 
-        /* --- PATIČKA (FOOTER) --- */
+        /* --- DOLNÍ LIŠTA (PATIČKA - ROZŠÍŘENÝ SPODEK) --- */
         footer {
             background-color: #050308;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 50px 20px 20px 20px;
+            padding: 60px 40px 25px 40px;
         }
 
         .footer-container {
-            max-width: 1000px;
+            max-width: 1200px; /* Rozšířený obsah patičky */
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Roztáhne položky dále od sebe */
             align-items: flex-start;
             flex-wrap: wrap;
-            gap: 40px;
-            padding-bottom: 30px;
+            gap: 60px; /* Větší mezera mezi sloupci */
+            padding-bottom: 40px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -320,7 +387,7 @@
 
         .footer-col {
             flex: 1;
-            min-width: 240px;
+            min-width: 260px;
         }
 
         .footer-col p {
@@ -331,12 +398,11 @@
 
         .footer-col h4 {
             font-size: 1.1rem;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: #ffffff;
             letter-spacing: 0.5px;
         }
 
-        /* Ikony sociálních sítí */
         .social-links {
             display: flex;
             gap: 12px;
@@ -344,8 +410,8 @@
         }
 
         .social-icon {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -365,13 +431,12 @@
             box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
         }
 
-        /* Odkazy v sekci Info */
         .footer-links {
             list-style: none;
         }
 
         .footer-links li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .footer-links a {
@@ -389,7 +454,7 @@
             text-align: center;
             color: #585366;
             font-size: 0.85rem;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .mojang-disclaimer {
@@ -399,26 +464,28 @@
         }
 
         /* Responsive přizpůsobení mobilům */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 20px;
+        @media (max-width: 850px) {
+            .news-card {
+                flex-direction: column;
             }
-            .nav-links {
-                display: none; /* Pro mobily lze v budoucnu přidat burger menu */
+            .news-image {
+                width: 100%;
+            }
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- HORNÍ NAVIGATION BAR (LIŠTA) -->
+    <!-- HORNÍ NAVIGATION BAR -->
     <header class="navbar">
-        <!-- Logo vlevo -->
         <a href="#" class="nav-logo">
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
         </a>
 
-        <!-- Odkazy uprostřed -->
         <ul class="nav-links">
             <li><a href="#" class="active">Domů</a></li>
             <li><a href="#">Tým</a></li>
@@ -426,7 +493,6 @@
             <li><a href="#">Wiki</a></li>
         </ul>
 
-        <!-- Tlačítko Obchod vpravo -->
         <div class="nav-right">
             <a href="#" class="btn-shop">
                 <i class="fa-solid fa-cart-shopping"></i> Obchod
@@ -434,13 +500,11 @@
         </div>
     </header>
 
-    <!-- 1. HORNÍ SEKCIE S ANIMOVANÝM LOGEM A GLITCH TABULKOU -->
+    <!-- HORNÍ HERO SEKCIE -->
     <section class="hero-section">
         <div class="hero-content">
-            <!-- Animované Zvětšující se Logo -->
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo">
             
-            <!-- Glitch Tabulka pod logem -->
             <div class="glitch-box">
                 <span class="glitch-label">Spuštění serveru</span>
                 <div class="glitch-date glitch-effect" id="glitch-date-text">??.??.2026</div>
@@ -448,15 +512,39 @@
         </div>
     </section>
 
-    <!-- 2. SEKCIE O SERVERU S DISCORD TLAČÍTKEM -->
-    <section class="about-section">
+    <!-- HLAVNÍ OBSAH -->
+    <main class="main-content">
+        
+        <!-- 1. O NAŠEM SERVERU -->
         <div class="about-container">
             <h2 class="about-title">O našem serveru</h2>
-            
             <p class="about-description">
                 Vítejte na MystiLand, jedinečném Minecraft serveru, který vám přináší nezapomenutelný herní zážitek! Naše komunita staví na přátelském prostředí, skvělém admin týmu a neustále vylepšovaných herních módech.
             </p>
+        </div>
+
+        <!-- 2. NOVINKY Z MYSTILANDU (PODLE VZORU Z OBRÁZKU) -->
+        <section class="news-section">
+            <h2 class="news-header-title">Novinky ze světa <span>MystiLand</span></h2>
+            <p class="news-header-subtitle">Buď neustále v obraze a nepromeškej žádnou akci na našem serveru...</p>
             
+            <div class="news-card">
+                <div class="news-image">
+                    <!-- Sem si pak vložíš svůj vlastní obrázek z novinky -->
+                    <img src="https://images.unsplash.com/photo-1627856013091-fed6e4e30025?q=80&w=800&auto=format&fit=crop" alt="Novinka obrázek">
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">Nový web je tady!</h3>
+                    <div class="news-date">Vydání - <span>17.1.2026</span></div>
+                    <p class="news-text">
+                        Máme nový web! Web MystiLand.eu prošel kompletním redesignem – modernější vzhled, přehlednější obsah a spousta nových sekcí, které ti usnadní orientaci a přinesou víc informací o našem serveru. Mrkni, co je nového! 🚀
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. DISCORD SEKCIE -->
+        <div class="discord-container">
             <p class="discord-box-text">
                 Připoj se k nám na náš Discord server, buď u spuštění mezi prvními a nenech si ujít žádné novinky!
             </p>
@@ -465,9 +553,10 @@
                 <i class="fa-brands fa-discord"></i> Připojit se na Discord
             </a>
         </div>
-    </section>
 
-    <!-- 3. DOLNÍ LIŠTA (PATIČKA) -->
+    </main>
+
+    <!-- FOOTER (ROZŠÍŘENÁ PATIČKA) -->
     <footer>
         <div class="footer-container">
             <!-- Sloupec 1: O projektu -->
@@ -476,7 +565,7 @@
                     <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
                     <div>
                         <div class="footer-title">MYSTILAND.EU</div>
-                        <div class="footer-subtitle">Minecraft Server</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
                     </div>
                 </div>
                 <p>
@@ -492,7 +581,6 @@
                 <h4>KONTAKTY</h4>
                 <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@email.com</a></p>
                 
-                <!-- Ikony sociálních sítí -->
                 <div class="social-links">
                     <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     <a href="#" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
@@ -502,7 +590,7 @@
                 </div>
             </div>
 
-            <!-- Sloupec 3: INFO (Obchodní podmínky & Zásady) -->
+            <!-- Sloupec 3: INFO -->
             <div class="footer-col">
                 <h4>INFO</h4>
                 <ul class="footer-links">
@@ -521,7 +609,6 @@
     <script>
         const glitchElement = document.getElementById('glitch-date-text');
         
-        // Seznam náhodných kombinací glitčujících dat
         const glitchFormats = [
             "??.02.2027",
             "15.??.2027",
@@ -536,7 +623,7 @@
         setInterval(() => {
             const randomIndex = Math.floor(Math.random() * glitchFormats.length);
             glitchElement.innerText = glitchFormats[randomIndex];
-        }, 180); // Mění se každých 180 milisekund
+        }, 180);
     </script>
 
 </body>
