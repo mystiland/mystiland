@@ -26,18 +26,102 @@
             overflow-x: hidden;
         }
 
+        /* --- HORNÍ LIŠTA (NAVBAR) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 7, 17, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Oranžové tlačítko Obchod podle vzoru */
+        .btn-shop {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-shop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.6);
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+        }
+
         /* --- HORNÍ SEKCIE (HERO) --- */
         .hero-section {
             position: relative;
             width: 100%;
-            min-height: 80vh;
-            /* Tvé pozadí s přechodem do tmavé barvy dole */
-            background: linear-gradient(to bottom, rgba(11, 7, 17, 0.3) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
+            min-height: 85vh;
+            padding-top: 100px; /* Odsazení kvůli fixní liště */
+            background: linear-gradient(to bottom, rgba(11, 7, 17, 0.4) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
                         url('https://github.com/user-attachments/assets/4037ab6f-2d0c-4583-bfef-74181d9f50c6') center/cover no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding-bottom: 40px;
         }
 
         .hero-content {
@@ -48,13 +132,13 @@
             gap: 25px;
         }
 
-        /* Animace zvětšování a zmenšování loga */
+        /* Plynulá animace zvětšování a zmenšování loga */
         .main-logo {
             max-width: 360px;
             width: 80%;
             height: auto;
             filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.6));
-            animation: pulseLogo 3.5s ease-in-out infinite;
+            animation: pulseLogo 4s ease-in-out infinite;
         }
 
         @keyframes pulseLogo {
@@ -198,7 +282,7 @@
         }
 
         .footer-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -236,7 +320,7 @@
 
         .footer-col {
             flex: 1;
-            min-width: 280px;
+            min-width: 240px;
         }
 
         .footer-col p {
@@ -252,6 +336,55 @@
             letter-spacing: 0.5px;
         }
 
+        /* Ikony sociálních sítí */
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Odkazy v sekci Info */
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
         .copyright {
             text-align: center;
             color: #585366;
@@ -264,9 +397,42 @@
             color: #585366;
             margin-top: 10px;
         }
+
+        /* Responsive přizpůsobení mobilům */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            .nav-links {
+                display: none; /* Pro mobily lze v budoucnu přidat burger menu */
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- HORNÍ NAVIGATION BAR (LIŠTA) -->
+    <header class="navbar">
+        <!-- Logo vlevo -->
+        <a href="#" class="nav-logo">
+            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
+        </a>
+
+        <!-- Odkazy uprostřed -->
+        <ul class="nav-links">
+            <li><a href="#" class="active">Domů</a></li>
+            <li><a href="#">Tým</a></li>
+            <li><a href="#">Pravidla</a></li>
+            <li><a href="#">Wiki</a></li>
+        </ul>
+
+        <!-- Tlačítko Obchod vpravo -->
+        <div class="nav-right">
+            <a href="#" class="btn-shop">
+                <i class="fa-solid fa-cart-shopping"></i> Obchod
+            </a>
+        </div>
+    </header>
 
     <!-- 1. HORNÍ SEKCIE S ANIMOVANÝM LOGEM A GLITCH TABULKOU -->
     <section class="hero-section">
@@ -321,10 +487,28 @@
                 </p>
             </div>
 
-            <!-- Sloupec 2: Kontakty -->
-            <div class="footer-col" style="max-width: 300px;">
+            <!-- Sloupec 2: Kontakty + Sociální sítě -->
+            <div class="footer-col">
                 <h4>KONTAKTY</h4>
                 <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@email.com</a></p>
+                
+                <!-- Ikony sociálních sítí -->
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <!-- Sloupec 3: INFO (Obchodní podmínky & Zásady) -->
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Obchodní podmínky</a></li>
+                    <li><a href="#">Zásady ochrany osobních údajů</a></li>
+                </ul>
             </div>
         </div>
 
