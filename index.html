@@ -187,7 +187,7 @@
             align-items: center;
         }
 
-        /* Společný styl pro hlavní nadpisy sekcí (bílý text + fialová čárka) */
+        /* Společný styl pro hlavní nadpisy sekcí */
         .section-title {
             font-size: 2.4rem;
             font-weight: 800;
@@ -197,6 +197,7 @@
             display: inline-block;
         }
 
+        /* Výchozí vycentrovaná čárka pod nadpisem */
         .section-title::after {
             content: '';
             position: absolute;
@@ -223,12 +224,18 @@
             margin-top: 15px;
         }
 
-        /* 2. SEKCIE NOVINKY (BEZ RÁMEČKU) */
+        /* 2. SEKCIE NOVINKY (ČÁRKA VLEVO) */
         .news-section {
             max-width: 950px;
             width: 100%;
             margin-bottom: 80px;
-            text-align: center;
+            text-align: left; /* Zarovná text v novinkách vlevo */
+        }
+
+        /* Posunutí fialové čárky v sekci Novinky na levou stranu */
+        .news-section .section-title::after {
+            left: 0;
+            transform: none;
         }
 
         .news-header-subtitle {
@@ -323,7 +330,7 @@
             box-shadow: 0 6px 25px rgba(88, 101, 242, 0.65);
         }
 
-        /* --- DOLNÍ LIŠTA (PATIČKA - ROZŠÍŘENÉ MEZERY) --- */
+        /* --- DOLNÍ LIŠTA (PATIČKA) --- */
         footer {
             background-color: #050308;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -468,7 +475,6 @@
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
         </a>
 
-        <!-- Přidáno "Novinky" do menu -->
         <ul class="nav-links">
             <li><a href="#" class="active">Domů</a></li>
             <li><a href="#novinky">Novinky</a></li>
@@ -507,14 +513,13 @@
             </p>
         </div>
 
-        <!-- 2. NOVINKY Z MYSTILANDU (BÍLÝ NADPIS S FIALOVOU ČÁRKOU, BEZ RÁMEČKU) -->
+        <!-- 2. NOVINKY Z MYSTILANDU (ČÁRKA VLEVO) -->
         <section class="news-section" id="novinky">
             <h2 class="section-title">Novinky ze světa MystiLand</h2>
             <p class="news-header-subtitle">Buď neustále v obraze a nepromeškej žádnou akci na našem serveru...</p>
             
             <div class="news-item">
                 <div class="news-image">
-                    <!-- Místo pro tvůj obrázek -->
                     <img src="https://images.unsplash.com/photo-1627856013091-fed6e4e30025?q=80&w=800&auto=format&fit=crop" alt="Novinka obrázek">
                 </div>
                 <div class="news-content">
@@ -543,7 +548,6 @@
     <!-- FOOTER (PATIČKA) -->
     <footer>
         <div class="footer-container">
-            <!-- Sloupec 1: O projektu -->
             <div class="footer-col">
                 <div class="footer-header">
                     <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
@@ -560,7 +564,6 @@
                 </p>
             </div>
 
-            <!-- Sloupec 2: Kontakty + Sociální sítě -->
             <div class="footer-col">
                 <h4>KONTAKTY</h4>
                 <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@email.com</a></p>
@@ -574,7 +577,6 @@
                 </div>
             </div>
 
-            <!-- Sloupec 3: INFO -->
             <div class="footer-col">
                 <h4>INFO</h4>
                 <ul class="footer-links">
