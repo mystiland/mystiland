@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pravidla – MystiLand</title>
+    
+    <!-- Logo v kartě prohlížeče -->
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0711;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- HORNÍ LIŠTA (NAVBAR) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 7, 17, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-shop {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-shop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.6);
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- HLAVNÍ OBSAH STRÁNKY PRAVIDLA --- */
+        .main-content {
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+            background: #0b0711;
+            padding: 60px 40px 100px 40px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* TABY / NAVEGACE MEZI PRAVIDLY */
+        .rules-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #140d1e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #d1d5db;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.4);
+            color: #ffffff;
+        }
+
+        .tab-btn.active {
+            background: #a855f7;
+            color: #ffffff;
+            border-color: #a855f7;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        /* OBSAH KARTY S PRAVIDLY */
+        .rules-tab-content {
+            display: none;
+            background: #140d1e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .rules-tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SEZNAM PRAVIDEL */
+        .rule-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .rule-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .rule-number {
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            font-weight: 800;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .rule-details h3 {
+            font-size: 1.15rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .rule-details p {
+            color: #a099b2;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 7, 17, 0.98);
+                backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                display: none;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 0;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+
+            .btn-shop {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .main-content {
+                padding: 40px 20px;
+            }
+
+            .rules-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HORNÍ NAVIGATION BAR -->
+    <header class="navbar">
+        <a href="/" class="nav-logo">
+            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
+        </a>
+
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/">Domů</a></li>
+            <li><a href="/novinky">Novinky</a></li>
+            <li><a href="/tym">Tým</a></li>
+            <li><a href="/pravidla" class="active">Pravidla</a></li>
+            <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <a href="#" class="btn-shop">
+                <i class="fa-solid fa-cart-shopping"></i> Obchod
+            </a>
+
+            <button class="mobile-toggle" id="menu-toggle" aria-label="Otevřít menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- HLAVNÍ OBSAH - PRAVIDLA -->
+    <main class="main-content">
+        <h1 class="page-title">Pravidla Projektu</h1>
+
+        <!-- PŘEPÍNAČE TABŮ -->
+        <div class="rules-tabs">
+            <button class="tab-btn active" onclick="switchTab('game-rules')">
+                <i class="fa-solid fa-gamepad"></i> Herní Pravidla
+            </button>
+            <button class="tab-btn" onclick="switchTab('shop-rules')">
+                <i class="fa-solid fa-cart-shopping"></i> Obchodní Pravidla
+            </button>
+            <button class="tab-btn" onclick="switchTab('discord-rules')">
+                <i class="fa-brands fa-discord"></i> Discord Pravidla
+            </button>
+        </div>
+
+        <!-- 1. HERNÍ PRAVIDLA -->
+        <div class="rules-tab-content active" id="game-rules">
+            <div class="rule-item">
+                <div class="rule-number">1</div>
+                <div class="rule-details">
+                    <h3>Slušné chování a respekt</h3>
+                    <p>Je přísně zakázáno urážet ostatní hráče, členy týmu, používat rasistické, vulgarické či nenávistné projevy v chatu.</p>
+                </div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-number">2</div>
+                <div class="rule-details">
+                    <h3>Zákaz Cheatingu a Modifikací</h3>
+                    <p>Používání jakýchkoliv zvýhodňujících klientů, hacků (X-Ray, Fly, KillAura apod.) nebo autoclickerů je zakázáno a trestá se trvalým banem.</p>
+                </div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-number">3</div>
+                <div class="rule-details">
+                    <h3>Griefing a Ničení staveb</h3>
+                    <p>Ničení cizích staveb, krádeže z neuzamčených truhel nebo jakékoliv úmyslné kažení zážitku ze hry ostatním je zakázáno.</p>
+                </div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-number">4</div>
+                <div class="rule-details">
+                    <h3>Zákaz Reklamy</h3>
+                    <p>Jakákoliv propagace jiných Minecraft serverů, TS3, Discordů či webových stránek nesouvisejících s MystiLandem je zakázána.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. OBCHODNÍ PRAVIDLA -->
+        <div class="rules-tab-content" id="shop-rules">
+            <div class="rule-item">
+                <div class="rule-number">1</div>
+                <div class="rule-details">
+                    <h3>Dobrovolnost příspěvků</h3>
+                    <p>Všechny nákupy v obchodě jsou dobrovolným příspěvkem na chod a rozvoj serveru MystiLand.</p>
+                </div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-number">2</div>
+                <div class="rule-details">
+                    <h3>Nenávratnost plateb (No Refund)</h3>
+                    <p>Zakoupené výhody, VIP balíčky ani herní měna nejdou vrátit zpět. Pokusy o refundaci přes platební bránu vedou k trvalému zablokování účtu.</p>
+                </div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-number">3</div>
+                <div class="rule-details">
+                    <h3>Ztráta výhod při banu</h3>
+                    <p>Pokud hráč poruší herní pravidla a obdrží trest (ban/mute), nemá nárok na finanční kompenzaci ani dočasné zmrazení VIP výhod.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. DISCORD PRAVIDLA -->
+        <div class="rules-tab-content" id="discord-rules">
+            <div class="rule-item">
+                <div class="rule-number">1</div>
+                <div class="rule-details">
+                    <h3>Dodržování místností</h3>
+                    <p>Pište své zprávy do správných kanálů. Příkazy botů patří do určených bot-kanálů, stejně tak obrázky a návrhy.</p>
+                </div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-number">2</div>
+                <div class="rule-details">
+                    <h3>Zákaz Spamu a Označování</h3>
+                    <p>Nespamujte chat, nepoužívejte zbytečně CAPS-LOCK a neoznačujte členy vedení a týmu bez vážného důvodu.</p>
+                </div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-number">3</div>
+                <div class="rule-details">
+                    <h3>Nevhodný obsah (NSFW)</h3>
+                    <p>Sdílení obsahu s erotickým, násilným nebo jinak nevhodným podtextem je přísně zakázáno.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@email.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Obchodní podmínky</a></li>
+                    <li><a href="#">Zásady ochrany osobních údajů</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <script>
+        // Mobilní Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const toggleIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            if (navMenu.classList.contains('show')) {
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-xmark');
+            } else {
+                toggleIcon.classList.remove('fa-xmark');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Prepínání záložek pravidiel (Tabů)
+        function switchTab(tabId) {
+            // Skryje všechny obsahy
+            const contents = document.querySelectorAll('.rules-tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Deaktivuje všechna tlačítka
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Aktivuje vybranou záložku a tlačítko
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
