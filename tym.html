@@ -131,7 +131,6 @@
             text-align: center;
             margin-bottom: 50px;
             color: #ffffff;
-            text-transform: uppercase;
             letter-spacing: 1px;
         }
 
@@ -143,9 +142,8 @@
         .team-group-title {
             font-size: 1.4rem;
             font-weight: 800;
-            text-transform: uppercase;
             color: #ffffff;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             padding-bottom: 8px;
             margin-bottom: 25px;
         }
@@ -157,65 +155,67 @@
             gap: 25px;
         }
 
-        /* Karta člena týmu po vzoru vzorového obrázku */
+        /* Karta člena týmu */
         .member-card {
             background: #140d1e;
             border-radius: 16px;
-            padding: 25px 15px 20px 15px;
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
         }
 
         .member-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            border-color: rgba(168, 85, 247, 0.4);
         }
 
-        /* Náhled Minecraft postavy (polovina těla podle vzoru) */
+        /* Náhled Minecraft postavy (Visage Bust 160px) */
         .avatar-box {
             width: 120px;
-            height: 100px;
-            overflow: hidden;
+            height: 120px;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            margin-bottom: 12px;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .avatar-box img {
-            width: 120px;
+            width: 100%;
             height: auto;
-            image-rendering: pixelated;
             filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            transition: transform 0.2s ease;
+        }
+
+        .member-card:hover .avatar-box img {
+            transform: scale(1.05);
         }
 
         /* Jméno hráče */
         .member-name {
-            font-weight: 800;
+            font-weight: 700;
             font-size: 1.1rem;
             color: #ffffff;
             text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             margin-bottom: 10px;
             word-break: break-word;
         }
 
         /* Odznáček s rolí (Badge) */
         .role-badge {
-            padding: 5px 16px;
+            padding: 5px 14px;
             border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 700;
             color: #ffffff;
             white-space: nowrap;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
 
@@ -230,7 +230,7 @@
         .role-grafik { background-color: #3b82f6; }
         .role-teamleader { background-color: #a855f7; }
 
-        /* Sociální sítě na kartě člena (Discord atd.) */
+        /* Sociální sítě na kartě člena */
         .member-socials {
             display: flex;
             gap: 8px;
@@ -238,8 +238,8 @@
         }
 
         .member-social-btn {
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -248,14 +248,105 @@
             justify-content: center;
             color: #d1d5db;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: all 0.2s ease;
         }
 
         .member-social-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: #a855f7;
             color: #ffffff;
-            transform: translateY(-2px);
+        }
+
+        /* --- VYSKAKOVACÍ OKNO PROFILU (MODAL) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: #140d1e;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 480px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #8a859b;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #ffffff;
+        }
+
+        .modal-avatar-box {
+            width: 160px;
+            height: 160px;
+            margin-bottom: 15px;
+        }
+
+        .modal-avatar-box img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+        }
+
+        .modal-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .modal-bio {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 15px;
+            color: #c4c0d0;
+            font-size: 0.95rem;
+            margin: 15px 0 20px 0;
+            width: 100%;
+            text-align: left;
+            line-height: 1.5;
         }
 
         /* --- PATIČKA --- */
@@ -299,7 +390,6 @@
         .footer-subtitle {
             font-size: 0.8rem;
             color: #8a859b;
-            text-transform: uppercase;
         }
 
         .footer-col {
@@ -450,7 +540,6 @@
             <li><a href="/novinky">Novinky</a></li>
             <li><a href="/tym" class="active">Tým</a></li>
             <li><a href="#">Pravidla</a></li>
-            <!-- Odkaz na Wiki nastaven podle vašeho požadavku -->
             <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
         </ul>
 
@@ -473,36 +562,55 @@
         <section class="team-group">
             <h2 class="team-group-title">Vedení Tým</h2>
             <div class="team-grid">
-                <div class="member-card">
+                
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="MrHruza" 
+                     data-role="Vedení" 
+                     data-role-class="role-vedeni" 
+                     data-discord="mrhruza_official" 
+                     data-bio="Ahoj! Jsem zakladatel serveru MystiLand. Starám se o celkový chod serveru a projektový rozvoj.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/MrHruza/right" alt="MrHruza">
+                        <img src="https://visage.surgeplay.com/bust/160/MrHruza" alt="MrHruza">
                     </div>
                     <span class="member-name">MrHruza</span>
                     <span class="role-badge role-vedeni">Vedení</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-                <div class="member-card">
+
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="fufik856" 
+                     data-role="Vedení" 
+                     data-role-class="role-vedeni" 
+                     data-discord="fufik856" 
+                     data-bio="Spolu-vedoucí serveru MystiLand. Dohlížím na fungování komunity a správný chodu projektu.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/fufik856/right" alt="fufik856">
+                        <img src="https://visage.surgeplay.com/bust/160/fufik856" alt="fufik856">
                     </div>
                     <span class="member-name">fufik856</span>
                     <span class="role-badge role-vedeni">Vedení</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-                <div class="member-card">
+
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="Steve" 
+                     data-role="Team Leader" 
+                     data-role-class="role-teamleader" 
+                     data-discord="zatim_neznami" 
+                     data-bio="Tato pozice je aktuálně volná. Můžeš se přihlásit v náboru na našem Discordu!">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                        <img src="https://visage.surgeplay.com/bust/160/Steve" alt="Steve">
                     </div>
                     <span class="member-name">Volno</span>
                     <span class="role-badge role-teamleader">Team Leader</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -510,36 +618,39 @@
         <section class="team-group">
             <h2 class="team-group-title">Developer Tým</h2>
             <div class="team-grid">
-                <div class="member-card">
+                
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="bnthedev" 
+                     data-role="Hl. Developer" 
+                     data-role-class="role-hl-dev" 
+                     data-discord="bnthedev" 
+                     data-bio="Starám se o vývoj custom pluginů, opravy chyb a kódování backendu celého serveru.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/bnthedev/right" alt="bnthedev">
+                        <img src="https://visage.surgeplay.com/bust/160/bnthedev" alt="bnthedev">
                     </div>
                     <span class="member-name">bnthedev</span>
                     <span class="role-badge role-hl-dev">Hl. Developer</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-                <div class="member-card">
+
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="Steve" 
+                     data-role="Developer" 
+                     data-role-class="role-dev" 
+                     data-discord="" 
+                     data-bio="Pozice je volná. Přihlášky probíhají na Discordu.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                        <img src="https://visage.surgeplay.com/bust/160/Steve" alt="Steve">
                     </div>
                     <span class="member-name">Volno</span>
                     <span class="role-badge role-dev">Developer</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-zk-dev">Zk. Developer</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
+
             </div>
         </section>
 
@@ -547,177 +658,55 @@
         <section class="team-group">
             <h2 class="team-group-title">Technický Tým</h2>
             <div class="team-grid">
-                <div class="member-card">
+                
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="_KingOfLords_" 
+                     data-role="Hl. Technik" 
+                     data-role-class="role-hl-tech" 
+                     data-discord="_kingoflords_" 
+                     data-bio="Mám na starosti kompletní nastavení serverů, konfigurace pluginů a systémovou stabilitu.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/_KingOfLords_/right" alt="_KingOfLords_">
+                        <img src="https://visage.surgeplay.com/bust/160/_KingOfLords_" alt="_KingOfLords_">
                     </div>
                     <span class="member-name">_KingOfLords_</span>
-                    <span class="role-badge role-hl-tech">Hl.Technik</span>
+                    <span class="role-badge role-hl-tech">Hl. Technik</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-                <div class="member-card">
+
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="ales753" 
+                     data-role="Technik" 
+                     data-role-class="role-tech" 
+                     data-discord="ales753" 
+                     data-bio="Pomáhám s technickým nastavením herních módů a řešením technických problémů.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/ales753/right" alt="ales753">
+                        <img src="https://visage.surgeplay.com/bust/160/ales753" alt="ales753">
                     </div>
                     <span class="member-name">ales753</span>
                     <span class="role-badge role-tech">Technik</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-                <div class="member-card">
+
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="Bee_zuzi" 
+                     data-role="Zk. Technik" 
+                     data-role-class="role-zk-tech" 
+                     data-discord="bee_zuzi" 
+                     data-bio="Zkušební technik. Učím se pracovat s konfiguracemi serveru a pomáhám týmu.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Bee_zuzi/right" alt="Bee_zuzi">
+                        <img src="https://visage.surgeplay.com/bust/160/Bee_zuzi" alt="Bee_zuzi">
                     </div>
                     <span class="member-name">Bee_zuzi</span>
-                    <span class="role-badge role-zk-tech">Zk.Technik</span>
+                    <span class="role-badge role-zk-tech">Zk. Technik</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- MODERÁTOR TÝM -->
-        <section class="team-group">
-            <h2 class="team-group-title">Moderátor Tým</h2>
-            <div class="team-grid">
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-hl-mod">Hl. Moderátor</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-plus-mod">+ Moderátor</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-mod">Moderátor</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-zk-mod">Zk. Moderátor</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- HELPER TÝM -->
-        <section class="team-group">
-            <h2 class="team-group-title">Helper Tým</h2>
-            <div class="team-grid">
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-hl-help">Hl.Helper</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-plus-help">+Helper</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-help">Helper</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-zk-help">Zk.Helper</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- BUILDER TÝM -->
-        <section class="team-group">
-            <h2 class="team-group-title">Builder Tým</h2>
-            <div class="team-grid">
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-hl-build">Hl. Builder</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-plus-build">+ Builder</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-build">Builder</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-zk-build">Zk. Builder</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -725,57 +714,48 @@
         <section class="team-group">
             <h2 class="team-group-title">Creator Tým</h2>
             <div class="team-grid">
-                <div class="member-card">
+                
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="merlindog155" 
+                     data-role="Hl. Creator" 
+                     data-role-class="role-hl-creat" 
+                     data-discord="merlindog155" 
+                     data-bio="Ahoj! Starám se o přípravu obsahu, tvorbu videí a propagaci serveru MystiLand.">
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/merlindog155/right" alt="merlindog155">
+                        <img src="https://visage.surgeplay.com/bust/160/merlindog155" alt="merlindog155">
                     </div>
                     <span class="member-name">merlindog155</span>
                     <span class="role-badge role-hl-creat">Hl. Creator</span>
                     <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
                 </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-creat">Creator</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-zk-creat">Zk. Creator</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- GRAFIK TÝM -->
-        <section class="team-group">
-            <h2 class="team-group-title">Grafik Tým</h2>
-            <div class="team-grid">
-                <div class="member-card">
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-grafik">Grafik</span>
-                    <div class="member-socials">
-                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
             </div>
         </section>
 
     </main>
+
+    <!-- VYSKAKOVACÍ OKNO MODAL -->
+    <div class="modal-overlay" id="profile-modal" onclick="closeProfile(event)">
+        <div class="modal-card">
+            <button class="modal-close" onclick="forceCloseProfile()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="modal-avatar-box">
+                <img id="modal-img" src="" alt="Avatar">
+            </div>
+            
+            <div class="modal-name" id="modal-name">Nick</div>
+            <div class="role-badge" id="modal-role">Role</div>
+            
+            <div class="modal-bio" id="modal-bio">Text o členovi...</div>
+            
+            <div class="member-socials">
+                <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
+                <span id="modal-discord" style="align-self: center; font-size: 0.9rem; color: #a855f7; font-weight: 600;"></span>
+            </div>
+        </div>
+    </div>
 
     <!-- PATIČKA -->
     <footer>
@@ -824,6 +804,7 @@
     </footer>
 
     <script>
+        // Mobilní Menu
         const menuToggle = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         const toggleIcon = menuToggle.querySelector('i');
@@ -838,6 +819,39 @@
                 toggleIcon.classList.add('fa-bars');
             }
         });
+
+        // Otevření profilu (Modal)
+        function openProfile(card) {
+            const nick = card.getAttribute('data-nick');
+            const role = card.getAttribute('data-role');
+            const roleClass = card.getAttribute('data-role-class');
+            const discord = card.getAttribute('data-discord');
+            const bio = card.getAttribute('data-bio');
+
+            document.getElementById('modal-img').src = `https://visage.surgeplay.com/bust/160/${nick}`;
+            document.getElementById('modal-name').innerText = nick;
+            
+            const roleBadge = document.getElementById('modal-role');
+            roleBadge.innerText = role;
+            roleBadge.className = `role-badge ${roleClass}`;
+
+            document.getElementById('modal-bio').innerText = bio || "O tomto členovi zatím nebyly přidány žádné informace.";
+            document.getElementById('modal-discord').innerText = discord ? `@${discord}` : 'Neuveden';
+
+            document.getElementById('profile-modal').classList.add('active');
+        }
+
+        // Zavření modal okna při kliknutí mimo kartu
+        function closeProfile(e) {
+            if (e.target.id === 'profile-modal') {
+                document.getElementById('profile-modal').classList.remove('active');
+            }
+        }
+
+        // Vynucené zavření tlačítkem X
+        function forceCloseProfile() {
+            document.getElementById('profile-modal').classList.remove('active');
+        }
     </script>
 
 </body>
