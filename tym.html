@@ -153,40 +153,69 @@
         /* Mřížka pro karty členů */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
         }
 
-        /* Karta člena týmu */
+        /* Karta člena týmu po vzoru vzorového obrázku */
         .member-card {
-            background: #120d1a;
-            border-radius: 12px;
-            padding: 20px 10px 15px 10px;
+            background: #140d1e;
+            border-radius: 16px;
+            padding: 25px 15px 20px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .member-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        /* Náhled Minecraft postavy (polovina těla podle vzoru) */
+        .avatar-box {
+            width: 120px;
+            height: 100px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .avatar-box img {
+            width: 120px;
+            height: auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+        }
+
+        /* Jméno hráče */
+        .member-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            word-break: break-word;
         }
 
         /* Odznáček s rolí (Badge) */
         .role-badge {
-            position: absolute;
-            top: -10px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.68rem;
+            padding: 5px 16px;
+            border-radius: 8px;
+            font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
             color: #ffffff;
             white-space: nowrap;
             letter-spacing: 0.5px;
+            margin-bottom: 15px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
 
@@ -201,35 +230,32 @@
         .role-grafik { background-color: #3b82f6; }
         .role-teamleader { background-color: #a855f7; }
 
-        /* Náhled Minecraft postavy (vylepšený 3D Busta styl) */
-        .avatar-box {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            height: 110px;
+        /* Sociální sítě na kartě člena (Discord atd.) */
+        .member-socials {
             display: flex;
-            align-items: center;
+            gap: 8px;
             justify-content: center;
         }
 
-        .avatar-box img {
-            height: 100px;
-            width: auto;
-            image-rendering: pixelated;
-            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6));
-            transition: transform 0.2s ease;
-        }
-
-        .member-card:hover .avatar-box img {
-            transform: scale(1.08);
-        }
-
-        /* Jméno hráče */
-        .member-name {
-            font-weight: 700;
+        .member-social-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d1d5db;
+            text-decoration: none;
             font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .member-social-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
             color: #ffffff;
-            text-align: center;
-            word-break: break-word;
+            transform: translateY(-2px);
         }
 
         /* --- PATIČKA --- */
@@ -424,7 +450,8 @@
             <li><a href="/novinky">Novinky</a></li>
             <li><a href="/tym" class="active">Tým</a></li>
             <li><a href="#">Pravidla</a></li>
-            <li><a href="#">Wiki</a></li>
+            <!-- Odkaz na Wiki nastaven podle vašeho požadavku -->
+            <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
         </ul>
 
         <div class="nav-right">
@@ -447,25 +474,34 @@
             <h2 class="team-group-title">Vedení Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
-                    <span class="role-badge role-vedeni">Vedení</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/MrHruza/right" alt="MrHruza">
+                        <img src="https://mc-heads.net/body/MrHruza/right" alt="MrHruza">
                     </div>
                     <span class="member-name">MrHruza</span>
+                    <span class="role-badge role-vedeni">Vedení</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-vedeni">Vedení</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/fufik856/right" alt="fufik856">
+                        <img src="https://mc-heads.net/body/fufik856/right" alt="fufik856">
                     </div>
                     <span class="member-name">fufik856</span>
+                    <span class="role-badge role-vedeni">Vedení</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-teamleader">Team Leader</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Team Leader">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
                     </div>
                     <span class="member-name">Volno</span>
+                    <span class="role-badge role-teamleader">Team Leader</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -475,25 +511,34 @@
             <h2 class="team-group-title">Developer Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
-                    <span class="role-badge role-hl-dev">Hl. Developer</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/bnthedev/right" alt="bnthedev">
+                        <img src="https://mc-heads.net/body/bnthedev/right" alt="bnthedev">
                     </div>
                     <span class="member-name">bnthedev</span>
+                    <span class="role-badge role-hl-dev">Hl. Developer</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-dev">Developer</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Developer">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-zk-dev">Zk. Developer</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Developer">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
                     </div>
                     <span class="member-name">Volno</span>
+                    <span class="role-badge role-zk-dev">Zk. Developer</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -503,25 +548,34 @@
             <h2 class="team-group-title">Technický Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
-                    <span class="role-badge role-hl-tech">Hl.Technik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/_KingOfLords_/right" alt="_KingOfLords_">
+                        <img src="https://mc-heads.net/body/_KingOfLords_/right" alt="_KingOfLords_">
                     </div>
                     <span class="member-name">_KingOfLords_</span>
+                    <span class="role-badge role-hl-tech">Hl.Technik</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-tech">Technik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/ales753/right" alt="ales753">
+                        <img src="https://mc-heads.net/body/ales753/right" alt="ales753">
                     </div>
                     <span class="member-name">ales753</span>
+                    <span class="role-badge role-tech">Technik</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-zk-tech">Zk.Technik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Bee_zuzi/right" alt="Bee_zuzi">
+                        <img src="https://mc-heads.net/body/Bee_zuzi/right" alt="Bee_zuzi">
                     </div>
                     <span class="member-name">Bee_zuzi</span>
+                    <span class="role-badge role-zk-tech">Zk.Technik</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -531,32 +585,44 @@
             <h2 class="team-group-title">Moderátor Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-hl-mod">Hl. Moderátor</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Hl. Moderátor">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-plus-mod">+ Moderátor</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="+ Moderátor">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-mod">Moderátor</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Moderátor">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-zk-mod">Zk. Moderátor</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Moderátor">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
                     </div>
                     <span class="member-name">Volno</span>
+                    <span class="role-badge role-zk-mod">Zk. Moderátor</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -566,32 +632,44 @@
             <h2 class="team-group-title">Helper Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-hl-help">Hl.Helper</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Hl. Helper">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-plus-help">+Helper</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="+ Helper">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-help">Helper</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Helper">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-zk-help">Zk.Helper</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Helper">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
                     </div>
                     <span class="member-name">Volno</span>
+                    <span class="role-badge role-zk-help">Zk.Helper</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -601,32 +679,44 @@
             <h2 class="team-group-title">Builder Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-hl-build">Hl. Builder</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Hl. Builder">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-plus-build">+ Builder</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="+ Builder">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-build">Builder</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Builder">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-zk-build">Zk. Builder</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Builder">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
                     </div>
                     <span class="member-name">Volno</span>
+                    <span class="role-badge role-zk-build">Zk. Builder</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -636,25 +726,34 @@
             <h2 class="team-group-title">Creator Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
-                    <span class="role-badge role-hl-creat">Hl. Creator</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/merlindog155/right" alt="merlindog155">
+                        <img src="https://mc-heads.net/body/merlindog155/right" alt="merlindog155">
                     </div>
                     <span class="member-name">merlindog155</span>
+                    <span class="role-badge role-hl-creat">Hl. Creator</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
                 <div class="member-card">
+                    <div class="avatar-box">
+                        <img src="https://mc-heads.net/body/Alex/right" alt="Alex">
+                    </div>
+                    <span class="member-name">Volno</span>
                     <span class="role-badge role-creat">Creator</span>
-                    <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Alex/right" alt="Creator">
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
                     </div>
-                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
-                    <span class="role-badge role-zk-creat">Zk. Creator</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Zk. Creator">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
                     </div>
                     <span class="member-name">Volno</span>
+                    <span class="role-badge role-zk-creat">Zk. Creator</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -664,11 +763,14 @@
             <h2 class="team-group-title">Grafik Tým</h2>
             <div class="team-grid">
                 <div class="member-card">
-                    <span class="role-badge role-grafik">Grafik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/combo/Steve/right" alt="Grafik">
+                        <img src="https://mc-heads.net/body/Steve/right" alt="Steve">
                     </div>
                     <span class="member-name">Volno</span>
+                    <span class="role-badge role-grafik">Grafik</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com" target="_blank" class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
