@@ -136,7 +136,7 @@
 
         /* Sekce jednoho týmu */
         .team-group {
-            margin-bottom: 50px;
+            margin-bottom: 45px;
         }
 
         .team-group-title {
@@ -145,7 +145,7 @@
             color: #ffffff;
             letter-spacing: 0.5px;
             padding-bottom: 8px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         /* Mřížka pro karty členů */
@@ -175,7 +175,7 @@
             border-color: rgba(168, 85, 247, 0.4);
         }
 
-        /* Náhled Minecraft postavy (Visage Bust 160px) */
+        /* Náhled Minecraft postavy */
         .avatar-box {
             width: 120px;
             height: 120px;
@@ -228,7 +228,6 @@
         .role-hl-mod, .role-plus-mod, .role-mod, .role-zk-mod { background-color: #06b6d4; }
         .role-hl-creat, .role-creat, .role-zk-creat { background-color: #ec4899; }
         .role-grafik { background-color: #3b82f6; }
-        .role-teamleader { background-color: #a855f7; }
 
         /* Sociální sítě na kartě člena */
         .member-socials {
@@ -252,7 +251,59 @@
             transition: all 0.2s ease;
         }
 
-        .member-social-btn:hover {
+        /* --- RÁMEČEK PRO VOLNÝ TÝM (HLEDÁME LIDI) --- */
+        .recruitment-card {
+            background: rgba(20, 13, 30, 0.5);
+            border: 2px dashed rgba(168, 85, 247, 0.35);
+            border-radius: 16px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .recruitment-card:hover {
+            border-color: rgba(168, 85, 247, 0.8);
+            background: rgba(20, 13, 30, 0.8);
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.15);
+        }
+
+        .recruitment-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .recruitment-text {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #e5e7eb;
+        }
+
+        .recruitment-btn {
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #d8b4fe;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            margin-top: 5px;
+        }
+
+        .recruitment-btn:hover {
             background: #a855f7;
             color: #ffffff;
         }
@@ -558,7 +609,7 @@
     <main class="main-content">
         <h1 class="page-title">Náš Tým</h1>
 
-        <!-- VEDENÍ TEAM -->
+        <!-- VEDENÍ TÝM -->
         <section class="team-group">
             <h2 class="team-group-title">Vedení Tým</h2>
             <div class="team-grid">
@@ -584,28 +635,12 @@
                      data-role="Vedení" 
                      data-role-class="role-vedeni" 
                      data-discord="fufik856" 
-                     data-bio="Spolu-vedoucí serveru MystiLand. Dohlížím na fungování komunity a správný chodu projektu.">
+                     data-bio="Spolu-vedoucí serveru MystiLand. Dohlížím na fungování komunity a správný chod projektu.">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/fufik856" alt="fufik856">
                     </div>
                     <span class="member-name">fufik856</span>
                     <span class="role-badge role-vedeni">Vedení</span>
-                    <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
-                    </div>
-                </div>
-
-                <div class="member-card" onclick="openProfile(this)" 
-                     data-nick="Steve" 
-                     data-role="Team Leader" 
-                     data-role-class="role-teamleader" 
-                     data-discord="zatim_neznami" 
-                     data-bio="Tato pozice je aktuálně volná. Můžeš se přihlásit v náboru na našem Discordu!">
-                    <div class="avatar-box">
-                        <img src="https://visage.surgeplay.com/bust/160/Steve" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-teamleader">Team Leader</span>
                     <div class="member-socials">
                         <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
                     </div>
@@ -617,96 +652,50 @@
         <!-- DEVELOPER TÝM -->
         <section class="team-group">
             <h2 class="team-group-title">Developer Tým</h2>
-            <div class="team-grid">
-                
-                <div class="member-card" onclick="openProfile(this)" 
-                     data-nick="bnthedev" 
-                     data-role="Hl. Developer" 
-                     data-role-class="role-hl-dev" 
-                     data-discord="bnthedev" 
-                     data-bio="Starám se o vývoj custom pluginů, opravy chyb a kódování backendu celého serveru.">
-                    <div class="avatar-box">
-                        <img src="https://visage.surgeplay.com/bust/160/bnthedev" alt="bnthedev">
-                    </div>
-                    <span class="member-name">bnthedev</span>
-                    <span class="role-badge role-hl-dev">Hl. Developer</span>
-                    <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
-                    </div>
-                </div>
-
-                <div class="member-card" onclick="openProfile(this)" 
-                     data-nick="Steve" 
-                     data-role="Developer" 
-                     data-role-class="role-dev" 
-                     data-discord="" 
-                     data-bio="Pozice je volná. Přihlášky probíhají na Discordu.">
-                    <div class="avatar-box">
-                        <img src="https://visage.surgeplay.com/bust/160/Steve" alt="Steve">
-                    </div>
-                    <span class="member-name">Volno</span>
-                    <span class="role-badge role-dev">Developer</span>
-                    <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
-                    </div>
-                </div>
-
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="recruitment-btn">Mám zájem</a>
             </div>
         </section>
 
         <!-- TECHNICKÝ TÝM -->
         <section class="team-group">
             <h2 class="team-group-title">Technický Tým</h2>
-            <div class="team-grid">
-                
-                <div class="member-card" onclick="openProfile(this)" 
-                     data-nick="_KingOfLords_" 
-                     data-role="Hl. Technik" 
-                     data-role-class="role-hl-tech" 
-                     data-discord="_kingoflords_" 
-                     data-bio="Mám na starosti kompletní nastavení serverů, konfigurace pluginů a systémovou stabilitu.">
-                    <div class="avatar-box">
-                        <img src="https://visage.surgeplay.com/bust/160/_KingOfLords_" alt="_KingOfLords_">
-                    </div>
-                    <span class="member-name">_KingOfLords_</span>
-                    <span class="role-badge role-hl-tech">Hl. Technik</span>
-                    <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
-                    </div>
-                </div>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
 
-                <div class="member-card" onclick="openProfile(this)" 
-                     data-nick="ales753" 
-                     data-role="Technik" 
-                     data-role-class="role-tech" 
-                     data-discord="ales753" 
-                     data-bio="Pomáhám s technickým nastavením herních módů a řešením technických problémů.">
-                    <div class="avatar-box">
-                        <img src="https://visage.surgeplay.com/bust/160/ales753" alt="ales753">
-                    </div>
-                    <span class="member-name">ales753</span>
-                    <span class="role-badge role-tech">Technik</span>
-                    <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
-                    </div>
-                </div>
+        <!-- MODERÁTOR TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Moderátor Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
 
-                <div class="member-card" onclick="openProfile(this)" 
-                     data-nick="Bee_zuzi" 
-                     data-role="Zk. Technik" 
-                     data-role-class="role-zk-tech" 
-                     data-discord="bee_zuzi" 
-                     data-bio="Zkušební technik. Učím se pracovat s konfiguracemi serveru a pomáhám týmu.">
-                    <div class="avatar-box">
-                        <img src="https://visage.surgeplay.com/bust/160/Bee_zuzi" alt="Bee_zuzi">
-                    </div>
-                    <span class="member-name">Bee_zuzi</span>
-                    <span class="role-badge role-zk-tech">Zk. Technik</span>
-                    <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
-                    </div>
-                </div>
+        <!-- HELPER TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Helper Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
 
+        <!-- BUILDER TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Builder Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="recruitment-btn">Mám zájem</a>
             </div>
         </section>
 
@@ -731,6 +720,16 @@
                     </div>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- GRAFIK -->
+        <section class="team-group">
+            <h2 class="team-group-title">Grafik</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="recruitment-btn">Mám zájem</a>
             </div>
         </section>
 
