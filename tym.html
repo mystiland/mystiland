@@ -251,6 +251,11 @@
             transition: all 0.2s ease;
         }
 
+        .member-social-btn:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+
         /* --- RÁMEČEK PRO VOLNÝ TÝM (HLEDÁME LIDI) --- */
         .recruitment-card {
             background: rgba(20, 13, 30, 0.5);
@@ -614,11 +619,13 @@
             <h2 class="team-group-title">Vedení Tým</h2>
             <div class="team-grid">
                 
+                <!-- MrHruza -->
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="MrHruza" 
                      data-role="Vedení" 
                      data-role-class="role-vedeni" 
-                     data-discord="mrhruza_official" 
+                     data-discord="https://discord.com/users/1218869019461812286" 
+                     data-instagram=""
                      data-bio="Ahoj! Jsem zakladatel serveru MystiLand. Starám se o celkový chod serveru a projektový rozvoj.">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/MrHruza" alt="MrHruza">
@@ -626,15 +633,19 @@
                     <span class="member-name">MrHruza</span>
                     <span class="role-badge role-vedeni">Vedení</span>
                     <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
+                        <a href="https://discord.com/users/1218869019461812286" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
                     </div>
                 </div>
 
+                <!-- fufik856 -->
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="fufik856" 
                      data-role="Vedení" 
                      data-role-class="role-vedeni" 
-                     data-discord="fufik856" 
+                     data-discord="https://discord.com/users/923149225406132266" 
+                     data-instagram="https://www.instagram.com/vojtacz856"
                      data-bio="Spolu-vedoucí serveru MystiLand. Dohlížím na fungování komunity a správný chod projektu.">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/fufik856" alt="fufik856">
@@ -642,7 +653,12 @@
                     <span class="member-name">fufik856</span>
                     <span class="role-badge role-vedeni">Vedení</span>
                     <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
+                        <a href="https://discord.com/users/923149225406132266" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                        <a href="https://www.instagram.com/vojtacz856" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -704,11 +720,13 @@
             <h2 class="team-group-title">Creator Tým</h2>
             <div class="team-grid">
                 
+                <!-- merlindog155 -->
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="merlindog155" 
                      data-role="Hl. Creator" 
                      data-role-class="role-hl-creat" 
-                     data-discord="merlindog155" 
+                     data-discord="https://discord.com/users/687712293986893836" 
+                     data-instagram=""
                      data-bio="Ahoj! Starám se o přípravu obsahu, tvorbu videí a propagaci serveru MystiLand.">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/merlindog155" alt="merlindog155">
@@ -716,7 +734,9 @@
                     <span class="member-name">merlindog155</span>
                     <span class="role-badge role-hl-creat">Hl. Creator</span>
                     <div class="member-socials">
-                        <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
+                        <a href="https://discord.com/users/687712293986893836" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -749,9 +769,8 @@
             
             <div class="modal-bio" id="modal-bio">Text o členovi...</div>
             
-            <div class="member-socials">
-                <div class="member-social-btn" title="Discord"><i class="fa-brands fa-discord"></i></div>
-                <span id="modal-discord" style="align-self: center; font-size: 0.9rem; color: #a855f7; font-weight: 600;"></span>
+            <div class="member-socials" id="modal-socials">
+                <!-- Zde se dynamicky vkládají ikony z JS -->
             </div>
         </div>
     </div>
@@ -825,6 +844,7 @@
             const role = card.getAttribute('data-role');
             const roleClass = card.getAttribute('data-role-class');
             const discord = card.getAttribute('data-discord');
+            const instagram = card.getAttribute('data-instagram');
             const bio = card.getAttribute('data-bio');
 
             document.getElementById('modal-img').src = `https://visage.surgeplay.com/bust/160/${nick}`;
@@ -835,7 +855,17 @@
             roleBadge.className = `role-badge ${roleClass}`;
 
             document.getElementById('modal-bio').innerText = bio || "O tomto členovi zatím nebyly přidány žádné informace.";
-            document.getElementById('modal-discord').innerText = discord ? `@${discord}` : 'Neuveden';
+            
+            // Načtení ikonek v profilovém okénku
+            const socialsBox = document.getElementById('modal-socials');
+            socialsBox.innerHTML = '';
+
+            if (discord) {
+                socialsBox.innerHTML += `<a href="${discord}" target="_blank" class="member-social-btn" title="Discord Profil"><i class="fa-brands fa-discord"></i></a>`;
+            }
+            if (instagram) {
+                socialsBox.innerHTML += `<a href="${instagram}" target="_blank" class="member-social-btn" title="Instagram Profil"><i class="fa-brands fa-instagram"></i></a>`;
+            }
 
             document.getElementById('profile-modal').classList.add('active');
         }
