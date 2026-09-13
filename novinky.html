@@ -56,23 +56,27 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 15px;
             list-style: none;
         }
 
+        /* Výchozí vzhled odkazů (menší padding pro bližší texty) */
         .nav-links a {
             color: #d1d5db;
             text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
-            transition: all 0.3s ease;
-            padding: 8px 16px;
+            transition: all 0.25s ease;
+            padding: 6px 10px;
             border-radius: 8px;
+            display: inline-block;
         }
 
+        /* Při najetí (hover) nebo u aktivní stránky se zkopíruje rámeček a roztažení */
         .nav-links a:hover, .nav-links a.active {
             color: #ffffff;
             background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
         }
 
         .nav-right {
