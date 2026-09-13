@@ -33,7 +33,7 @@
             left: 0;
             width: 100%;
             height: 70px;
-            background: rgba(11, 7, 17, 0.85);
+            background: rgba(11, 7, 17, 0.92);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
@@ -65,7 +65,7 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -73,6 +73,12 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 8px 16px;
             border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .btn-shop {
@@ -96,6 +102,17 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(217, 119, 6, 0.6);
             background: linear-gradient(135deg, #fbbf24, #d97706);
+        }
+
+        /* HAMBURGER TLAČÍTKO PRO MOBILY (skryté na počítači) */
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 5px;
         }
 
         /* --- HORNÍ SEKCIE (HERO) --- */
@@ -223,15 +240,14 @@
             margin-top: 15px;
         }
 
-        /* 2. SEKCIE NOVINKY (VYCENTROVÁNO & BEZ ČÁRKY) */
+        /* 2. SEKCIE NOVINKY */
         .news-section {
             max-width: 950px;
             width: 100%;
             margin-bottom: 80px;
-            text-align: center; /* Zarovnání na střed */
+            text-align: center;
         }
 
-        /* Odstranění fialové čárky v sekci Novinky */
         .news-section .section-title::after {
             display: none;
         }
@@ -450,14 +466,71 @@
             margin-top: 10px;
         }
 
-        /* Responsive přizpůsobení mobilům */
-        @media (max-width: 850px) {
+        /* ==========================================================================
+           RESPONSIVNÍ DESIGN PRO MOBILY A TABLETY
+           ========================================================================== */
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            /* Zobrazení ikonky hamburgeru */
+            .mobile-toggle {
+                display: block;
+            }
+
+            /* Převod odkazů do rozevíracího menu */
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 7, 17, 0.98);
+                backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                display: none; /* Skryté ve výchozím stavu */
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            }
+
+            /* Když se menu aktivuje kliknutím */
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 0;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+
+            .nav-links a:hover, .nav-links a.active {
+                border-radius: 0;
+                background: rgba(168, 85, 247, 0.15);
+            }
+
+            .btn-shop {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
             .news-item {
                 flex-direction: column;
             }
+
             .news-image {
                 width: 100%;
             }
+
             .footer-container {
                 flex-direction: column;
                 gap: 40px;
@@ -473,7 +546,8 @@
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
         </a>
 
-        <ul class="nav-links">
+        <!-- Odkazy menu (na mobilu se složí do rozbalovací nabídky) -->
+        <ul class="nav-links" id="nav-menu">
             <li><a href="#" class="active">Domů</a></li>
             <li><a href="#novinky">Novinky</a></li>
             <li><a href="#">Tým</a></li>
@@ -485,6 +559,11 @@
             <a href="#" class="btn-shop">
                 <i class="fa-solid fa-cart-shopping"></i> Obchod
             </a>
+
+            <!-- Hamburger tlačítko na mobilu -->
+            <button class="mobile-toggle" id="menu-toggle" aria-label="Otevřít menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -511,7 +590,7 @@
             </p>
         </div>
 
-        <!-- 2. NOVINKY Z MYSTILANDU (VYCENTROVANÝ NADPIS BEZ ČÁRKY) -->
+        <!-- 2. NOVINKY Z MYSTILANDU -->
         <section class="news-section" id="novinky">
             <h2 class="section-title">Novinky ze světa MystiLand</h2>
             <p class="news-header-subtitle">Buď neustále v obraze a nepromeškej žádnou akci na našem serveru...</p>
@@ -589,8 +668,34 @@
         </div>
     </footer>
 
-    <!-- SKRIPT PRO GLITCH EFEKT DATUMU -->
+    <!-- SKRIPTY -->
     <script>
+        // Skript pro otevírání/zavírání mobilního menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const toggleIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            if (navMenu.classList.contains('show')) {
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-xmark');
+            } else {
+                toggleIcon.classList.remove('fa-xmark');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Automatické zavření menu po kliknutí na jakýkoliv odkaz
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('show');
+                toggleIcon.classList.remove('fa-xmark');
+                toggleIcon.classList.add('fa-bars');
+            });
+        });
+
+        // Skript pro glitch efekt datumu
         const glitchElement = document.getElementById('glitch-date-text');
         
         const glitchFormats = [
