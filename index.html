@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MystiLand – Minecraft Server</title>
+    <title>Novinky – MystiLand</title>
     
     <!-- Logo v kartě prohlížeče -->
     <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
@@ -66,13 +66,13 @@
             font-weight: 600;
             font-size: 1rem;
             transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
         }
 
         .nav-links a:hover, .nav-links a.active {
             color: #ffffff;
             background: rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 8px;
         }
 
         .nav-right {
@@ -114,144 +114,34 @@
             padding: 5px;
         }
 
-        /* --- HORNÍ SEKCIE (HERO) --- */
-        .hero-section {
-            position: relative;
-            width: 100%;
-            min-height: 80vh;
-            padding-top: 100px;
-            background: linear-gradient(to bottom, rgba(11, 7, 17, 0.4) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
-                        url('https://github.com/user-attachments/assets/4037ab6f-2d0c-4583-bfef-74181d9f50c6') center/cover no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-bottom: 40px;
-        }
-
-        .hero-content {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .main-logo {
-            max-width: 360px;
-            width: 80%;
-            height: auto;
-            filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.6));
-            animation: pulseLogo 4s ease-in-out infinite;
-        }
-
-        @keyframes pulseLogo {
-            0% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5)); }
-            50% { transform: scale(1.08); filter: drop-shadow(0 0 45px rgba(168, 85, 247, 0.85)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5)); }
-        }
-
-        .glitch-box {
-            background: rgba(18, 10, 31, 0.85);
-            border: 1px solid rgba(168, 85, 247, 0.5);
-            backdrop-filter: blur(8px);
-            padding: 15px 35px;
-            border-radius: 14px;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .glitch-label {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #a855f7;
-            font-weight: 700;
-        }
-
-        .glitch-date {
-            font-family: 'Consolas', monospace;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #ffffff;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
-        }
-
-        .glitch-effect {
-            animation: glitch 0.3s infinite alternate;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 1px); color: #c084fc; }
-            40% { transform: translate(2px, -1px); }
-            60% { transform: translate(-1px, -1px); color: #e9d5ff; }
-            80% { transform: translate(1px, 2px); }
-            100% { transform: translate(0); }
-        }
-
-        /* --- HLAVNÍ OBSAH --- */
+        /* --- HLAVNÍ OBSAH S PŘECHODEM POZADÍ --- */
         .main-content {
-            background: linear-gradient(to bottom, #0b0711 0%, #07040b 100%);
-            padding: 40px 20px 80px 20px;
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+            background: linear-gradient(to bottom, #0b0711 0%, #07040b 60%, #040207 100%);
+            padding: 60px 20px 100px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .section-title {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 25px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: -8px;
-            width: 60px;
-            height: 4px;
-            background-color: #a855f7;
-            border-radius: 2px;
-        }
-
-        .about-container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .about-description {
-            color: #b3b0c2;
-            font-size: 1.1rem;
-            margin-top: 15px;
         }
 
         .news-section {
             max-width: 950px;
             width: 100%;
-            margin-bottom: 80px;
             text-align: center;
         }
 
-        .news-section .section-title::after {
-            display: none;
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
         }
 
         .news-header-subtitle {
             color: #9ca3af;
-            font-size: 0.95rem;
-            margin-top: 10px;
-            margin-bottom: 35px;
+            font-size: 1.05rem;
+            margin-bottom: 50px;
         }
 
         .news-item {
@@ -259,7 +149,11 @@
             gap: 35px;
             align-items: center;
             text-align: left;
-            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .news-image {
@@ -304,38 +198,6 @@
             color: #9ca3af;
             font-size: 0.98rem;
             line-height: 1.6;
-        }
-
-        .discord-container {
-            text-align: center;
-            max-width: 700px;
-        }
-
-        .discord-box-text {
-            color: #d8b4fe;
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .btn-discord {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px 35px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            background: linear-gradient(135deg, #5865F2, #4752C4);
-            color: white;
-            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-discord:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(88, 101, 242, 0.65);
         }
 
         /* --- PATIČKA --- */
@@ -536,8 +398,8 @@
 
         <!-- Odkazy menu -->
         <ul class="nav-links" id="nav-menu">
-            <li><a href="/" class="active">Domů</a></li>
-            <li><a href="/novinky">Novinky</a></li>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/novinky" class="active">Novinky</a></li>
             <li><a href="/tym">Tým</a></li>
             <li><a href="#">Pravidla</a></li>
             <li><a href="#">Wiki</a></li>
@@ -554,29 +416,10 @@
         </div>
     </header>
 
-    <!-- HORNÍ HERO SEKCIE -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo">
-            
-            <div class="glitch-box">
-                <span class="glitch-label">Spuštění serveru</span>
-                <div class="glitch-date glitch-effect" id="glitch-date-text">??.??.2026</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- HLAVNÍ OBSAH -->
+    <!-- HLAVNÍ OBSAH STRÁNKY NOVINKY -->
     <main class="main-content">
-        <div class="about-container">
-            <h2 class="section-title">O našem serveru</h2>
-            <p class="about-description">
-                Vítejte na MystiLand, jedinečném Minecraft serveru, který vám přináší nezapomenutelný herní zážitek! Naše komunita staví na přátelském prostředí, skvělém admin týmu a neustále vylepšovaných herních módech.
-            </p>
-        </div>
-
-        <section class="news-section" id="novinky">
-            <h2 class="section-title">Novinky ze světa MystiLand</h2>
+        <section class="news-section">
+            <h1 class="page-title">Novinky ze světa MystiLand</h1>
             <p class="news-header-subtitle">Buď neustále v obraze a nepromeškej žádnou akci na našem serveru...</p>
             
             <div class="news-item">
@@ -592,16 +435,6 @@
                 </div>
             </div>
         </section>
-
-        <div class="discord-container">
-            <p class="discord-box-text">
-                Připoj se k nám na náš Discord server, buď u spuštění mezi prvními a nenech si ujít žádné novinky!
-            </p>
-
-            <a href="https://discord.com/invite/3GWM5Vy2HV" class="btn-discord" target="_blank">
-                <i class="fa-brands fa-discord"></i> Připojit se na Discord
-            </a>
-        </div>
     </main>
 
     <!-- PATIČKA -->
@@ -665,14 +498,6 @@
                 toggleIcon.classList.add('fa-bars');
             }
         });
-
-        const glitchElement = document.getElementById('glitch-date-text');
-        const glitchFormats = ["??.02.2027", "15.??.2027", "??.??.2027", "28.11.????", "??.??.2027", "??.08.2027", "20.??.????", "??.??.????"];
-
-        setInterval(() => {
-            const randomIndex = Math.floor(Math.random() * glitchFormats.length);
-            glitchElement.innerText = glitchFormats[randomIndex];
-        }, 180);
     </script>
 
 </body>
