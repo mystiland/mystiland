@@ -104,7 +104,7 @@
             background: linear-gradient(135deg, #fbbf24, #d97706);
         }
 
-        /* HAMBURGER TLAČÍTKO PRO MOBILY (skryté na počítači) */
+        /* HAMBURGER TLAČÍTKO PRO MOBILY */
         .mobile-toggle {
             display: none;
             background: transparent;
@@ -213,7 +213,6 @@
             display: inline-block;
         }
 
-        /* Fialová čárka pro běžné sekce */
         .section-title::after {
             content: '';
             position: absolute;
@@ -466,20 +465,16 @@
             margin-top: 10px;
         }
 
-        /* ==========================================================================
-           RESPONSIVNÍ DESIGN PRO MOBILY A TABLETY
-           ========================================================================== */
+        /* MOBILNÍ RESPONSIVITA */
         @media (max-width: 900px) {
             .navbar {
                 padding: 0 20px;
             }
 
-            /* Zobrazení ikonky hamburgeru */
             .mobile-toggle {
                 display: block;
             }
 
-            /* Převod odkazů do rozevíracího menu */
             .nav-links {
                 position: absolute;
                 top: 70px;
@@ -491,11 +486,10 @@
                 flex-direction: column;
                 gap: 0;
                 padding: 10px 0;
-                display: none; /* Skryté ve výchozím stavu */
+                display: none;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             }
 
-            /* Když se menu aktivuje kliknutím */
             .nav-links.show {
                 display: flex;
             }
@@ -542,14 +536,14 @@
 
     <!-- HORNÍ NAVIGATION BAR -->
     <header class="navbar">
-        <a href="#" class="nav-logo">
+        <a href="index.html" class="nav-logo">
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
         </a>
 
-        <!-- Odkazy menu (na mobilu se složí do rozbalovací nabídky) -->
+        <!-- Odkazy menu -->
         <ul class="nav-links" id="nav-menu">
-            <li><a href="#" class="active">Domů</a></li>
-            <li><a href="#novinky">Novinky</a></li>
+            <li><a href="index.html" class="active">Domů</a></li>
+            <li><a href="novinky.html">Novinky</a></li>
             <li><a href="#">Tým</a></li>
             <li><a href="#">Pravidla</a></li>
             <li><a href="#">Wiki</a></li>
@@ -560,7 +554,6 @@
                 <i class="fa-solid fa-cart-shopping"></i> Obchod
             </a>
 
-            <!-- Hamburger tlačítko na mobilu -->
             <button class="mobile-toggle" id="menu-toggle" aria-label="Otevřít menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -670,7 +663,6 @@
 
     <!-- SKRIPTY -->
     <script>
-        // Skript pro otevírání/zavírání mobilního menu
         const menuToggle = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         const toggleIcon = menuToggle.querySelector('i');
@@ -686,28 +678,8 @@
             }
         });
 
-        // Automatické zavření menu po kliknutí na jakýkoliv odkaz
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('show');
-                toggleIcon.classList.remove('fa-xmark');
-                toggleIcon.classList.add('fa-bars');
-            });
-        });
-
-        // Skript pro glitch efekt datumu
         const glitchElement = document.getElementById('glitch-date-text');
-        
-        const glitchFormats = [
-            "??.02.2027",
-            "15.??.2027",
-            "??.??.2027",
-            "28.11.????",
-            "??.??.2027",
-            "??.08.2027",
-            "20.??.????",
-            "??.??.????"
-        ];
+        const glitchFormats = ["??.02.2027", "15.??.2027", "??.??.2027", "28.11.????", "??.??.2027", "??.08.2027", "20.??.????", "??.??.????"];
 
         setInterval(() => {
             const randomIndex = Math.floor(Math.random() * glitchFormats.length);
