@@ -118,7 +118,7 @@
         .main-content {
             min-height: calc(100vh - 70px);
             margin-top: 70px;
-            background: #0b0711; /* Sjednocené tmavé pozadí bez přechodu */
+            background: #0b0711;
             padding: 60px 40px 100px 40px;
             max-width: 1400px;
             margin-left: auto;
@@ -147,14 +147,13 @@
             color: #ffffff;
             letter-spacing: 1px;
             padding-bottom: 8px;
-            /* Červená čára byla odstraněna */
             margin-bottom: 25px;
         }
 
         /* Mřížka pro karty členů */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 20px;
         }
 
@@ -162,7 +161,7 @@
         .member-card {
             background: #120d1a;
             border-radius: 12px;
-            padding: 15px 10px;
+            padding: 20px 10px 15px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -202,21 +201,26 @@
         .role-grafik { background-color: #3b82f6; }
         .role-teamleader { background-color: #a855f7; }
 
-        /* Náhled Minecraft postavy */
+        /* Náhled Minecraft postavy (vylepšený 3D Busta styl) */
         .avatar-box {
             margin-top: 10px;
             margin-bottom: 10px;
-            height: 100px;
+            height: 110px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .avatar-box img {
-            height: 90px;
+            height: 100px;
             width: auto;
             image-rendering: pixelated;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6));
+            transition: transform 0.2s ease;
+        }
+
+        .member-card:hover .avatar-box img {
+            transform: scale(1.08);
         }
 
         /* Jméno hráče */
@@ -445,23 +449,23 @@
                 <div class="member-card">
                     <span class="role-badge role-vedeni">Vedení</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Vedení">
+                        <img src="https://mc-heads.net/combo/MrHruza/right" alt="MrHruza">
                     </div>
                     <span class="member-name">MrHruza</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-vedeni">Vedení</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Vedení">
+                        <img src="https://mc-heads.net/combo/fufik856/right" alt="fufik856">
                     </div>
                     <span class="member-name">fufik856</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-teamleader">Team Leader</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Team Leader">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Team Leader">
                     </div>
-                    <span class="member-name">?</span>
+                    <span class="member-name">Volno</span>
                 </div>
             </div>
         </section>
@@ -473,23 +477,23 @@
                 <div class="member-card">
                     <span class="role-badge role-hl-dev">Hl. Developer</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/bnthedev/right" alt="Hl. Developer">
+                        <img src="https://mc-heads.net/combo/bnthedev/right" alt="bnthedev">
                     </div>
                     <span class="member-name">bnthedev</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-dev">Developer</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Developer">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Developer">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-zk-dev">Zk. Developer</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Zk. Developer">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Developer">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
             </div>
         </section>
@@ -501,21 +505,21 @@
                 <div class="member-card">
                     <span class="role-badge role-hl-tech">Hl.Technik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/_KingOfLords_/right" alt="Hl.Technik">
+                        <img src="https://mc-heads.net/combo/_KingOfLords_/right" alt="_KingOfLords_">
                     </div>
                     <span class="member-name">_KingOfLords_</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-tech">Technik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/ales753/right" alt="Technik">
+                        <img src="https://mc-heads.net/combo/ales753/right" alt="ales753">
                     </div>
                     <span class="member-name">ales753</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-zk-tech">Zk.Technik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Bee_zuzi/right" alt="Zk.Technik">
+                        <img src="https://mc-heads.net/combo/Bee_zuzi/right" alt="Bee_zuzi">
                     </div>
                     <span class="member-name">Bee_zuzi</span>
                 </div>
@@ -529,30 +533,30 @@
                 <div class="member-card">
                     <span class="role-badge role-hl-mod">Hl. Moderátor</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Hl. Moderátor">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Hl. Moderátor">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-plus-mod">+ Moderátor</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="+ Moderátor">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="+ Moderátor">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-mod">Moderátor</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Moderátor">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Moderátor">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-zk-mod">Zk. Moderátor</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Zk. Moderátor">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Moderátor">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
             </div>
         </section>
@@ -564,30 +568,30 @@
                 <div class="member-card">
                     <span class="role-badge role-hl-help">Hl.Helper</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Hl. Helper">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Hl. Helper">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-plus-help">+Helper</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="+ Helper">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="+ Helper">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-help">Helper</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Helper">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Helper">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-zk-help">Zk.Helper</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Zk. Helper">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Helper">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
             </div>
         </section>
@@ -599,30 +603,30 @@
                 <div class="member-card">
                     <span class="role-badge role-hl-build">Hl. Builder</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Hl. Builder">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Hl. Builder">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-plus-build">+ Builder</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="+ Builder">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="+ Builder">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-build">Builder</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Builder">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Builder">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-zk-build">Zk. Builder</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Zk. Builder">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="Zk. Builder">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
             </div>
         </section>
@@ -634,23 +638,23 @@
                 <div class="member-card">
                     <span class="role-badge role-hl-creat">Hl. Creator</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Hl. Creator">
+                        <img src="https://mc-heads.net/combo/merlindog155/right" alt="merlindog155">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">merlindog155</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-creat">Creator</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Alex/right" alt="Creator">
+                        <img src="https://mc-heads.net/combo/Alex/right" alt="Creator">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
                 <div class="member-card">
                     <span class="role-badge role-zk-creat">Zk. Creator</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Zk. Creator">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Zk. Creator">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
             </div>
         </section>
@@ -662,9 +666,9 @@
                 <div class="member-card">
                     <span class="role-badge role-grafik">Grafik</span>
                     <div class="avatar-box">
-                        <img src="https://mc-heads.net/body/Steve/right" alt="Grafik">
+                        <img src="https://mc-heads.net/combo/Steve/right" alt="Grafik">
                     </div>
-                    <span class="member-name">Nick_Hrace</span>
+                    <span class="member-name">Volno</span>
                 </div>
             </div>
         </section>
