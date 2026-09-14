@@ -256,7 +256,7 @@
             color: #ffffff;
         }
 
-        /* --- RÁMEČEK PRO VOLNÝ TÝM (HLEDÁME LIDI) --- */
+        /* --- RÁMEČEK PRO VOLNÝ TÝM (HLEDÁME LIDI - MALÝ) --- */
         .recruitment-card {
             background: rgba(20, 13, 30, 0.5);
             border: 2px dashed rgba(168, 85, 247, 0.35);
@@ -311,6 +311,88 @@
         .recruitment-btn:hover {
             background: #a855f7;
             color: #ffffff;
+        }
+
+        /* --- VELKÁ NÁBOROVÁ KARTA (PODLE SCREENSHOTU) --- */
+        .big-recruitment-banner {
+            background: linear-gradient(145deg, #161022, #110b1a);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 20px;
+            padding: 35px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            margin-top: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .big-recruitment-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #f59e0b, #d97706);
+        }
+
+        .big-recruitment-content h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .big-recruitment-content p {
+            color: #9ca3af;
+            font-size: 1rem;
+            max-width: 650px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .big-btn-shop {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 12px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .big-btn-shop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.6);
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+        }
+
+        .big-recruitment-badge-img {
+            width: 90px;
+            height: auto;
+            filter: drop-shadow(0 5px 15px rgba(245, 158, 11, 0.3));
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .big-recruitment-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 25px 20px;
+            }
+            .big-recruitment-content p {
+                max-width: 100%;
+            }
         }
 
         /* --- VYSKAKOVACÍ OKNO PROFILU (MODAL) --- */
@@ -752,6 +834,18 @@
                 <a href="https://mystiland.eu/nabor" class="recruitment-btn">Mám zájem</a>
             </div>
         </section>
+
+        <!-- VELKÁ NÁBOROVÁ TABULKA (PODLE SCREENSHOTU) -->
+        <div class="big-recruitment-banner">
+            <div class="big-recruitment-content">
+                <h3>Chceš se stát součástí našeho týmu?</h3>
+                <p>Baví tě náš server a chceš nám pomoct ho posunout na další úroveň? Stále hledáme aktivní a spolehlivé členy do našeho A-Teamu.</p>
+                <a href="https://mystiland.eu/nabor" class="big-btn-shop">
+                    CHCI BÝT SOUČÁSTÍ TÝMU!
+                </a>
+            </div>
+            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="Nábor Logo" class="big-recruitment-badge-img">
+        </div>
 
     </main>
 
