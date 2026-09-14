@@ -211,11 +211,11 @@
             background: linear-gradient(135deg, #fbbf24, #d97706);
         }
 
-        /* --- PATIČKA --- */
+        /* --- PLNÁ PATIČKA --- */
         footer {
             background-color: #050308;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px 40px 20px 40px;
+            padding: 60px 40px 25px 40px;
         }
 
         .footer-container {
@@ -223,36 +223,64 @@
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .footer-left {
+        .footer-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .footer-logo {
-            width: 35px;
-            height: 35px;
-            border-radius: 6px;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
         }
 
-        .copyright {
-            color: #585366;
-            font-size: 0.85rem;
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
         }
 
         .social-links {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            margin-top: 15px;
         }
 
         .social-icon {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -261,22 +289,58 @@
             align-items: center;
             color: #a855f7;
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
         }
 
         .social-icon:hover {
             background: #a855f7;
             color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
         }
 
-        @media (max-width: 768px) {
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
             .navbar {
                 padding: 0 20px;
             }
+
             .mobile-toggle {
                 display: block;
             }
+
             .nav-links {
                 position: absolute;
                 top: 70px;
@@ -291,13 +355,16 @@
                 display: none;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             }
+
             .nav-links.show {
                 display: flex;
             }
+
             .nav-links li {
                 width: 100%;
                 text-align: center;
             }
+
             .nav-links a {
                 display: block;
                 padding: 14px 0;
@@ -305,16 +372,14 @@
                 border-radius: 0;
                 width: 100%;
             }
+
             .footer-container {
                 flex-direction: column;
-                text-align: center;
-                justify-content: center;
+                gap: 40px;
             }
-            .footer-left {
-                flex-direction: column;
-            }
-            .social-links {
-                justify-content: center;
+
+            .main-content {
+                padding: 40px 20px;
             }
         }
     </style>
@@ -363,22 +428,49 @@
         </div>
     </main>
 
-    <!-- PATIČKA -->
+    <!-- PLNÁ PATIČKA -->
     <footer>
         <div class="footer-container">
-            <div class="footer-left">
-                <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
-                <div class="copyright">
-                    © 2026 Mystiland.eu | Všechna práva vyhrazena.
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                 </div>
             </div>
 
-            <div class="social-links">
-                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Obchodní podmínky</a></li>
+                    <li><a href="#">Zásady ochrany osobních údajů</a></li>
+                </ul>
             </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
         </div>
     </footer>
 
