@@ -306,6 +306,146 @@
             line-height: 1.6;
         }
 
+        /* --- HLASOVACÍ SEKCIE (VOTE) --- */
+        .vote-section {
+            max-width: 1000px;
+            width: 100%;
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .vote-card {
+            background: rgba(18, 10, 31, 0.7);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .vote-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .player-head-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            background: #150d22;
+        }
+
+        .nick-input {
+            background: rgba(11, 7, 17, 0.9);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 10px;
+            padding: 12px 20px;
+            color: #ffffff;
+            font-size: 1.05rem;
+            width: 280px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .nick-input:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .vote-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn-vote {
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-vote:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-craftlist { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        .btn-craftlist:hover { box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5); }
+
+        .btn-mclist { background: linear-gradient(135deg, #10b981, #047857); }
+        .btn-mclist:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); }
+
+        .btn-mcservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
+        .btn-mcservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
+
+        .btn-czechcraft { background: linear-gradient(135deg, #ea580c, #c2410c); }
+        .btn-czechcraft:hover { box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5); }
+
+        .vote-divider {
+            color: #a855f7;
+            font-weight: 600;
+            margin: 20px 0 35px 0;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .vote-benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-card {
+            background: rgba(18, 10, 31, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .benefit-icon {
+            font-size: 2.2rem;
+            color: #a855f7;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .benefit-card p {
+            color: #9ca3af;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
         .discord-container {
             text-align: center;
             max-width: 700px;
@@ -537,7 +677,8 @@
         <!-- Odkazy menu -->
         <ul class="nav-links" id="nav-menu">
             <li><a href="/" class="active">Domů</a></li>
-            <li><a href="/novinky">Novinky</a></li>
+            <li><a href="#novinky">Novinky</a></li>
+            <li><a href="#hlasovani">Hlasovat</a></li>
             <li><a href="/tym">Tým</a></li>
             <li><a href="/pravidla">Pravidla</a></li>
             <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
@@ -595,6 +736,51 @@
             </div>
         </section>
 
+        <!-- HLASOVACÍ SEKCIE -->
+        <section class="vote-section" id="hlasovani">
+            <h2 class="section-title">Hlasem podpoříš sebe i server</h2>
+            <p class="news-header-subtitle">Každé 2 hodiny můžeš hlasovat pro sebe a rychleji progresovat v našich hrách.</p>
+            
+            <div class="vote-card">
+                <h3 style="font-size: 1.5rem; font-weight: 700;">Hlasovací konfigurátor</h3>
+                
+                <div class="vote-input-wrapper">
+                    <img src="https://minotar.net/helm/Steve/48.png" id="player-head-image" alt="Hlava hráče" class="player-head-img">
+                    <input type="text" id="player-nick-input" class="nick-input" placeholder="Zadej svůj herní nick..." maxlength="16" autocomplete="off">
+                </div>
+
+                <div class="vote-buttons">
+                    <button class="btn-vote btn-craftlist" onclick="vote('craftlist')">
+                        <i class="fa-solid fa-check"></i> CraftList.cz
+                    </button>
+                    <button class="btn-vote btn-mclist" onclick="vote('mclist')">
+                        <i class="fa-solid fa-check"></i> Minecraft-List.cz
+                    </button>
+                    <button class="btn-vote btn-mcservery" onclick="vote('mcservery')">
+                        <i class="fa-solid fa-check"></i> MinecraftServery.eu
+                    </button>
+                    <button class="btn-vote btn-czechcraft" onclick="vote('czechcraft')">
+                        <i class="fa-solid fa-clock"></i> Czech-Craft.eu
+                    </button>
+                </div>
+            </div>
+
+            <div class="vote-divider">↓ HLASEM ZÍSKÁŠ TYTO HERNÍ VÝHODY ↓</div>
+
+            <div class="vote-benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-coins"></i></div>
+                    <h3>Hlasovací body a Obchod</h3>
+                    <p>Za každý svůj hlas od serveru dostaneš <strong>Vote body</strong>. Tyto body můžeš použít k <strong>nákupu prémiových předmětů</strong> ve Vote Shopu, který otevřeš příkazem <code>/voteshop</code> přímo ve hře.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-award"></i></div>
+                    <h3>Stupňovaný VotePass</h3>
+                    <p>Za každý svůj hlas <strong>dostáváš progres</strong> do speciálního <strong>VotePassu</strong>. Jedná se o progresivní linii odměn, kterou si krok za krokem <strong>odškrtáváš každý měsíc</strong>.</p>
+                </div>
+            </div>
+        </section>
+
         <div class="discord-container">
             <p class="discord-box-text">
                 Připoj se k nám na náš Discord server, buď u spuštění mezi prvními a nenech si ujít žádné novinky! Neváhej a pojď s námi budovat budoucnost MystiLandu. 😉
@@ -627,7 +813,7 @@
 
             <div class="footer-col">
                 <h4>KONTAKTY</h4>
-                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                <p>E-mail: <a href="mailto:mystiland.info@gmail.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
                 
                 <div class="social-links">
                     <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
@@ -653,6 +839,7 @@
     </footer>
 
     <script>
+        // Mobilní menu toggle
         const menuToggle = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         const toggleIcon = menuToggle.querySelector('i');
@@ -668,6 +855,7 @@
             }
         });
 
+        // Glitch kód pro datum
         const glitchElement = document.getElementById('glitch-date-text');
         const glitchFormats = ["??.02.2027", "15.??.2027", "??.??.2027", "28.11.????", "??.??.2027", "??.08.2027", "20.??.????", "??.??.????"];
 
@@ -675,6 +863,56 @@
             const randomIndex = Math.floor(Math.random() * glitchFormats.length);
             glitchElement.innerText = glitchFormats[randomIndex];
         }, 180);
+
+        // --- SKRIPTY PRO HLASOVACÍ SEKCI ---
+
+        // Změna avatara podle zadávaného nicku
+        const nickInput = document.getElementById('player-nick-input');
+        const playerHead = document.getElementById('player-head-image');
+
+        nickInput.addEventListener('input', () => {
+            const nick = nickInput.value.trim();
+            if (nick.length > 0) {
+                playerHead.src = `https://minotar.net/helm/${nick}/48.png`;
+            } else {
+                playerHead.src = `https://minotar.net/helm/Steve/48.png`;
+            }
+        });
+
+        // Hlasovací funkce s přesměrováním
+        function vote(site) {
+            const nick = nickInput.value.trim();
+
+            if (site === 'czechcraft') {
+                alert("Error: Již brzy bude přidáno.");
+                return;
+            }
+
+            if (!nick) {
+                alert("Zadej prosím svůj herní nick před hlasováním!");
+                nickInput.focus();
+                return;
+            }
+
+            let url = "";
+
+            // Sem zadej reálné hlasovací URL odkazy svého serveru
+            switch (site) {
+                case 'craftlist':
+                    url = `https://craftlist.org/mystiland?nickname=${encodeURIComponent(nick)}`;
+                    break;
+                case 'mclist':
+                    url = `https://minecraft-list.cz/server/mystiland/vote?nickname=${encodeURIComponent(nick)}`;
+                    break;
+                case 'mcservery':
+                    url = `https://minecraftservery.eu/server/mystiland/vote/${encodeURIComponent(nick)}`;
+                    break;
+            }
+
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
     </script>
 
 </body>
