@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obchod – MystiLand</title>
+    
+    <!-- Logo v kartě prohlížeče -->
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0711;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HORNÍ LIŠTA (NAVBAR) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 7, 17, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Tlačítko zpět na hlavní stránku */
+        .btn-home {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 9px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-home:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- HLAVNÍ OBSAH (WORKING ON IT) --- */
+        .main-content {
+            flex: 1;
+            margin-top: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .work-card {
+            background: linear-gradient(145deg, #140d1e, #0e0915);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 24px;
+            padding: 50px 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .work-icon-box {
+            width: 90px;
+            height: 90px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px auto;
+            color: #f59e0b;
+            font-size: 2.5rem;
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+            }
+        }
+
+        .work-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .work-text {
+            color: #9ca3af;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .btn-back-main {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 14px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-back-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 22px rgba(217, 119, 6, 0.6);
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 40px 20px 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo {
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+        }
+
+        .copyright {
+            color: #585366;
+            font-size: 0.85rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 7, 17, 0.98);
+                backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                display: none;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links a {
+                display: block;
+                padding: 14px 0;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+            }
+            .footer-left {
+                flex-direction: column;
+            }
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HORNÍ NAVIGATION BAR -->
+    <header class="navbar">
+        <a href="/" class="nav-logo">
+            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
+        </a>
+
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/">Domů</a></li>
+            <li><a href="/novinky">Novinky</a></li>
+            <li><a href="/tym">Tým</a></li>
+            <li><a href="/pravidla">Pravidla</a></li>
+            <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <!-- Tlačítko zpět na hlavní stránku -->
+            <a href="/" class="btn-home">
+                <i class="fa-solid fa-house"></i> Hlavní stránka
+            </a>
+
+            <button class="mobile-toggle" id="menu-toggle" aria-label="Otevřít menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- HLAVNÍ OBSAH -->
+    <main class="main-content">
+        <div class="work-card">
+            <div class="work-icon-box">
+                <i class="fa-solid fa-hammer"></i>
+            </div>
+            <h1 class="work-title">Pracujeme na tom!</h1>
+            <p class="work-text">
+                Na našem obchodě pro vás v současné době usilovně pracujeme. Chceme, aby byl pro vás nákup VIP výhod a balíčků co nejpohlednější a bezpečný. Děkujeme za trpělivost, brzy ho spustíme!
+            </p>
+            <a href="/" class="btn-back-main">
+                <i class="fa-solid fa-arrow-left"></i> Zpět na hlavní stránku
+            </a>
+        </div>
+    </main>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+                <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                <div class="copyright">
+                    © 2026 Mystiland.eu | Všechna práva vyhrazena.
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobilní Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const toggleIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            if (navMenu.classList.contains('show')) {
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-xmark');
+            } else {
+                toggleIcon.classList.remove('fa-xmark');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>
