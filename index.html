@@ -367,7 +367,7 @@
         }
 
         .btn-vote {
-            padding: 12px 24px;
+            padding: 12px 22px;
             border-radius: 10px;
             text-decoration: none;
             font-weight: 700;
@@ -397,6 +397,9 @@
 
         .btn-czechcraft { background: linear-gradient(135deg, #ea580c, #c2410c); }
         .btn-czechcraft:hover { box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5); }
+
+        .btn-allvotes { background: linear-gradient(135deg, #a855f7, #7e22ce); }
+        .btn-allvotes:hover { box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6); }
 
         .vote-divider {
             color: #a855f7;
@@ -444,6 +447,80 @@
             color: #9ca3af;
             font-size: 0.95rem;
             line-height: 1.5;
+        }
+
+        /* --- STYLY PRO MODÁLNÍ OKNO (ERROR/WARNING OVERLAY) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: #120a1f;
+            border: 1px solid #ef4444;
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            color: #ef4444;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .modal-text {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .btn-modal-close {
+            background: #ef4444;
+            color: #ffffff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-modal-close:hover {
+            background: #dc2626;
         }
 
         .discord-container {
@@ -762,6 +839,9 @@
                     <button class="btn-vote btn-czechcraft" onclick="vote('czechcraft')">
                         <i class="fa-solid fa-clock"></i> Czech-Craft.eu
                     </button>
+                    <button class="btn-vote btn-allvotes" onclick="vote('all')">
+                        <i class="fa-solid fa-layer-group"></i> Hlasovat na všech stránkách
+                    </button>
                 </div>
             </div>
 
@@ -791,6 +871,16 @@
             </a>
         </div>
     </main>
+
+    <!-- CHYBOVÉ MODÁLNÍ OKNO PŘES OBRAZOVKU -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <h3 class="modal-title" id="modalTitle">Error 404</h3>
+            <p class="modal-text" id="modalText">Již brzy bude přidáno.</p>
+            <button class="btn-modal-close" onclick="closeModal()">Rozumím</button>
+        </div>
+    </div>
 
     <!-- PATIČKA -->
     <footer>
@@ -879,38 +969,46 @@
             }
         });
 
+        // Funkce pro otevření chybového okna přes obrazovku
+        function showErrorModal(title, message) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalText').innerText = message;
+            document.getElementById('errorModal').classList.add('active');
+        }
+
+        // Funkce pro zavření okna
+        function closeModal() {
+            document.getElementById('errorModal').classList.remove('active');
+        }
+
         // Hlasovací funkce s přesměrováním
         function vote(site) {
             const nick = nickInput.value.trim();
 
             if (site === 'czechcraft') {
-                alert("Error: Již brzy bude přidáno.");
+                showErrorModal("Oznámení", "Error: Hlasování na Czech-Craft.eu bude již brzy přidáno.");
                 return;
             }
 
             if (!nick) {
-                alert("Zadej prosím svůj herní nick před hlasováním!");
-                nickInput.focus();
+                showErrorModal("Chybí Nick!", "Zadej prosím svůj herní nick před hlasováním!");
                 return;
             }
 
-            let url = "";
+            // Odkazy nastaveny přímo pro mystiland.eu
+            const links = {
+                craftlist: `https://craftlist.org/mystiland.eu?nickname=${encodeURIComponent(nick)}`,
+                mclist: `https://minecraft-list.cz/server/mystiland.eu/vote?nickname=${encodeURIComponent(nick)}`,
+                mcservery: `https://minecraftservery.eu/server/mystiland.eu/vote/${encodeURIComponent(nick)}`
+            };
 
-            // Sem zadej reálné hlasovací URL odkazy svého serveru
-            switch (site) {
-                case 'craftlist':
-                    url = `https://craftlist.org/mystiland?nickname=${encodeURIComponent(nick)}`;
-                    break;
-                case 'mclist':
-                    url = `https://minecraft-list.cz/server/mystiland/vote?nickname=${encodeURIComponent(nick)}`;
-                    break;
-                case 'mcservery':
-                    url = `https://minecraftservery.eu/server/mystiland/vote/${encodeURIComponent(nick)}`;
-                    break;
-            }
-
-            if (url) {
-                window.open(url, '_blank');
+            if (site === 'all') {
+                // Otevře všechny dostupné zadané stránky v nových záložkách
+                window.open(links.craftlist, '_blank');
+                window.open(links.mclist, '_blank');
+                window.open(links.mcservery, '_blank');
+            } else if (links[site]) {
+                window.open(links[site], '_blank');
             }
         }
     </script>
