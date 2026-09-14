@@ -20,16 +20,19 @@
         }
 
         body {
-            background-color: #0d0e1b;
+            background-color: #0b0711;
             color: #ffffff;
             line-height: 1.6;
             min-height: 100vh;
-            padding-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* --- HORNÍ LIŠTA S TLAČÍTKEM ZPĚT --- */
+        /* --- HORNÍ LIŠTA POUZE S TLAČÍTKEM ZPĚT --- */
         .top-bar {
             max-width: 1400px;
+            width: 100%;
             margin: 0 auto;
             padding: 30px 40px;
             display: flex;
@@ -53,10 +56,10 @@
         }
 
         .btn-back:hover {
-            background: #6366f1;
-            border-color: #6366f1;
+            background: #a855f7;
+            border-color: #a855f7;
             transform: translateX(-4px);
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
         }
 
         .top-logo img {
@@ -64,11 +67,12 @@
             width: auto;
         }
 
-        /* --- OBAL OBSAHU A MŘÍŽKA KARET --- */
+        /* --- OBSAH HLAVNÍ MŘÍŽKY --- */
         .container {
             max-width: 1350px;
+            width: 100%;
             margin: 0 auto;
-            padding: 10px 20px 40px 20px;
+            padding: 10px 20px 80px 20px;
         }
 
         .nabor-grid {
@@ -78,28 +82,28 @@
             justify-content: center;
         }
 
-        /* --- KARTA NÁBORU (PODLE VZORU ZE SNÍMKU) --- */
+        /* --- KARTA NÁBORU (PODLE OBRÁZKU) --- */
         .nabor-card {
-            background: #131527;
+            background: #120e1a;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 30px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .nabor-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.5);
+            border-color: rgba(168, 85, 247, 0.5);
         }
 
-        /* BANNER V KARTĚ (HORNÍ PÁSEK) */
+        /* BANNER V KARTĚ */
         .card-banner {
-            background: #090a14;
-            border: 2px solid #5b21b6;
+            background: #09060e;
+            border: 2px solid #6b21a8;
             border-radius: 12px;
             padding: 12px 15px;
             display: flex;
@@ -107,7 +111,7 @@
             justify-content: center;
             gap: 15px;
             margin-bottom: 25px;
-            box-shadow: inset 0 0 10px rgba(91, 33, 182, 0.3);
+            box-shadow: inset 0 0 10px rgba(107, 33, 168, 0.3);
         }
 
         .card-banner img {
@@ -123,7 +127,7 @@
         .banner-text .sub {
             font-size: 0.75rem;
             font-weight: 800;
-            color: #a78bfa;
+            color: #c084fc;
             letter-spacing: 1.5px;
             display: block;
         }
@@ -136,7 +140,7 @@
             text-transform: uppercase;
         }
 
-        /* POPIS KOLEM NÁBORU */
+        /* POPIS & PODMÍNKY */
         .card-text {
             color: #e2e8f0;
             font-size: 0.95rem;
@@ -144,7 +148,6 @@
             line-height: 1.5;
         }
 
-        /* PODMÍNKY */
         .conditions-title {
             font-weight: 700;
             font-size: 1rem;
@@ -175,10 +178,10 @@
             top: -3px;
         }
 
-        /* BÍLÉ TLAČÍTKO DOLE */
+        /* BÍLÉ TLAČÍTKO V KARTĚ */
         .btn-action {
             background: #ffffff;
-            color: #4338ca;
+            color: #4c1d95;
             font-weight: 800;
             text-transform: uppercase;
             text-align: center;
@@ -194,10 +197,132 @@
         }
 
         .btn-action:hover {
-            background: #e0e7ff;
-            color: #3730a3;
+            background: #f3e8ff;
+            color: #3b0764;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- DOLNÍ LIŠTA (PATIČKA) --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
         }
 
         @media (max-width: 768px) {
@@ -207,12 +332,16 @@
             .nabor-grid {
                 grid-template-columns: 1fr;
             }
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- HORNÍ LIŠTA POUZE S TLAČÍTKEM ZPĚT -->
+    <!-- HORNÍ TLAČÍTKO ZPĚT -->
     <div class="top-bar">
         <a href="/tym" class="btn-back">
             <i class="fa-solid fa-arrow-left"></i> Zpět na Tým
@@ -222,38 +351,9 @@
         </div>
     </div>
 
-    <!-- MŘÍŽKA KARET (PŘESNÝ DESIGN ZE SNÍMKU) -->
+    <!-- MŘÍŽKA S POZICEMI NÁBORU -->
     <div class="container">
         <div class="nabor-grid">
-
-            <!-- MODERÁTOR / HELPER -->
-            <div class="nabor-card">
-                <div>
-                    <div class="card-banner">
-                        <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand">
-                        <div class="banner-text">
-                            <span class="sub">NÁBOR</span>
-                            <span class="main">MODERÁTOR / HELPER</span>
-                        </div>
-                    </div>
-                    
-                    <p class="card-text">
-                        Rád pomáháš hráčům? Jsi komunikativní, znáš server a máš pevné nervy? Zkus to jako moderátor nebo helper, který se může vypracovat dále dle šikovnosti.
-                    </p>
-
-                    <div class="conditions-title">Podmínky:</div>
-                    <ul class="conditions-list">
-                        <li>Věk minimálně 15+</li>
-                        <li>Nahraný čas na serveru alespoň 60 hodin</li>
-                        <li>Dokončené základní vzdělání</li>
-                        <li>Být aktivní na minecraft i discord serverech a mít také funkční mikrofon</li>
-                        <li>Pokročilá znalost serveru, příkazů a pravidel</li>
-                        <li>Ovládat základy českého/slovenského jazyka. Znalost angličtiny je bonus</li>
-                    </ul>
-                </div>
-
-                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ NÁBOR</a>
-            </div>
 
             <!-- BUILDER -->
             <div class="nabor-card">
@@ -283,63 +383,7 @@
                     </ul>
                 </div>
 
-                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ NÁBOR</a>
-            </div>
-
-            <!-- DEVELOPER -->
-            <div class="nabor-card">
-                <div>
-                    <div class="card-banner">
-                        <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand">
-                        <div class="banner-text">
-                            <span class="sub">NÁBOR</span>
-                            <span class="main">DEVELOPER</span>
-                        </div>
-                    </div>
-                    
-                    <p class="card-text">
-                        Rozumíš vývoji pluginů nebo webovým aplikacím? Chceš tvořit vlastní systémy a mechaniky pro náš Minecraft server? Připoj se k našim vývojářům!
-                    </p>
-
-                    <div class="conditions-title">Podmínky:</div>
-                    <ul class="conditions-list">
-                        <li>Věk minimálně 16+</li>
-                        <li>Zkušenosti s vývojem Minecraft pluginů (Spigot, Paper API) nebo webů</li>
-                        <li>Portfolio či ukázka vlastního kódu na GitHubu/GitLabu</li>
-                        <li>Znalost práce s verzovacím systémem Git</li>
-                        <li>Být aktivní na discordu a mít funkční mikrofon</li>
-                    </ul>
-                </div>
-
-                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ NÁBOR</a>
-            </div>
-
-            <!-- TECHNIK -->
-            <div class="nabor-card">
-                <div>
-                    <div class="card-banner">
-                        <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand">
-                        <div class="banner-text">
-                            <span class="sub">NÁBOR</span>
-                            <span class="main">TECHNIK</span>
-                        </div>
-                    </div>
-                    
-                    <p class="card-text">
-                        Baví tě nastavovat pluginy, hledat chyby v konzoli a ladit celkovou funkčnost serverů? Hledáme spolehlivého technika na konfiguraci.
-                    </p>
-
-                    <div class="conditions-title">Podmínky:</div>
-                    <ul class="conditions-list">
-                        <li>Věk minimálně 15+</li>
-                        <li>Pokročilá znalost konfigurace Spigot/Paper pluginů</li>
-                        <li>Skvělá znalost nastavení práv (LuckPerms) a ekonomiky</li>
-                        <li>Logické myšlení a schopnost řešit chybové hlášky v logu</li>
-                        <li>Funkční mikrofon a aktivita na Discordu</li>
-                    </ul>
-                </div>
-
-                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ NÁBOR</a>
+                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ BUILDER</a>
             </div>
 
             <!-- GRAFIK -->
@@ -367,7 +411,92 @@
                     </ul>
                 </div>
 
-                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ NÁBOR</a>
+                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ GRAFIK</a>
+            </div>
+
+            <!-- HELPER -->
+            <div class="nabor-card">
+                <div>
+                    <div class="card-banner">
+                        <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand">
+                        <div class="banner-text">
+                            <span class="sub">NÁBOR</span>
+                            <span class="main">HELPER</span>
+                        </div>
+                    </div>
+                    
+                    <p class="card-text">
+                        Rád pomáháš hráčům? Jsi komunikativní, znáš server a máš pevné nervy? Zkus to jako helper, který se může vypracovat dále dle šikovnosti.
+                    </p>
+
+                    <div class="conditions-title">Podmínky:</div>
+                    <ul class="conditions-list">
+                        <li>Věk minimálně 15+</li>
+                        <li>Nahraný čas na serveru alespoň 60 hodin</li>
+                        <li>Dokončené základní vzdělání</li>
+                        <li>Být aktivní na minecraft i discord serverech a mít také funkční mikrofon</li>
+                        <li>Pokročilá znalost serveru, příkazů a правил</li>
+                        <li>Ovládat základy českého/slovenského jazyka</li>
+                    </ul>
+                </div>
+
+                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ HELPER</a>
+            </div>
+
+            <!-- DEVELOPER -->
+            <div class="nabor-card">
+                <div>
+                    <div class="card-banner">
+                        <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand">
+                        <div class="banner-text">
+                            <span class="sub">NÁBOR</span>
+                            <span class="main">DEVELOPER</span>
+                        </div>
+                    </div>
+                    
+                    <p class="card-text">
+                        Rozumíš vývoji pluginů nebo webovým aplikacím? Chceš tvořit vlastní systémy a mechaniky pro náš Minecraft server? Připoj se k našim vývojářům!
+                    </p>
+
+                    <div class="conditions-title">Podmínky:</div>
+                    <ul class="conditions-list">
+                        <li>Věk minimálně 16+</li>
+                        <li>Zkušenosti s vývojem Minecraft pluginů (Spigot, Paper API) nebo webů</li>
+                        <li>Portfolio či ukázka vlastního kódu na GitHubu/GitLabu</li>
+                        <li>Znalost práce s verzovacím systémem Git</li>
+                        <li>Být aktivní na discordu a mít funkční mikrofon</li>
+                    </ul>
+                </div>
+
+                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ DEVELOPER</a>
+            </div>
+
+            <!-- TECHNIK -->
+            <div class="nabor-card">
+                <div>
+                    <div class="card-banner">
+                        <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand">
+                        <div class="banner-text">
+                            <span class="sub">NÁBOR</span>
+                            <span class="main">TECHNIK</span>
+                        </div>
+                    </div>
+                    
+                    <p class="card-text">
+                        Baví tě nastavovat pluginy, hledat chyby v konzoli a ladit celkovou funkčnost serverů? Hledáme spolehlivého technika na konfiguraci.
+                    </p>
+
+                    <div class="conditions-title">Podmínky:</div>
+                    <ul class="conditions-list">
+                        <li>Věk minimálně 15+</li>
+                        <li>Pokročilá znalost konfigurace Spigot/Paper pluginů</li>
+                        <li>Skvělá znalost nastavení práv (LuckPerms) a ekonomiky</li>
+                        <li>Logické myšlení a schopnost řešit chybové hlášky v logu</li>
+                        <li>Funkční mikrofon a aktivita na Discordu</li>
+                    </ul>
+                </div>
+
+                <a href="https://forms.google.com/" target="_blank" class="btn-action">FORMULÁŘ TECHNIK</a>
             </div>
 
             <!-- JINÁ POZICE / TESTER -->
@@ -399,6 +528,52 @@
 
         </div>
     </div>
+
+    <!-- DOLNÍ LIŠTA (PATIČKA) -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@gmail.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Obchodní podmínky</a></li>
+                    <li><a href="#">Zásady ochrany osobních údajů</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
+        </div>
+    </footer>
 
 </body>
 </html>
