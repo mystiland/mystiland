@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tým – MystiLand</title>
+    
+    <!-- Logo v kartě prohlížeče -->
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0711;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- HORNÍ LIŠTA (NAVBAR) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 7, 17, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-shop {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-shop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.6);
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- HLAVNÍ OBSAH STRÁNKY TÝM --- */
+        .main-content {
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+            background: #0b0711;
+            padding: 60px 40px 100px 40px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* Sekce jednoho týmu */
+        .team-group {
+            margin-bottom: 45px;
+        }
+
+        .team-group-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Mřížka pro karty členů */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+        }
+
+        /* Karta člena týmu */
+        .member-card {
+            background: #140d1e;
+            border-radius: 16px;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        /* Náhled Minecraft postavy */
+        .avatar-box {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            transition: transform 0.2s ease;
+        }
+
+        .member-card:hover .avatar-box img {
+            transform: scale(1.05);
+        }
+
+        /* Jméno hráče */
+        .member-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        /* Odznáček s rolí (Badge) */
+        .role-badge {
+            padding: 5px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        /* Barevné rozlišení rolí */
+        .role-vedeni { background-color: #dc2626; }
+        .role-hl-dev, .role-dev, .role-zk-dev { background-color: #7c3aed; }
+        .role-hl-tech, .role-tech, .role-zk-tech { background-color: #f97316; }
+        .role-hl-build, .role-plus-build, .role-build, .role-zk-build { background-color: #eab308; color: #000; }
+        .role-hl-help, .role-plus-help, .role-help, .role-zk-help { background-color: #22c55e; }
+        .role-hl-mod, .role-plus-mod, .role-mod, .role-zk-mod { background-color: #06b6d4; }
+        .role-hl-creat, .role-creat, .role-zk-creat { background-color: #ec4899; }
+        .role-grafik { background-color: #3b82f6; }
+
+        /* Sociální sítě na kartě člena */
+        .member-socials {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .member-social-btn {
+            width: 34px;
+            height: 34px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .member-social-btn:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+
+        /* --- RÁMEČEK PRO VOLNÝ TÝM (HLEDÁME LIDI) --- */
+        .recruitment-card {
+            background: rgba(20, 13, 30, 0.5);
+            border: 2px dashed rgba(168, 85, 247, 0.35);
+            border-radius: 16px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .recruitment-card:hover {
+            border-color: rgba(168, 85, 247, 0.8);
+            background: rgba(20, 13, 30, 0.8);
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.15);
+        }
+
+        .recruitment-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .recruitment-text {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #e5e7eb;
+        }
+
+        .recruitment-btn {
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #d8b4fe;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            margin-top: 5px;
+        }
+
+        .recruitment-btn:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+
+        /* --- VYSKAKOVACÍ OKNO PROFILU (MODAL) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: #140d1e;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 480px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #8a859b;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #ffffff;
+        }
+
+        .modal-avatar-box {
+            width: 160px;
+            height: 160px;
+            margin-bottom: 15px;
+        }
+
+        .modal-avatar-box img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+        }
+
+        .modal-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .modal-bio {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 15px;
+            color: #c4c0d0;
+            font-size: 0.95rem;
+            margin: 15px 0 20px 0;
+            width: 100%;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 7, 17, 0.98);
+                backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                display: none;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 0;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+
+            .btn-shop {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .main-content {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HORNÍ NAVIGATION BAR -->
+    <header class="navbar">
+        <a href="/" class="nav-logo">
+            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
+        </a>
+
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/">Domů</a></li>
+            <li><a href="/novinky">Novinky</a></li>
+            <li><a href="/tym" class="active">Tým</a></li>
+            <li><a href="/pravidla">Pravidla</a></li>
+            <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <a href="#" class="btn-shop">
+                <i class="fa-solid fa-cart-shopping"></i> Obchod
+            </a>
+
+            <button class="mobile-toggle" id="menu-toggle" aria-label="Otevřít menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- HLAVNÍ OBSAH - NÁŠ TÝM -->
+    <main class="main-content">
+        <h1 class="page-title">Náš Tým</h1>
+
+        <!-- VEDENÍ TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Vedení Tým</h2>
+            <div class="team-grid">
+                
+                <!-- MrHruza -->
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="MrHruza" 
+                     data-role="Vedení" 
+                     data-role-class="role-vedeni" 
+                     data-discord="https://discord.com/users/1218869019461812286" 
+                     data-instagram=""
+                     data-bio="Cs, jsem MrHruza, jeden zakladatelů serveru MystiLand. Starám se o webové stránky a chod Minecraft serveru. Pokud cokoliv potřebuješ, neboj se napsat!">
+                    <div class="avatar-box">
+                        <img src="https://visage.surgeplay.com/bust/160/MrHruza" alt="MrHruza">
+                    </div>
+                    <span class="member-name">MrHruza</span>
+                    <span class="role-badge role-vedeni">Vedení</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com/users/1218869019461812286" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- fufik856 -->
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="fufik856" 
+                     data-role="Vedení" 
+                     data-role-class="role-vedeni" 
+                     data-discord="https://discord.com/users/923149225406132266" 
+                     data-instagram="https://www.instagram.com/vojtacz856"
+                     data-bio="Ahoj! Jsem Vojta, je mi 18 a studuju IT. Většinu času trávím koukáním do monitoru a hledáním chybějících středníků v kódu.">
+                    <div class="avatar-box">
+                        <img src="https://visage.surgeplay.com/bust/160/fufik856" alt="fufik856">
+                    </div>
+                    <span class="member-name">fufik856</span>
+                    <span class="role-badge role-vedeni">Vedení</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com/users/923149225406132266" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                        <a href="https://www.instagram.com/vojtacz856" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DEVELOPER TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Developer Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://mystiland.eu/nabor" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
+
+        <!-- TECHNICKÝ TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Technický Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://mystiland.eu/nabor" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
+
+        <!-- MODERÁTOR TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Moderátor Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://mystiland.eu/nabor" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
+
+        <!-- HELPER TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Helper Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://mystiland.eu/nabor" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
+
+        <!-- BUILDER TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Builder Tým</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://mystiland.eu/nabor" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
+
+        <!-- CREATOR TÝM -->
+        <section class="team-group">
+            <h2 class="team-group-title">Creator Tým</h2>
+            <div class="team-grid">
+                
+                <!-- merlindog155 -->
+                <div class="member-card" onclick="openProfile(this)" 
+                     data-nick="merlindog155" 
+                     data-role="Hl. Creator" 
+                     data-role-class="role-hl-creat" 
+                     data-discord="https://discord.com/users/687712293986893836" 
+                     data-instagram=""
+                     data-bio="Ahoj! Starám se o přípravu obsahu, tvorbu videí a propagaci serveru MystiLand.">
+                    <div class="avatar-box">
+                        <img src="https://visage.surgeplay.com/bust/160/merlindog155" alt="merlindog155">
+                    </div>
+                    <span class="member-name">merlindog155</span>
+                    <span class="role-badge role-hl-creat">Hl. Creator</span>
+                    <div class="member-socials">
+                        <a href="https://discord.com/users/687712293986893836" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- GRAFIK -->
+        <section class="team-group">
+            <h2 class="team-group-title">Grafik</h2>
+            <div class="recruitment-card">
+                <div class="recruitment-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="recruitment-text">Hledáme lidi do tohoto týmu!</div>
+                <a href="https://mystiland.eu/nabor" class="recruitment-btn">Mám zájem</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- VYSKAKOVACÍ OKNO MODAL -->
+    <div class="modal-overlay" id="profile-modal" onclick="closeProfile(event)">
+        <div class="modal-card">
+            <button class="modal-close" onclick="forceCloseProfile()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="modal-avatar-box">
+                <img id="modal-img" src="" alt="Avatar">
+            </div>
+            
+            <div class="modal-name" id="modal-name">Nick</div>
+            <div class="role-badge" id="modal-role">Role</div>
+            
+            <div class="modal-bio" id="modal-bio">Text o členovi...</div>
+            
+            <div class="member-socials" id="modal-socials">
+                <!-- Zde se dynamicky vkládají ikony z JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Obchodní podmínky</a></li>
+                    <li><a href="#">Zásady ochrany osobních údajů</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <script>
+        // Mobilní Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const toggleIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            if (navMenu.classList.contains('show')) {
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-xmark');
+            } else {
+                toggleIcon.classList.remove('fa-xmark');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Otevření profilu (Modal)
+        function openProfile(card) {
+            const nick = card.getAttribute('data-nick');
+            const role = card.getAttribute('data-role');
+            const roleClass = card.getAttribute('data-role-class');
+            const discord = card.getAttribute('data-discord');
+            const instagram = card.getAttribute('data-instagram');
+            const bio = card.getAttribute('data-bio');
+
+            document.getElementById('modal-img').src = `https://visage.surgeplay.com/bust/160/${nick}`;
+            document.getElementById('modal-name').innerText = nick;
+            
+            const roleBadge = document.getElementById('modal-role');
+            roleBadge.innerText = role;
+            roleBadge.className = `role-badge ${roleClass}`;
+
+            document.getElementById('modal-bio').innerText = bio || "O tomto členovi zatím nebyly přidány žádné informace.";
+            
+            // Načtení ikonek v profilovém okénku
+            const socialsBox = document.getElementById('modal-socials');
+            socialsBox.innerHTML = '';
+
+            if (discord) {
+                socialsBox.innerHTML += `<a href="${discord}" target="_blank" class="member-social-btn" title="Discord Profil"><i class="fa-brands fa-discord"></i></a>`;
+            }
+            if (instagram) {
+                socialsBox.innerHTML += `<a href="${instagram}" target="_blank" class="member-social-btn" title="Instagram Profil"><i class="fa-brands fa-instagram"></i></a>`;
+            }
+
+            document.getElementById('profile-modal').classList.add('active');
+        }
+
+        // Zavření modal okna při kliknutí mimo kartu
+        function closeProfile(e) {
+            if (e.target.id === 'profile-modal') {
+                document.getElementById('profile-modal').classList.remove('active');
+            }
+        }
+
+        // Vynucené zavření tlačítkem X
+        function forceCloseProfile() {
+            document.getElementById('profile-modal').classList.remove('active');
+        }
+    </script>
+
+</body>
+</html>
