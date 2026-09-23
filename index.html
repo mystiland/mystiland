@@ -1145,7 +1145,7 @@
             ) + 'px';
         }
 
-        let isNumbersActive = false; // False = padá zelené listí, True = padají čísla 6 a 7
+        let isNumbersActive = false; // OD ZAČÁTKU FALSE -> Padá zelené listí!
 
         function createParticle() {
             updateFallingContainerHeight();
@@ -1156,7 +1156,7 @@
             particle.style.left = startX + 'px';
 
             if (isNumbersActive) {
-                // Padají čísla 6 a 7
+                // Padají čísla 6 a 7 (aktivní jen po dosažení 67 na 5 sekund)
                 particle.classList.add('troll-num');
                 particle.innerText = Math.random() < 0.5 ? '6' : '7';
                 
@@ -1165,7 +1165,7 @@
                 particle.style.color = randomColor;
                 particle.style.textShadow = `0 0 14px ${randomColor}`;
             } else {
-                // Padá zelené listí
+                // Standardně padá zelené listí
                 particle.classList.add('leaf-particle');
                 const size = Math.random() * 8 + 8;
                 particle.style.width = size + 'px';
@@ -1227,7 +1227,6 @@
                 clickCounter.classList.add('visible');
             }
 
-            // Počítá normálně dál
             clickCounter.innerText = `Kliknutí: ${clickCount}`;
 
             // Milníky achievementů (10, 67, 100, 250, 500, 1000, 100k)
@@ -1248,7 +1247,7 @@
                 tooltip67.innerText = `Šestasedma Master! Zvládnuto za ${minutes} min a ${seconds} s!`;
                 triggerAchievement(`67 KLIKNUTÍ! Čas: ${minutes}m ${seconds}s`);
 
-                // Přepneme padání na čísla 6 a 7 přesně na 5 sekund, potom se vrátí zelené listí
+                // Přepneme padání na čísla 6 a 7 přesně na 5 sekund, potom se automaticky vrátí zelené listí
                 isNumbersActive = true;
                 clearTimeout(window.numTimeout);
                 window.numTimeout = setTimeout(() => {
