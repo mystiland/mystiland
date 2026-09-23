@@ -962,21 +962,13 @@
                     <i class="fa-solid fa-face-grin-squint-tears"></i> 10x 67
                     <span class="badge-tooltip">Začínáš to chytat! Tvoje hlava je plná čísel 6 a 7.</span>
                 </span>
-                <span class="badge-tag" id="badge-100">
-                    <i class="fa-solid fa-ghost"></i> 100x 67
+                <span class="badge-tag" id="badge-30">
+                    <i class="fa-solid fa-ghost"></i> 30x 67
                     <span class="badge-tooltip">Troll lord! Už ti z toho totálně hrabe.</span>
                 </span>
-                <span class="badge-tag" id="badge-500">
-                    <i class="fa-solid fa-brain"></i> 500x 67
-                    <span class="badge-tooltip">Absolutní mozková mrtvice z čísel 6 a 7!</span>
-                </span>
-                <span class="badge-tag" id="badge-1000">
-                    <i class="fa-solid fa-fire"></i> 1 000x 67
-                    <span class="badge-tooltip">Hoříš! Doslova generuješ 67 do vesmíru.</span>
-                </span>
-                <span class="badge-tag" id="badge-100k">
-                    <i class="fa-solid fa-crown"></i> 100K 67 (CHIMET PRO)
-                    <span class="badge-tooltip" id="tooltip-100k">Šestasedma Master! Čas od prvního kliku bude zapsán zde.</span>
+                <span class="badge-tag" id="badge-67">
+                    <i class="fa-solid fa-crown"></i> CHIMET PRO 67
+                    <span class="badge-tooltip" id="tooltip-67">Šestasedma Master! Dokončeno přesně na 67 kliknutí.</span>
                 </span>
             </div>
 
@@ -1174,13 +1166,11 @@
         const clickCounter = document.getElementById('clickCounter');
         const achievementToast = document.getElementById('achievementToast');
         const achievementDescText = document.getElementById('achievementDescText');
-        const tooltip100k = document.getElementById('tooltip-100k');
+        const tooltip67 = document.getElementById('tooltip-67');
 
         let unlocked10 = false;
-        let unlocked100 = false;
-        let unlocked500 = false;
-        let unlocked1000 = false;
-        let unlocked100k = false;
+        let unlocked30 = false;
+        let unlocked67 = false;
 
         function triggerAchievement(text) {
             achievementDescText.innerText = text;
@@ -1223,32 +1213,22 @@
                 document.getElementById('badge-10').classList.add('unlocked');
                 triggerAchievement("První 67 trolling (10 kliknutí)");
             }
-            if (leafCount >= 100 && !unlocked100) {
-                unlocked100 = true;
-                document.getElementById('badge-100').classList.add('unlocked');
-                triggerAchievement("Troll Lord (100 kliknutí)");
+            if (leafCount >= 30 && !unlocked30) {
+                unlocked30 = true;
+                document.getElementById('badge-30').classList.add('unlocked');
+                triggerAchievement("Troll Lord (30 kliknutí)");
             }
-            if (leafCount >= 500 && !unlocked500) {
-                unlocked500 = true;
-                document.getElementById('badge-500').classList.add('unlocked');
-                triggerAchievement("Mozková mrtvice (500 kliknutí)");
-            }
-            if (leafCount >= 1000 && !unlocked1000) {
-                unlocked1000 = true;
-                document.getElementById('badge-1000').classList.add('unlocked');
-                triggerAchievement("Vesmírný 67 generátor (1 000 kliknutí)");
-            }
-            if (leafCount >= 100000 && !unlocked100k) {
-                unlocked100k = true;
-                document.getElementById('badge-100k').classList.add('unlocked');
+            if (leafCount >= 67 && !unlocked67) {
+                unlocked67 = true;
+                document.getElementById('badge-67').classList.add('unlocked');
                 
                 const endTime = new Date();
                 const totalSeconds = Math.floor((endTime - startTime) / 1000);
                 const minutes = Math.floor(totalSeconds / 60);
                 const seconds = totalSeconds % 60;
                 
-                tooltip100k.innerText = `Šestasedma Master! Dokončeno za ${minutes} min a ${seconds} s!`;
-                triggerAchievement(`CHIMET PRO (100K)! Čas: ${minutes}m ${seconds}s`);
+                tooltip67.innerText = `Šestasedma Master! Zvládnuto za ${minutes} min a ${seconds} s!`;
+                triggerAchievement(`CHIMET PRO 67 OTEVŘENO! Čas: ${minutes}m ${seconds}s`);
             }
 
             // Efekt exploze čísel při kliknutí
