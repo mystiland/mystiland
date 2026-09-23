@@ -27,15 +27,15 @@
             position: relative;
         }
 
-        /* --- VYLEPSENÉ PADAJÍCÍ LÍSTKY V POZADÍ --- */
+        /* --- PADAJÍCÍ LÍSTKY (PŘED POZADÍM, ALE ZA TEXTEM A LOGEM) --- */
         .falling-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* Pokryje celou stránku od shora až dolů */
+            height: 100%;
             pointer-events: none;
-            z-index: 1; /* V pozadí za obsahem */
+            z-index: 2; /* Nad pozadím, ale pod obsahem */
             overflow: hidden;
         }
 
@@ -48,7 +48,7 @@
             animation: fall linear forwards;
         }
 
-        /* Detailnější a vizuálnější tvar lístku */
+        /* Tvar lístku */
         .particle.leaf {
             width: 16px;
             height: 12px;
@@ -79,10 +79,10 @@
             }
         }
 
-        /* Zajištění, aby hlavní obsah a prvky byly nad pozadím (z-index 2+) */
-        .navbar, .hero-section, .main-content, .modal-overlay, footer {
+        /* Hlavní obsah, texty, tlačítka a loga jsou na vyšší vrstvě (z-index 3), aby lístky neležely přes interaktivní prvky */
+        .navbar, .hero-content, .main-content, .modal-overlay, footer {
             position: relative;
-            z-index: 2;
+            z-index: 3;
         }
 
         /* --- HORNÍ LIŠTA (NAVBAR) --- */
@@ -173,7 +173,7 @@
             padding: 5px;
         }
 
-        /* --- HORNÍ SEKCIE (HERO) - ZVETŠENO --- */
+        /* --- HORNÍ SEKCIE (HERO) --- */
         .hero-section {
             position: relative;
             width: 100%;
@@ -489,7 +489,7 @@
             box-shadow: 0 6px 25px rgba(88, 101, 242, 0.65);
         }
 
-        /* --- STYLY PRO MODÁLNÍ OKNO (ERROR/WARNING OVERLAY) --- */
+        /* --- MODÁLNÍ OKNO --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -753,7 +753,7 @@
 </head>
 <body>
 
-    <!-- Kontejner pro padající lístky v pozadí přes celou stránku -->
+    <!-- Kontejner pro padající lístky -->
     <div class="falling-container" id="fallingContainer"></div>
 
     <!-- HORNÍ NAVIGATION BAR -->
@@ -782,7 +782,7 @@
         </div>
     </header>
 
-    <!-- HORNÍ HERO SEKCIE (ZVETŠENÁ) -->
+    <!-- HORNÍ HERO SEKCIE -->
     <section class="hero-section">
         <div class="hero-content">
             <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo">
@@ -865,7 +865,7 @@
         </div>
     </main>
 
-    <!-- CHYBOVÉ MODÁLNÍ OKNO PŘES OBRAZOVKU -->
+    <!-- MODÁLNÍ OKNO -->
     <div class="modal-overlay" id="errorModal">
         <div class="modal-box">
             <div class="modal-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
@@ -922,30 +922,27 @@
     </footer>
 
     <script>
-        // --- AKTUALIZOVANÉ PADAJÍCÍ LÍSTKY V POZADÍ ---
+        // --- LOGIKA PADAJÍCÍCH LÍSTKŮ ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
-            // Nastaví výšku kontejneru na celou výšku dokumentu (od shora až dolů dle scrollování)
             fallingContainer.style.height = document.documentElement.scrollHeight + 'px';
         }
 
         function createParticle() {
             updateFallingContainerHeight();
             const particle = document.createElement('div');
-            particle.classList.add('particle', 'leaf'); // Začíná jako zelený lístek
+            particle.classList.add('particle', 'leaf');
 
-            // Náhodná pozice na šířku dokumentu
             const startX = Math.random() * document.documentElement.clientWidth;
             particle.style.left = startX + 'px';
 
-            // Delší náhodná doba pádu pro plynulý efekt přes celou výšku (6 až 12 sekund)
             const duration = Math.random() * 6 + 6;
             particle.style.animationDuration = duration + 's';
 
             fallingContainer.appendChild(particle);
 
-            // Změna na fialovou jiskru až po delší době (v cca 75 % času pádu, tedy blízko konce)
+            // Změna na fialovou jiskru v cca 75 % trasy dolů
             setTimeout(() => {
                 if (particle.parentNode) {
                     particle.classList.remove('leaf');
@@ -953,16 +950,14 @@
                 }
             }, (duration * 1000) * 0.75);
 
-            // Úplné odstranění lístku/jiskry po skončení animace
             setTimeout(() => {
                 particle.remove();
             }, duration * 1000);
         }
 
-        // Častější generování pro bohatší vizuální efekt
-        setInterval(createParticle, 300);
+        // Generování lístků (hustota)
+        setInterval(createParticle, 200);
         window.addEventListener('resize', updateFallingContainerHeight);
-
 
         // Mobilní menu toggle
         const menuToggle = document.getElementById('menu-toggle');
@@ -989,8 +984,7 @@
             glitchElement.innerText = glitchFormats[randomIndex];
         }, 180);
 
-        // --- SKRIPTY PRO HLASOVACÍ SEKCI ---
-
+        // Hlasovací konfigurátor a modální okno
         const nickInput = document.getElementById('player-nick-input');
         const playerHead = document.getElementById('player-head-image');
 
@@ -1032,11 +1026,7 @@
                 mcservery: `https://minecraftservery.eu/server/mystilandeu/vote/${encodeURIComponent(nick)}`
             };
 
-            if (site === 'all') {
-                window.open(links.craftlist, '_blank');
-                window.open(links.mclist, '_blank');
-                window.open(links.mcservery, '_blank');
-            } else if (links[site]) {
+            if (links[site]) {
                 window.open(links[site], '_blank');
             }
         }
