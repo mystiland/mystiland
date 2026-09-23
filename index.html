@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* --- FIALOVÉ PADAJÍCÍ ČÍSLICE 6 A 7 --- */
+        /* --- PADAJÍCÍ ČÍSLICE 6 A 7 (Spustí se po 67 kliknutích na 5 vteřin) --- */
         .falling-container {
             position: absolute;
             top: 0;
@@ -96,7 +96,7 @@
             z-index: 3;
         }
 
-        /* --- ACHIEVEMENT / OZNÁMENÍ (Fialový Minecraft Style) --- */
+        /* --- ACHIEVEMENT / OZNÁMENÍ --- */
         .achievement-toast {
             position: fixed;
             top: 90px;
@@ -231,7 +231,7 @@
             padding: 5px;
         }
 
-        /* --- HORNÍ SEKCIE (HERO) --- */
+        /* --- HERO SEKCIE --- */
         .hero-section {
             position: relative;
             width: 100%;
@@ -297,7 +297,7 @@
             display: inline-block;
         }
 
-        /* --- FIALOVÉ ACHIEVEMENTY S TOOLTIPEM --- */
+        /* --- BADGES / ACHIEVEMENTY --- */
         .badges-container {
             display: flex;
             gap: 10px;
@@ -519,7 +519,7 @@
             line-height: 1.6;
         }
 
-        /* --- HLASOVACÍ SEKCIE (VOTE) --- */
+        /* --- HLASOVACÍ SEKCIE --- */
         .vote-section {
             max-width: 1000px;
             width: 100%;
@@ -907,7 +907,7 @@
 </head>
 <body>
 
-    <!-- Kontejner pro padající číslice 6 a 7 ve fialovém stylu -->
+    <!-- Kontejner pro padající prvky -->
     <div class="falling-container" id="fallingContainer"></div>
 
     <!-- Achievement Toast (Oznámení) -->
@@ -949,14 +949,14 @@
     <section class="hero-section">
         <div class="hero-content">
             <!-- KLIKACÍ LOGO -->
-            <div class="logo-wrapper" id="logoWrapper" title="Klikni pro spuštění fialového 67 efektu!">
+            <div class="logo-wrapper" id="logoWrapper" title="Klikni pro počítání!">
                 <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo" id="mainLogo">
             </div>
             
             <!-- Počítadlo -->
-            <div class="click-counter" id="clickCounter">Kliknutí: 0 / 67</div>
+            <div class="click-counter" id="clickCounter">Kliknutí: 0</div>
 
-            <!-- Fialové achievementy s tooltips -->
+            <!-- Achievementy -->
             <div class="badges-container">
                 <span class="badge-tag" id="badge-10">
                     <i class="fa-solid fa-face-grin-squint-tears"></i> 10x kliků
@@ -967,7 +967,7 @@
                     <span class="badge-tooltip">Už ti to pěkně naskakuje! Blížíš se do finále.</span>
                 </span>
                 <span class="badge-tag" id="badge-67">
-                    <i class="fa-solid fa-crown"></i> CHIMET PRO 67
+                    <i class="fa-solid fa-crown"></i> 67 KLIKNUTÍ
                     <span class="badge-tooltip" id="tooltip-67">Legendární achievement! Dosaženo přesně na 67 kliknutí.</span>
                 </span>
             </div>
@@ -1107,7 +1107,7 @@
     </footer>
 
     <script>
-        // --- FIALOVÁ LOGIKA: PADÁNÍ ČÍSEL 6 A 7 POUZE NA 5 SEKUND ---
+        // --- LOGIKA PADAJÍCÍCH PRVKŮ (Listí vs Čísla 6 a 7) ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
@@ -1121,29 +1121,38 @@
             ) + 'px';
         }
 
-        let isTrollingActive = false;
-        let trollInterval = null;
+        let isNumbersActive = false; // False = padá listí, True = padají čísla 6 a 7
 
-        function createTrollParticle() {
-            if (!isTrollingActive) return;
-
+        function createParticle() {
             updateFallingContainerHeight();
             const particle = document.createElement('div');
-            particle.classList.add('particle', 'troll-num');
-
-            // Náhodně buď 6 nebo 7
-            particle.innerText = Math.random() < 0.5 ? '6' : '7';
-            
-            // Fialové a stylové barvy odpovídající webu
-            const trollColors = ['#c084fc', '#a855f7', '#9333ea', '#e879f9', '#d8b4fe'];
-            const randomColor = trollColors[Math.floor(Math.random() * trollColors.length)];
-            particle.style.color = randomColor;
-            particle.style.textShadow = `0 0 14px ${randomColor}`;
+            particle.classList.add('particle');
 
             const startX = Math.random() * window.innerWidth;
             particle.style.left = startX + 'px';
 
-            const duration = Math.random() * 2 + 3; // Rychlejší pád
+            if (isNumbersActive) {
+                // Padají čísla 6 a 7
+                particle.classList.add('troll-num');
+                particle.innerText = Math.random() < 0.5 ? '6' : '7';
+                
+                const trollColors = ['#c084fc', '#a855f7', '#9333ea', '#e879f9', '#d8b4fe'];
+                const randomColor = trollColors[Math.floor(Math.random() * trollColors.length)];
+                particle.style.color = randomColor;
+                particle.style.textShadow = `0 0 14px ${randomColor}`;
+            } else {
+                // Padá normální listí (původní styl)
+                particle.classList.add('leaf-particle');
+                const size = Math.random() * 8 + 8;
+                particle.style.width = size + 'px';
+                particle.style.height = (size * 0.6) + 'px';
+                
+                const leafColors = ['rgba(168, 85, 247, 0.4)', 'rgba(192, 132, 252, 0.5)', 'rgba(126, 34, 206, 0.4)'];
+                particle.style.background = leafColors[Math.floor(Math.random() * leafColors.length)];
+                particle.style.borderRadius = '50% 0 50% 50%';
+            }
+
+            const duration = Math.random() * 3 + 4; // Rychlost pádu
             particle.style.animationDuration = duration + 's';
 
             fallingContainer.appendChild(particle);
@@ -1154,6 +1163,9 @@
                 }
             }, duration * 1000);
         }
+
+        // Nepřetržité generování padajících prvků na pozadí
+        setInterval(createParticle, 300);
 
         window.addEventListener('resize', updateFallingContainerHeight);
         window.addEventListener('load', updateFallingContainerHeight);
@@ -1191,21 +1203,8 @@
                 clickCounter.classList.add('visible');
             }
 
-            clickCounter.innerText = `Kliknutí: ${clickCount} / 67`;
-
-            // Aktivace padání fialových čísel 6 a 7 přesně na 5 sekund
-            isTrollingActive = true;
-            if (!trollInterval) {
-                trollInterval = setInterval(createTrollParticle, 150);
-            }
-            
-            // Po 5 sekundách vypneme generování dalších čísel
-            clearTimeout(window.trollTimeout);
-            window.trollTimeout = setTimeout(() => {
-                isTrollingActive = false;
-                clearInterval(trollInterval);
-                trollInterval = null;
-            }, 5000);
+            // Počítá normálně dál
+            clickCounter.innerText = `Kliknutí: ${clickCount}`;
 
             // Milníky achievementů
             if (clickCount >= 10 && !unlocked10) {
@@ -1228,10 +1227,17 @@
                 const seconds = totalSeconds % 60;
                 
                 tooltip67.innerText = `Šestasedma Master! Zvládnuto za ${minutes} min a ${seconds} s!`;
-                triggerAchievement(`CHIMET PRO 67 OTEVŘENO! Čas: ${minutes}m ${seconds}s`);
+                triggerAchievement(`67 KLIKNUTÍ OTEVŘENO! Čas: ${minutes}m ${seconds}s`);
+
+                // Přepneme padání na čísla 6 a 7 přesně na 5 sekund, potom se vrátí listí
+                isNumbersActive = true;
+                clearTimeout(window.numTimeout);
+                window.numTimeout = setTimeout(() => {
+                    isNumbersActive = false;
+                }, 5000);
             }
 
-            // Efekt exploze fialových čísel při kliknutí
+            // Efekt exploze čísel při kliknutí
             const rect = logoWrapper.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
