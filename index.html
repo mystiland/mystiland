@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* --- PADAJÍCÍ LÍSTKY A JISKRY --- */
+        /* --- PADAJÍCÍ LÍSTKY A JISKRY (ZPOMALENÉ & MIZÍCÍ) --- */
         .falling-container {
             position: absolute;
             top: 0;
@@ -44,7 +44,7 @@
             top: -50px;
             opacity: 0;
             animation: fall linear forwards;
-            transition: background-color 0.8s ease, box-shadow 0.8s ease, width 0.8s ease, height 0.8s ease, border-radius 0.8s ease, filter 0.8s ease, opacity 0.8s ease;
+            transition: background-color 0.8s ease, box-shadow 0.8s ease, width 0.8s ease, height 0.8s ease, border-radius 0.8s ease, filter 0.8s ease;
         }
 
         .particle.leaf {
@@ -62,7 +62,6 @@
             box-shadow: 0 0 15px #c084fc, 0 0 25px #a855f7, inset 0 0 5px #ffffff !important;
             transform: rotate(0deg) !important;
             filter: blur(1px);
-            opacity: 0 !important;
         }
 
         @keyframes fall {
@@ -70,15 +69,15 @@
                 transform: translateY(0) translateX(0) rotate(0deg);
                 opacity: 0;
             }
-            8% {
-                opacity: 0.85;
+            10% {
+                opacity: 0.8; /* Plynulý náběh viditelnosti */
             }
-            80% {
-                opacity: 0.85;
+            70% {
+                opacity: 0.8;
             }
             100% {
-                transform: translateY(var(--fall-distance, 100vh)) translateX(-30px) rotate(360deg);
-                opacity: 0;
+                transform: translateY(var(--fall-distance, 100vh)) translateX(-40px) rotate(360deg);
+                opacity: 0; /* Zcela zmizí na konci cesty */
             }
         }
 
@@ -299,7 +298,7 @@
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
         }
 
-        /* Seznam odemčených achievementů */
+        /* Skryté achievementy – dokud nejsou splněny, jsou kompletně neviditelné (display: none) */
         .badges-container {
             display: flex;
             gap: 10px;
@@ -310,25 +309,26 @@
         }
 
         .badge-tag {
-            background: rgba(168, 85, 247, 0.15);
-            border: 1px solid rgba(168, 85, 247, 0.5);
+            display: none; /* Zpočátku vůbec nejsou vidět */
+            background: rgba(168, 85, 247, 0.35);
+            border: 1px solid rgba(168, 85, 247, 0.7);
             color: #e9d5ff;
             font-size: 0.8rem;
             padding: 4px 12px;
             border-radius: 12px;
-            display: inline-flex;
             align-items: center;
             gap: 6px;
-            opacity: 0.3;
-            filter: grayscale(1);
-            transition: all 0.4s ease;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         .badge-tag.unlocked {
-            opacity: 1;
-            filter: grayscale(0);
-            background: rgba(168, 85, 247, 0.35);
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+            display: inline-flex; /* Zobrazí se až po splnění */
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .glitch-box {
@@ -923,7 +923,7 @@
             
             <div class="click-counter" id="clickCounter">Sesbírané lístky: 0</div>
 
-            <!-- Zobrazení získaných achievementů (odznaků) -->
+            <!-- Zobrazení získaných achievementů (zpočátku kompletně neviditelné) -->
             <div class="badges-container">
                 <span class="badge-tag" id="badge-100"><i class="fa-solid fa-seedling"></i> 100 kliknutí</span>
                 <span class="badge-tag" id="badge-1000"><i class="fa-solid fa-leaf"></i> 1 000 kliknutí</span>
@@ -1065,7 +1065,7 @@
     </footer>
 
     <script>
-        // --- LOGIKA PADAJÍCÍCH LÍSTKŮ ---
+        // --- LOGIKA PADAJÍCÍCH LÍSTKŮ (ZPOMALENÉ A PŘIROZENÉ MIZENÍ) ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
@@ -1093,7 +1093,8 @@
             const startX = Math.random() * window.innerWidth;
             particle.style.left = startX + 'px';
 
-            const duration = Math.random() * 5 + 7;
+            // Zpomalení: Doba pádu je nyní nastavena na 9 až 15 sekund (delší čas = pomalejší pád)
+            const duration = Math.random() * 6 + 9;
             particle.style.animationDuration = duration + 's';
 
             fallingContainer.appendChild(particle);
@@ -1115,19 +1116,18 @@
             }, duration * 1000);
         }
 
-        setInterval(createParticle, 500);
+        setInterval(createParticle, 700); // Mírně snížena frekvence pro čistější vzhled
         window.addEventListener('resize', updateFallingContainerHeight);
         window.addEventListener('load', updateFallingContainerHeight);
 
 
-        // --- COOKIE CLICKER & ACHIEVEMENTY ---
+        // --- COOKIE CLICKER & SKRYTÉ ACHIEVEMENTY ---
         let leafCount = 0;
         const logoWrapper = document.getElementById('logoWrapper');
         const clickCounter = document.getElementById('clickCounter');
         const achievementToast = document.getElementById('achievementToast');
         const achievementDescText = document.getElementById('achievementDescText');
 
-        // Sledování stavu achievementů
         let unlocked100 = false;
         let unlocked1000 = false;
         let unlocked100k = false;
@@ -1144,7 +1144,7 @@
             leafCount++;
             clickCounter.innerText = `Sesbírané lístky: ${leafCount}`;
 
-            // Kontrola achievementů
+            // Kontrola achievementů a jejich postupné odemykání (přidání třídy "unlocked")
             if (leafCount >= 100 && !unlocked100) {
                 unlocked100 = true;
                 document.getElementById('badge-100').classList.add('unlocked');
