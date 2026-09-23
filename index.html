@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* --- PADAJÍCÍ LÍSTKY A JISKRY (ZPOMALENÉ & MIZÍCÍ) --- */
+        /* --- PADAJÍCÍ LÍSTKY (MIZÍ DŘÍVE V POLOVINĚ) --- */
         .falling-container {
             position: absolute;
             top: 0;
@@ -69,15 +69,19 @@
                 transform: translateY(0) translateX(0) rotate(0deg);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.8; /* Plynulý náběh viditelnosti */
+            15% {
+                opacity: 0.8; /* Rychlý náběh viditelnosti hned nahoře */
             }
-            70% {
+            40% {
                 opacity: 0.8;
+            }
+            55% {
+                opacity: 0; /* Zmizí už v polovině výšky (nedoletí k textu) */
+                transform: translateY(55vh) translateX(-25px) rotate(200deg);
             }
             100% {
                 transform: translateY(var(--fall-distance, 100vh)) translateX(-40px) rotate(360deg);
-                opacity: 0; /* Zcela zmizí na konci cesty */
+                opacity: 0;
             }
         }
 
@@ -286,7 +290,9 @@
             100% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5)); }
         }
 
+        /* Počítadlo – zpočátku zcela neviditelné (display: none) */
         .click-counter {
+            display: none;
             font-size: 0.95rem;
             color: #d8b4fe;
             background: rgba(18, 10, 31, 0.8);
@@ -296,20 +302,25 @@
             letter-spacing: 1px;
             font-weight: 600;
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* Skryté achievementy – dokud nejsou splněny, jsou kompletně neviditelné (display: none) */
+        .click-counter.visible {
+            display: inline-block;
+        }
+
+        /* Achievementy – zpočátku všechny neviditelné, odemykají se postupně */
         .badges-container {
             display: flex;
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            max-width: 500px;
+            max-width: 600px;
             min-height: 35px;
         }
 
         .badge-tag {
-            display: none; /* Zpočátku vůbec nejsou vidět */
+            display: none; 
             background: rgba(168, 85, 247, 0.35);
             border: 1px solid rgba(168, 85, 247, 0.7);
             color: #e9d5ff;
@@ -323,7 +334,7 @@
         }
 
         .badge-tag.unlocked {
-            display: inline-flex; /* Zobrazí se až po splnění */
+            display: inline-flex; 
         }
 
         @keyframes popIn {
@@ -921,12 +932,15 @@
                 <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo" id="mainLogo">
             </div>
             
+            <!-- Počítadlo – zpočátku skryté, objeví se po 1. kliknutí -->
             <div class="click-counter" id="clickCounter">Sesbírané lístky: 0</div>
 
-            <!-- Zobrazení získaných achievementů (zpočátku kompletně neviditelné) -->
+            <!-- Achievementy (10, 100, 500, 1000, 100K) – zpočátku neviditelné -->
             <div class="badges-container">
-                <span class="badge-tag" id="badge-100"><i class="fa-solid fa-seedling"></i> 100 kliknutí</span>
-                <span class="badge-tag" id="badge-1000"><i class="fa-solid fa-leaf"></i> 1 000 kliknutí</span>
+                <span class="badge-tag" id="badge-10"><i class="fa-solid fa-seedling"></i> 10 kliknutí</span>
+                <span class="badge-tag" id="badge-100"><i class="fa-solid fa-leaf"></i> 100 kliknutí</span>
+                <span class="badge-tag" id="badge-500"><i class="fa-solid fa-spa"></i> 500 kliknutí</span>
+                <span class="badge-tag" id="badge-1000"><i class="fa-solid fa-tree"></i> 1 000 kliknutí</span>
                 <span class="badge-tag" id="badge-100k"><i class="fa-solid fa-crown"></i> 100K kliknutí</span>
             </div>
 
@@ -1065,7 +1079,7 @@
     </footer>
 
     <script>
-        // --- LOGIKA PADAJÍCÍCH LÍSTKŮ (ZPOMALENÉ A PŘIROZENÉ MIZENÍ) ---
+        // --- LOGIKA PADAJÍCÍCH LÍSTKŮ (MIZÍ UŽ V POLOVINĚ) ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
@@ -1093,7 +1107,6 @@
             const startX = Math.random() * window.innerWidth;
             particle.style.left = startX + 'px';
 
-            // Zpomalení: Doba pádu je nyní nastavena na 9 až 15 sekund (delší čas = pomalejší pád)
             const duration = Math.random() * 6 + 9;
             particle.style.animationDuration = duration + 's';
 
@@ -1102,12 +1115,13 @@
             const totalHeight = document.documentElement.scrollHeight;
             particle.style.setProperty('--fall-distance', totalHeight + 'px');
 
+            // Lístek se v polovině cesty změní na jiskru a pak včas zmizí
             setTimeout(() => {
                 if (particle.parentNode) {
                     particle.classList.remove('leaf');
                     particle.classList.add('spark');
                 }
-            }, (duration * 1000) * 0.75);
+            }, (duration * 1000) * 0.45);
 
             setTimeout(() => {
                 if (particle.parentNode) {
@@ -1116,19 +1130,21 @@
             }, duration * 1000);
         }
 
-        setInterval(createParticle, 700); // Mírně snížena frekvence pro čistější vzhled
+        setInterval(createParticle, 700);
         window.addEventListener('resize', updateFallingContainerHeight);
         window.addEventListener('load', updateFallingContainerHeight);
 
 
-        // --- COOKIE CLICKER & SKRYTÉ ACHIEVEMENTY ---
+        // --- COOKIE CLICKER & SKRYTÉ ACHIEVEMENTY (10, 100, 500, 1000, 100K) ---
         let leafCount = 0;
         const logoWrapper = document.getElementById('logoWrapper');
         const clickCounter = document.getElementById('clickCounter');
         const achievementToast = document.getElementById('achievementToast');
         const achievementDescText = document.getElementById('achievementDescText');
 
+        let unlocked10 = false;
         let unlocked100 = false;
+        let unlocked500 = false;
         let unlocked1000 = false;
         let unlocked100k = false;
 
@@ -1142,13 +1158,29 @@
 
         logoWrapper.addEventListener('click', () => {
             leafCount++;
+
+            // Po prvním kliknutí se zviditelní počítadlo
+            if (leafCount === 1) {
+                clickCounter.classList.add('visible');
+            }
+
             clickCounter.innerText = `Sesbírané lístky: ${leafCount}`;
 
-            // Kontrola achievementů a jejich postupné odemykání (přidání třídy "unlocked")
+            // Kontrola jednotlivých achievementů
+            if (leafCount >= 10 && !unlocked10) {
+                unlocked10 = true;
+                document.getElementById('badge-10').classList.add('unlocked');
+                triggerAchievement("První lístky (10 kliknutí)");
+            }
             if (leafCount >= 100 && !unlocked100) {
                 unlocked100 = true;
                 document.getElementById('badge-100').classList.add('unlocked');
                 triggerAchievement("Začátečník v lístcích (100 kliknutí)");
+            }
+            if (leafCount >= 500 && !unlocked500) {
+                unlocked500 = true;
+                document.getElementById('badge-500').classList.add('unlocked');
+                triggerAchievement("Pokročilý sběratel (500 kliknutí)");
             }
             if (leafCount >= 1000 && !unlocked1000) {
                 unlocked1000 = true;
