@@ -961,6 +961,10 @@
 
             fallingContainer.appendChild(particle);
 
+            // Výpočet celkové výšky dokumentu, aby lístek propadl celou cestu dolů bez ohledu na délku stránky
+            const totalHeight = document.documentElement.scrollHeight;
+            particle.style.setProperty('--fall-distance', totalHeight + 'px');
+
             // Změna na fialovou jiskřivou kouli v cca 75 % trasy dolů
             setTimeout(() => {
                 if (particle.parentNode) {
@@ -969,7 +973,7 @@
                 }
             }, (duration * 1000) * 0.75);
 
-            // Úplné odstranění prvku po dokončení animace (100% trasy)
+            // Úplné odstranění prvku po dokončení animace
             setTimeout(() => {
                 if (particle.parentNode) {
                     particle.remove();
