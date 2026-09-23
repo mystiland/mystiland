@@ -24,6 +24,59 @@
             color: #ffffff;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- STYLY PRO PADAJÍCÍ LÍSTKY / JISKRY --- */
+        .falling-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            top: -50px;
+            background-color: #22c55e; /* Začíná jako zelený lístek */
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+            opacity: 0.8;
+            animation: fall linear forwards;
+        }
+
+        /* Tvar lístku (přibližný pomocí zaoblení rohů) */
+        .particle.leaf {
+            width: 14px;
+            height: 10px;
+            border-radius: 70% 0% 70% 0%;
+        }
+
+        /* Tvar fialové jiskry */
+        .particle.spark {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #a855f7 !important;
+            box-shadow: 0 0 12px #a855f7, 0 0 20px #c084fc;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% {
+                /* V polovině cesty se promění (zajištěno JS nebo CSS, zde plynulý pád) */
+                transform: translateY(50vh) translateX(30px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(105vh) translateX(-30px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* --- HORNÍ LIŠTA (NAVBAR) --- */
@@ -137,7 +190,7 @@
         }
 
         .main-logo {
-            max-width: 440px; /* Zvětšeno z 360px */
+            max-width: 440px;
             width: 85%;
             height: auto;
             filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.7));
@@ -152,9 +205,9 @@
 
         .glitch-box {
             background: rgba(18, 10, 31, 0.9);
-            border: 2px solid rgba(168, 85, 247, 0.6); /* Výraznější okraj */
+            border: 2px solid rgba(168, 85, 247, 0.6);
             backdrop-filter: blur(10px);
-            padding: 22px 50px; /* Větší vnitřní odsazení (tabulka je větší) */
+            padding: 22px 50px;
             border-radius: 18px;
             box-shadow: 0 0 30px rgba(168, 85, 247, 0.35);
             display: flex;
@@ -164,7 +217,7 @@
         }
 
         .glitch-label {
-            font-size: 1.05rem; /* Zvětšeno */
+            font-size: 1.05rem;
             text-transform: uppercase;
             letter-spacing: 3px;
             color: #a855f7;
@@ -173,7 +226,7 @@
 
         .glitch-date {
             font-family: 'Consolas', monospace;
-            font-size: 2.3rem; /* Zvětšeno z 1.8rem */
+            font-size: 2.3rem;
             font-weight: bold;
             color: #ffffff;
             letter-spacing: 4px;
@@ -694,6 +747,9 @@
 </head>
 <body>
 
+    <!-- Kontejner pro padající lístky/jiskry -->
+    <div class="falling-container" id="fallingContainer"></div>
+
     <!-- HORNÍ NAVIGATION BAR -->
     <header class="navbar">
         <a href="/" class="nav-logo">
@@ -860,6 +916,41 @@
     </footer>
 
     <script>
+        // --- ANIMACE PADAJÍCÍCH LÍSTKŮ A FIALOVÉ JISKRY ---
+        const fallingContainer = document.getElementById('fallingContainer');
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle', 'leaf'); // Začíná jako zelený lístek
+
+            // Náhodná pozice na šířku obrazovky
+            const startX = Math.random() * window.innerWidth;
+            particle.style.left = startX + 'px';
+
+            // Náhodná doba pádu (mezi 5 a 10 sekundami)
+            const duration = Math.random() * 5 + 5;
+            particle.style.animationDuration = duration + 's';
+
+            fallingContainer.appendChild(particle);
+
+            // Po určité chvíli (např. v polovině pádu / po 40 % času) se lístek promění na fialovou jiskru
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.classList.remove('leaf');
+                    particle.classList.add('spark');
+                }
+            }, (duration * 1000) * 0.4);
+
+            // Úplné odstranění elementu z DOM po skončení animace
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        // Generování nových lístků v pravidelných intervalech
+        setInterval(createParticle, 400);
+
+
         // Mobilní menu toggle
         const menuToggle = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
@@ -926,7 +1017,6 @@
                 return;
             }
 
-            // Odkazy nastaveny přímo pro mystiland.eu
             const links = {
                 craftlist: `https://craftlist.org/mystiland?nickname=${encodeURIComponent(nick)}`,
                 mclist: `https://minecraft-list.cz/server/mystilandeu/vote?name=${encodeURIComponent(nick)}`,
