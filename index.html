@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* --- TROLL PADAJÍCÍ ČÍSLICE 6 A 7 --- */
+        /* --- FIALOVÉ PADAJÍCÍ ČÍSLICE 6 A 7 --- */
         .falling-container {
             position: absolute;
             top: 0;
@@ -50,7 +50,7 @@
             font-size: 2rem;
             font-weight: 900;
             font-family: 'Impact', sans-serif;
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+            text-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
         }
 
         @keyframes fall {
@@ -102,13 +102,13 @@
             top: 90px;
             right: -350px;
             background: rgba(18, 10, 31, 0.95);
-            border: 2px solid #ef4444;
+            border: 2px solid #a855f7;
             border-radius: 12px;
             padding: 14px 20px;
             display: flex;
             align-items: center;
             gap: 15px;
-            box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
             backdrop-filter: blur(10px);
             z-index: 3000;
             transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -120,8 +120,8 @@
 
         .achievement-icon {
             font-size: 2.2rem;
-            color: #ef4444;
-            filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.6));
+            color: #c084fc;
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
         }
 
         .achievement-texts {
@@ -133,7 +133,7 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #f87171;
+            color: #d8b4fe;
             font-weight: 700;
         }
 
@@ -282,14 +282,14 @@
         .click-counter {
             display: none;
             font-size: 0.95rem;
-            color: #fca5a5;
+            color: #d8b4fe;
             background: rgba(18, 10, 31, 0.8);
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            border: 1px solid rgba(168, 85, 247, 0.4);
             padding: 6px 18px;
             border-radius: 20px;
             letter-spacing: 1px;
             font-weight: 600;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
@@ -297,7 +297,7 @@
             display: inline-block;
         }
 
-        /* --- TROLL ACHIEVEMENTY S TOOLTIPEM --- */
+        /* --- FIALOVÉ ACHIEVEMENTY S TOOLTIPEM --- */
         .badges-container {
             display: flex;
             gap: 10px;
@@ -310,16 +310,16 @@
         .badge-tag {
             display: none; 
             position: relative;
-            background: rgba(239, 68, 68, 0.25);
-            border: 1px solid rgba(239, 68, 68, 0.7);
-            color: #fecaca;
+            background: rgba(168, 85, 247, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.7);
+            color: #f3e8ff;
             font-size: 0.8rem;
             padding: 6px 14px;
             border-radius: 12px;
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             transition: background 0.2s;
         }
@@ -329,7 +329,7 @@
         }
 
         .badge-tag:hover {
-            background: rgba(239, 68, 68, 0.5);
+            background: rgba(168, 85, 247, 0.5);
         }
 
         .badge-tag .badge-tooltip {
@@ -346,7 +346,7 @@
             transform: translateX(-50%);
             width: 210px;
             font-size: 0.75rem;
-            border: 1px solid #ef4444;
+            border: 1px solid #a855f7;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
             transition: opacity 0.3s;
@@ -907,14 +907,14 @@
 </head>
 <body>
 
-    <!-- Kontejner pro padající číslice 6 a 7 -->
+    <!-- Kontejner pro padající číslice 6 a 7 ve fialovém stylu -->
     <div class="falling-container" id="fallingContainer"></div>
 
-    <!-- Minecraft Achievement Toast (Oznámení) -->
+    <!-- Achievement Toast (Oznámení) -->
     <div class="achievement-toast" id="achievementToast">
-        <div class="achievement-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="achievement-icon"><i class="fa-solid fa-crown"></i></div>
         <div class="achievement-texts">
-            <div class="achievement-title">Troll Achievement!</div>
+            <div class="achievement-title">Achievement Odemčen!</div>
             <div class="achievement-desc" id="achievementDescText">Název achievementu</div>
         </div>
     </div>
@@ -949,26 +949,26 @@
     <section class="hero-section">
         <div class="hero-content">
             <!-- KLIKACÍ LOGO -->
-            <div class="logo-wrapper" id="logoWrapper" title="Klikni pro spuštění 67 trollingu!">
+            <div class="logo-wrapper" id="logoWrapper" title="Klikni pro spuštění fialového 67 efektu!">
                 <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo" id="mainLogo">
             </div>
             
             <!-- Počítadlo -->
-            <div class="click-counter" id="clickCounter">Nalezené 67: 0</div>
+            <div class="click-counter" id="clickCounter">Kliknutí: 0 / 67</div>
 
-            <!-- Troll Achievementy s tooltips -->
+            <!-- Fialové achievementy s tooltips -->
             <div class="badges-container">
                 <span class="badge-tag" id="badge-10">
-                    <i class="fa-solid fa-face-grin-squint-tears"></i> 10x 67
-                    <span class="badge-tooltip">Začínáš to chytat! Tvoje hlava je plná čísel 6 a 7.</span>
+                    <i class="fa-solid fa-face-grin-squint-tears"></i> 10x kliků
+                    <span class="badge-tooltip">Začínáš to rozjíždět! Pokračuj dál.</span>
                 </span>
                 <span class="badge-tag" id="badge-30">
-                    <i class="fa-solid fa-ghost"></i> 30x 67
-                    <span class="badge-tooltip">Troll lord! Už ti z toho totálně hrabe.</span>
+                    <i class="fa-solid fa-ghost"></i> 30x kliků
+                    <span class="badge-tooltip">Už ti to pěkně naskakuje! Blížíš se do finále.</span>
                 </span>
                 <span class="badge-tag" id="badge-67">
                     <i class="fa-solid fa-crown"></i> CHIMET PRO 67
-                    <span class="badge-tooltip" id="tooltip-67">Šestasedma Master! Dokončeno přesně na 67 kliknutí.</span>
+                    <span class="badge-tooltip" id="tooltip-67">Legendární achievement! Dosaženo přesně na 67 kliknutí.</span>
                 </span>
             </div>
 
@@ -1107,7 +1107,7 @@
     </footer>
 
     <script>
-        // --- TROLL LOGIKA: PADÁNÍ ČÍSEL 6 A 7 POUZE NA 5 SEKUND ---
+        // --- FIALOVÁ LOGIKA: PADÁNÍ ČÍSEL 6 A 7 POUZE NA 5 SEKUND ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
@@ -1134,11 +1134,11 @@
             // Náhodně buď 6 nebo 7
             particle.innerText = Math.random() < 0.5 ? '6' : '7';
             
-            // Barvy v duchu šíleného trollingu (červená, fialová, žlutá)
-            const trollColors = ['#ef4444', '#f59e0b', '#a855f7', '#ec4899', '#38bdf8'];
+            // Fialové a stylové barvy odpovídající webu
+            const trollColors = ['#c084fc', '#a855f7', '#9333ea', '#e879f9', '#d8b4fe'];
             const randomColor = trollColors[Math.floor(Math.random() * trollColors.length)];
             particle.style.color = randomColor;
-            particle.style.textShadow = `0 0 12px ${randomColor}`;
+            particle.style.textShadow = `0 0 14px ${randomColor}`;
 
             const startX = Math.random() * window.innerWidth;
             particle.style.left = startX + 'px';
@@ -1159,7 +1159,7 @@
         window.addEventListener('load', updateFallingContainerHeight);
 
 
-        // --- CLICKER, STOPKY A TROLL ACHIEVEMENTY ---
+        // --- CLICKER, STOPKY A ACHIEVEMENTY ---
         let leafCount = 0;
         let startTime = null;
         const logoWrapper = document.getElementById('logoWrapper');
@@ -1191,9 +1191,9 @@
                 clickCounter.classList.add('visible');
             }
 
-            clickCounter.innerText = `Nalezené 67: ${leafCount}`;
+            clickCounter.innerText = `Kliknutí: ${leafCount} / 67`;
 
-            // Aktivace padání 6 a 7 přesně na 5 sekund při každém kliknutí (nebo obnovení)
+            // Aktivace padání fialových čísel 6 a 7 přesně na 5 sekund
             isTrollingActive = true;
             if (!trollInterval) {
                 trollInterval = setInterval(createTrollParticle, 150);
@@ -1211,12 +1211,12 @@
             if (leafCount >= 10 && !unlocked10) {
                 unlocked10 = true;
                 document.getElementById('badge-10').classList.add('unlocked');
-                triggerAchievement("První 67 trolling (10 kliknutí)");
+                triggerAchievement("Aktivní klikáč (10 kliknutí)");
             }
             if (leafCount >= 30 && !unlocked30) {
                 unlocked30 = true;
                 document.getElementById('badge-30').classList.add('unlocked');
-                triggerAchievement("Troll Lord (30 kliknutí)");
+                triggerAchievement("Skoro v cíli! (30 kliknutí)");
             }
             if (leafCount >= 67 && !unlocked67) {
                 unlocked67 = true;
@@ -1231,7 +1231,7 @@
                 triggerAchievement(`CHIMET PRO 67 OTEVŘENO! Čas: ${minutes}m ${seconds}s`);
             }
 
-            // Efekt exploze čísel při kliknutí
+            // Efekt exploze fialových čísel při kliknutí
             const rect = logoWrapper.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
@@ -1241,7 +1241,7 @@
                 burstNum.classList.add('particle', 'troll-num', 'burst');
                 burstNum.innerText = Math.random() < 0.5 ? '6' : '7';
                 
-                const trollColors = ['#ef4444', '#f59e0b', '#a855f7'];
+                const trollColors = ['#c084fc', '#a855f7', '#d8b4fe'];
                 const randomColor = trollColors[Math.floor(Math.random() * trollColors.length)];
                 burstNum.style.color = randomColor;
 
