@@ -42,13 +42,12 @@
         .particle {
             position: absolute;
             top: -50px;
-            background-color: #22c55e;
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
-            opacity: 0.85;
+            opacity: 0.9;
             animation: fall linear forwards;
+            transition: background-color 0.5s ease, box-shadow 0.5s ease, width 0.5s ease, height 0.5s ease, border-radius 0.5s ease;
         }
 
-        /* Tvar lístku */
+        /* Tvar lístku (různé odstíny zelené se nastavují v JS) */
         .particle.leaf {
             width: 16px;
             height: 12px;
@@ -56,30 +55,31 @@
             transform: rotate(45deg);
         }
 
-        /* Fialová jiskra / tečka po proměně */
+        /* Fialová jiskřivá koule po proměně */
         .particle.spark {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+            width: 10px !important;
+            height: 10px !important;
+            border-radius: 50% !important;
             background-color: #c084fc !important;
-            box-shadow: 0 0 12px #a855f7, 0 0 18px #e9d5ff;
+            box-shadow: 0 0 12px #a855f7, 0 0 20px #e9d5ff !important;
+            transform: rotate(0deg) !important;
         }
 
         @keyframes fall {
             0% {
                 transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0.85;
+                opacity: 0.9;
             }
             50% {
-                transform: translateY(50vh) translateX(40px) rotate(180deg);
+                transform: translateY(50vh) translateX(30px) rotate(180deg);
             }
             100% {
-                transform: translateY(100%) translateX(-20px) rotate(360deg);
+                transform: translateY(100vh) translateX(-20px) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        /* Hlavní obsah, texty, tlačítka a loga jsou na vyšší vrstvě (z-index 3), aby lístky neležely přes interaktivní prvky */
+        /* Hlavní obsah, texty, tlačítka a loga jsou na vyšší vrstvě (z-index 3) */
         .navbar, .hero-content, .main-content, .modal-overlay, footer {
             position: relative;
             z-index: 3;
@@ -926,23 +926,38 @@
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
-            fallingContainer.style.height = document.documentElement.scrollHeight + 'px';
+            fallingContainer.style.height = Math.max(
+                document.body.scrollHeight, 
+                document.documentElement.scrollHeight, 
+                document.body.offsetHeight, 
+                document.documentElement.offsetHeight, 
+                document.body.clientHeight, 
+                document.documentElement.clientHeight
+            ) + 'px';
         }
+
+        // Různé odstíny zelené barvy pro lístky
+        const greenShades = ['#15803d', '#16a34a', '#22c55e', '#4ade80', '#10b981', '#059669'];
 
         function createParticle() {
             updateFallingContainerHeight();
             const particle = document.createElement('div');
             particle.classList.add('particle', 'leaf');
 
-            const startX = Math.random() * document.documentElement.clientWidth;
+            // Náhodný odstín zelené
+            const randomColor = greenShades[Math.floor(Math.random() * greenShades.length)];
+            particle.style.backgroundColor = randomColor;
+            particle.style.boxShadow = `0 0 8px ${randomColor}`;
+
+            const startX = Math.random() * window.innerWidth;
             particle.style.left = startX + 'px';
 
-            const duration = Math.random() * 6 + 6;
+            const duration = Math.random() * 5 + 7; // Pád trvá 7 až 12 sekund
             particle.style.animationDuration = duration + 's';
 
             fallingContainer.appendChild(particle);
 
-            // Změna na fialovou jiskru v cca 75 % trasy dolů
+            // Změna na fialovou jiskřivou kouli v cca 75 % trasy dolů
             setTimeout(() => {
                 if (particle.parentNode) {
                     particle.classList.remove('leaf');
@@ -950,14 +965,18 @@
                 }
             }, (duration * 1000) * 0.75);
 
+            // Úplné odstranění po skončení animace
             setTimeout(() => {
-                particle.remove();
+                if (particle.parentNode) {
+                    particle.remove();
+                }
             }, duration * 1000);
         }
 
-        // Generování lístků (hustota)
-        setInterval(createParticle, 200);
+        // Generování lístků
+        setInterval(createParticle, 250);
         window.addEventListener('resize', updateFallingContainerHeight);
+        window.addEventListener('load', updateFallingContainerHeight);
 
         // Mobilní menu toggle
         const menuToggle = document.getElementById('menu-toggle');
