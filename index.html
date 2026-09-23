@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* --- PADAJÍCÍ ČÍSLICE 6 A 7 (Spustí se po 67 kliknutích na 5 vteřin) --- */
+        /* --- PADAJÍCÍ PRVKY (Zelené listí / Čísla 6 a 7) --- */
         .falling-container {
             position: absolute;
             top: 0;
@@ -46,6 +46,14 @@
             animation: fall linear forwards;
         }
 
+        /* Zelené listí */
+        .particle.leaf-particle {
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border-radius: 50% 0 50% 50%;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Čísla 6 a 7 (aktivní po 67 kliknutí na 5 sekund) */
         .particle.troll-num {
             font-size: 2rem;
             font-weight: 900;
@@ -100,7 +108,7 @@
         .achievement-toast {
             position: fixed;
             top: 90px;
-            right: -350px;
+            right: -380px;
             background: rgba(18, 10, 31, 0.95);
             border: 2px solid #a855f7;
             border-radius: 12px;
@@ -303,7 +311,7 @@
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            max-width: 700px;
+            max-width: 750px;
             min-height: 35px;
         }
 
@@ -956,19 +964,35 @@
             <!-- Počítadlo -->
             <div class="click-counter" id="clickCounter">Kliknutí: 0</div>
 
-            <!-- Achievementy -->
+            <!-- Achievementy (10, 67, 100, 250, 500, 1000, 100k) -->
             <div class="badges-container">
                 <span class="badge-tag" id="badge-10">
-                    <i class="fa-solid fa-face-grin-squint-tears"></i> 10x kliků
-                    <span class="badge-tooltip">Začínáš to rozjíždět! Pokračuj dál.</span>
-                </span>
-                <span class="badge-tag" id="badge-30">
-                    <i class="fa-solid fa-ghost"></i> 30x kliků
-                    <span class="badge-tooltip">Už ti to pěkně naskakuje! Blížíš se do finále.</span>
+                    <i class="fa-solid fa-seedling"></i> 10 kliků
+                    <span class="badge-tooltip">Začínáš to rozjíždět! Zelené listí tě sleduje.</span>
                 </span>
                 <span class="badge-tag" id="badge-67">
-                    <i class="fa-solid fa-crown"></i> 67 KLIKNUTÍ
-                    <span class="badge-tooltip" id="tooltip-67">Legendární achievement! Dosaženo přesně na 67 kliknutí.</span>
+                    <i class="fa-solid fa-ghost"></i> 67 KLIKNUTÍ
+                    <span class="badge-tooltip" id="tooltip-67">Legendární 5sekundová čísla 6 a 7!</span>
+                </span>
+                <span class="badge-tag" id="badge-100">
+                    <i class="fa-solid fa-tree"></i> 100 kliků
+                    <span class="badge-tooltip">Stovka na kontě! Skvělá práce.</span>
+                </span>
+                <span class="badge-tag" id="badge-250">
+                    <i class="fa-solid fa-fire"></i> 250 kliků
+                    <span class="badge-tooltip">Horká půda pod nohama! Pokračuj.</span>
+                </span>
+                <span class="badge-tag" id="badge-500">
+                    <i class="fa-solid fa-bolt"></i> 500 kliků
+                    <span class="badge-tooltip">Rychlost blesku! Jsi neskutečný.</span>
+                </span>
+                <span class="badge-tag" id="badge-1000">
+                    <i class="fa-solid fa-shield-halved"></i> 1 000 kliků
+                    <span class="badge-tooltip">Tisícovka! Legenda MystiLandu.</span>
+                </span>
+                <span class="badge-tag" id="badge-100k">
+                    <i class="fa-solid fa-crown"></i> 100K KLIKŮ
+                    <span class="badge-tooltip">Absolutní Bůh klikání! Není slov.</span>
                 </span>
             </div>
 
@@ -1107,7 +1131,7 @@
     </footer>
 
     <script>
-        // --- LOGIKA PADAJÍCÍCH PRVKŮ (Listí vs Čísla 6 a 7) ---
+        // --- LOGIKA PADAJÍCÍCH PRVKŮ (Zelené listí vs Čísla 6 a 7) ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
@@ -1121,7 +1145,7 @@
             ) + 'px';
         }
 
-        let isNumbersActive = false; // False = padá listí, True = padají čísla 6 a 7
+        let isNumbersActive = false; // False = padá zelené listí, True = padají čísla 6 a 7
 
         function createParticle() {
             updateFallingContainerHeight();
@@ -1141,15 +1165,11 @@
                 particle.style.color = randomColor;
                 particle.style.textShadow = `0 0 14px ${randomColor}`;
             } else {
-                // Padá normální listí (původní styl)
+                // Padá zelené listí
                 particle.classList.add('leaf-particle');
                 const size = Math.random() * 8 + 8;
                 particle.style.width = size + 'px';
                 particle.style.height = (size * 0.6) + 'px';
-                
-                const leafColors = ['rgba(168, 85, 247, 0.4)', 'rgba(192, 132, 252, 0.5)', 'rgba(126, 34, 206, 0.4)'];
-                particle.style.background = leafColors[Math.floor(Math.random() * leafColors.length)];
-                particle.style.borderRadius = '50% 0 50% 50%';
             }
 
             const duration = Math.random() * 3 + 4; // Rychlost pádu
@@ -1181,8 +1201,12 @@
         const tooltip67 = document.getElementById('tooltip-67');
 
         let unlocked10 = false;
-        let unlocked30 = false;
         let unlocked67 = false;
+        let unlocked100 = false;
+        let unlocked250 = false;
+        let unlocked500 = false;
+        let unlocked1000 = false;
+        let unlocked100k = false;
 
         function triggerAchievement(text) {
             achievementDescText.innerText = text;
@@ -1206,16 +1230,11 @@
             // Počítá normálně dál
             clickCounter.innerText = `Kliknutí: ${clickCount}`;
 
-            // Milníky achievementů
+            // Milníky achievementů (10, 67, 100, 250, 500, 1000, 100k)
             if (clickCount >= 10 && !unlocked10) {
                 unlocked10 = true;
                 document.getElementById('badge-10').classList.add('unlocked');
-                triggerAchievement("Aktivní klikáč (10 kliknutí)");
-            }
-            if (clickCount >= 30 && !unlocked30) {
-                unlocked30 = true;
-                document.getElementById('badge-30').classList.add('unlocked');
-                triggerAchievement("Skoro v cíli! (30 kliknutí)");
+                triggerAchievement("Začátečník (10 kliknutí)");
             }
             if (clickCount >= 67 && !unlocked67) {
                 unlocked67 = true;
@@ -1227,14 +1246,39 @@
                 const seconds = totalSeconds % 60;
                 
                 tooltip67.innerText = `Šestasedma Master! Zvládnuto za ${minutes} min a ${seconds} s!`;
-                triggerAchievement(`67 KLIKNUTÍ OTEVŘENO! Čas: ${minutes}m ${seconds}s`);
+                triggerAchievement(`67 KLIKNUTÍ! Čas: ${minutes}m ${seconds}s`);
 
-                // Přepneme padání na čísla 6 a 7 přesně na 5 sekund, potom se vrátí listí
+                // Přepneme padání na čísla 6 a 7 přesně na 5 sekund, potom se vrátí zelené listí
                 isNumbersActive = true;
                 clearTimeout(window.numTimeout);
                 window.numTimeout = setTimeout(() => {
                     isNumbersActive = false;
                 }, 5000);
+            }
+            if (clickCount >= 100 && !unlocked100) {
+                unlocked100 = true;
+                document.getElementById('badge-100').classList.add('unlocked');
+                triggerAchievement("Stovka na kontě! (100 kliknutí)");
+            }
+            if (clickCount >= 250 && !unlocked250) {
+                unlocked250 = true;
+                document.getElementById('badge-250').classList.add('unlocked');
+                triggerAchievement("Velký pokrok! (250 kliknutí)");
+            }
+            if (clickCount >= 500 && !unlocked500) {
+                unlocked500 = true;
+                document.getElementById('badge-500').classList.add('unlocked');
+                triggerAchievement("Polovina tisícovky! (500 kliknutí)");
+            }
+            if (clickCount >= 1000 && !unlocked1000) {
+                unlocked1000 = true;
+                document.getElementById('badge-1000').classList.add('unlocked');
+                triggerAchievement("Tisícovka! (1 000 kliknutí)");
+            }
+            if (clickCount >= 100000 && !unlocked100k) {
+                unlocked100k = true;
+                document.getElementById('badge-100k').classList.add('unlocked');
+                triggerAchievement("Absolutní Bůh! (100K kliknutí)");
             }
 
             // Efekt exploze čísel při kliknutí
