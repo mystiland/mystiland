@@ -27,56 +27,62 @@
             position: relative;
         }
 
-        /* --- STYLY PRO PADAJÍCÍ LÍSTKY / JISKRY --- */
+        /* --- VYLEPSENÉ PADAJÍCÍ LÍSTKY V POZADÍ --- */
         .falling-container {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100%; /* Pokryje celou stránku od shora až dolů */
             pointer-events: none;
-            z-index: 999;
+            z-index: 1; /* V pozadí za obsahem */
             overflow: hidden;
         }
 
         .particle {
             position: absolute;
             top: -50px;
-            background-color: #22c55e; /* Začíná jako zelený lístek */
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
-            opacity: 0.8;
+            background-color: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
+            opacity: 0.85;
             animation: fall linear forwards;
         }
 
-        /* Tvar lístku (přibližný pomocí zaoblení rohů) */
+        /* Detailnější a vizuálnější tvar lístku */
         .particle.leaf {
-            width: 14px;
-            height: 10px;
-            border-radius: 70% 0% 70% 0%;
+            width: 16px;
+            height: 12px;
+            border-radius: 80% 10% 80% 10%;
+            transform: rotate(45deg);
         }
 
-        /* Tvar fialové jiskry */
+        /* Fialová jiskra / tečka po proměně */
         .particle.spark {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: #a855f7 !important;
-            box-shadow: 0 0 12px #a855f7, 0 0 20px #c084fc;
+            background-color: #c084fc !important;
+            box-shadow: 0 0 12px #a855f7, 0 0 18px #e9d5ff;
         }
 
         @keyframes fall {
             0% {
                 transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0.8;
+                opacity: 0.85;
             }
             50% {
-                /* V polovině cesty se promění (zajištěno JS nebo CSS, zde plynulý pád) */
-                transform: translateY(50vh) translateX(30px) rotate(180deg);
+                transform: translateY(50vh) translateX(40px) rotate(180deg);
             }
             100% {
-                transform: translateY(105vh) translateX(-30px) rotate(360deg);
+                transform: translateY(100%) translateX(-20px) rotate(360deg);
                 opacity: 0;
             }
+        }
+
+        /* Zajištění, aby hlavní obsah a prvky byly nad pozadím (z-index 2+) */
+        .navbar, .hero-section, .main-content, .modal-overlay, footer {
+            position: relative;
+            z-index: 2;
         }
 
         /* --- HORNÍ LIŠTA (NAVBAR) --- */
@@ -747,7 +753,7 @@
 </head>
 <body>
 
-    <!-- Kontejner pro padající lístky/jiskry -->
+    <!-- Kontejner pro padající lístky v pozadí přes celou stránku -->
     <div class="falling-container" id="fallingContainer"></div>
 
     <!-- HORNÍ NAVIGATION BAR -->
@@ -916,39 +922,46 @@
     </footer>
 
     <script>
-        // --- ANIMACE PADAJÍCÍCH LÍSTKŮ A FIALOVÉ JISKRY ---
+        // --- AKTUALIZOVANÉ PADAJÍCÍ LÍSTKY V POZADÍ ---
         const fallingContainer = document.getElementById('fallingContainer');
 
+        function updateFallingContainerHeight() {
+            // Nastaví výšku kontejneru na celou výšku dokumentu (od shora až dolů dle scrollování)
+            fallingContainer.style.height = document.documentElement.scrollHeight + 'px';
+        }
+
         function createParticle() {
+            updateFallingContainerHeight();
             const particle = document.createElement('div');
             particle.classList.add('particle', 'leaf'); // Začíná jako zelený lístek
 
-            // Náhodná pozice na šířku obrazovky
-            const startX = Math.random() * window.innerWidth;
+            // Náhodná pozice na šířku dokumentu
+            const startX = Math.random() * document.documentElement.clientWidth;
             particle.style.left = startX + 'px';
 
-            // Náhodná doba pádu (mezi 5 a 10 sekundami)
-            const duration = Math.random() * 5 + 5;
+            // Delší náhodná doba pádu pro plynulý efekt přes celou výšku (6 až 12 sekund)
+            const duration = Math.random() * 6 + 6;
             particle.style.animationDuration = duration + 's';
 
             fallingContainer.appendChild(particle);
 
-            // Po určité chvíli (např. v polovině pádu / po 40 % času) se lístek promění na fialovou jiskru
+            // Změna na fialovou jiskru až po delší době (v cca 75 % času pádu, tedy blízko konce)
             setTimeout(() => {
                 if (particle.parentNode) {
                     particle.classList.remove('leaf');
                     particle.classList.add('spark');
                 }
-            }, (duration * 1000) * 0.4);
+            }, (duration * 1000) * 0.75);
 
-            // Úplné odstranění elementu z DOM po skončení animace
+            // Úplné odstranění lístku/jiskry po skončení animace
             setTimeout(() => {
                 particle.remove();
             }, duration * 1000);
         }
 
-        // Generování nových lístků v pravidelných intervalech
-        setInterval(createParticle, 400);
+        // Častější generování pro bohatší vizuální efekt
+        setInterval(createParticle, 300);
+        window.addEventListener('resize', updateFallingContainerHeight);
 
 
         // Mobilní menu toggle
@@ -978,7 +991,6 @@
 
         // --- SKRIPTY PRO HLASOVACÍ SEKCI ---
 
-        // Změna avatara podle zadávaného nicku
         const nickInput = document.getElementById('player-nick-input');
         const playerHead = document.getElementById('player-head-image');
 
@@ -991,19 +1003,16 @@
             }
         });
 
-        // Funkce pro otevření chybového okna přes obrazovku
         function showErrorModal(title, message) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalText').innerText = message;
             document.getElementById('errorModal').classList.add('active');
         }
 
-        // Funkce pro zavření okna
         function closeModal() {
             document.getElementById('errorModal').classList.remove('active');
         }
 
-        // Hlasovací funkce s přesměrováním
         function vote(site) {
             const nick = nickInput.value.trim();
 
