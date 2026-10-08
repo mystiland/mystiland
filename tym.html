@@ -434,7 +434,7 @@
             transform: scale(1);
         }
 
-        /* --- TAJNÉ TLAČÍTKO PRO MINIHRU (ZOBRAZUJE SE POUZE U MRHRUZU) --- */
+        /* --- TAJNÉ TLAČÍTKO PRO MINIHRU --- */
         .secret-minigame-btn {
             display: none; /* Ve výchozím stavu schované */
             position: absolute;
@@ -753,14 +753,14 @@
             <h2 class="team-group-title">Vedení Tým</h2>
             <div class="team-grid">
                 
-                <!-- MrHruza (ZDE JE PŘIDÁN ATRIBUT PRO TAJNOU MINIHRU) -->
+                <!-- MrHruza -->
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="MrHruza" 
                      data-role="Majitel" 
                      data-role-class="role-majitel" 
                      data-discord="https://discord.com/users/1218869019461812286" 
                      data-instagram=""
-                     data-is-hruza="true"
+                     data-is-hruza="false"
                      data-bio="👋 Cs, já jsem MrHruza a jsem jeden ze zakladatelů tohoto serveru. Starám se o chod serveru a tvorbu webových stránek. Jestli tě něco trápí nebo máš nějaký nápad na server, neboj se mi napsat! 😊">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/MrHruza" alt="MrHruza">
@@ -781,6 +781,7 @@
                      data-role-class="role-majitel" 
                      data-discord="https://discord.com/users/923149225406132266" 
                      data-instagram="https://www.instagram.com/vojtacz856"
+                     data-is-hruza="false"
                      data-bio="Ahoj! Jsem Vojta, je mi 18 a studuju IT. Většinu času trávím koukáním do monitoru a hledáním chybějících středníků v kódu.">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/fufik856" alt="fufik856">
@@ -803,6 +804,7 @@
                      data-role-class="role-vedeni" 
                      data-discord="https://discord.com/users/1218869019461812286" 
                      data-instagram=""
+                     data-is-hruza="false"
                      data-bio="Moks :D">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/Moks" alt="Moks">
@@ -873,13 +875,15 @@
             <h2 class="team-group-title">Creator Tým</h2>
             <div class="team-grid">
                 
-                <!-- merlindog155 -->
+                <!-- merlindog155 (Zde nastaveno otvírání minihry MiniSleeper) -->
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="merlindog155" 
                      data-role="Hl. Creator" 
                      data-role-class="role-hl-creat" 
                      data-discord="https://discord.com/users/687712293986893836" 
                      data-instagram=""
+                     data-game-link="minesweeper.html"
+                     data-game-tooltip="Zahrát MiniSleeper"
                      data-bio="Znamení oceli a síla myšlenky. Věnuji se divadelnímu historickému šermu, kde oživuji staré legendy a vracím čas zpět. Mimo bojiště se má mysl nezastavuje — s vášní vdechuji život novým nápadům a spřádám vizi pro projekty, které teprve čekají na své odhalení.">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/merlindog155" alt="merlindog155">
@@ -893,13 +897,15 @@
                     </div>
                 </div>
 
-                <!-- Dalaxiss -->
+                <!-- Dalaxiss (Zde nastaveno otvírání minihry Tetris) -->
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="Dalaxiss" 
                      data-role="Zk. Creator" 
                      data-role-class="role-hl-creat" 
                      data-discord="https://discord.com/users/1370485461889319044" 
                      data-instagram=""
+                     data-game-link="tetris.html"
+                     data-game-tooltip="Zahrát Tetris"
                      data-bio="Dalaxiss, jsem schopný stovky věcí, pořádně neumím ani jednu. Mírně podprůměrný v každé hře kromě tetrisu, kde vás milerád vyzvu na 1v1. Hrdý zakladatel dvou (třetí se právě tvoří) TTRPG skupin. Pedagogický student, preferuji osobní styl výuky.">
                     <div class="avatar-box">
                         <img src="https://visage.surgeplay.com/bust/160/Dalaxiss" alt="Dalaxiss">
@@ -963,8 +969,8 @@
     <!-- VYSKAKOVACÍ OKNO MODAL -->
     <div class="modal-overlay" id="profile-modal" onclick="closeProfile(event)">
         <div class="modal-card">
-            <!-- Tajné tlačítko na minihru (Zobrazí se scriptem jen u MrHruzy) -->
-            <a href="pexeso" class="secret-minigame-btn" id="secret-game-btn" data-tooltip="Tajná minihra">
+            <!-- Tajné tlačítko na minihru -->
+            <a href="#" class="secret-minigame-btn" id="secret-game-btn" data-tooltip="Tajná minihra">
                 <i class="fa-solid fa-gamepad"></i>
             </a>
 
@@ -1056,7 +1062,8 @@
             const discord = card.getAttribute('data-discord');
             const instagram = card.getAttribute('data-instagram');
             const bio = card.getAttribute('data-bio');
-            const isHruza = card.getAttribute('data-is-hruza');
+            const gameLink = card.getAttribute('data-game-link');
+            const gameTooltip = card.getAttribute('data-game-tooltip');
 
             document.getElementById('modal-img').src = `https://visage.surgeplay.com/bust/160/${nick}`;
             document.getElementById('modal-name').innerText = nick;
@@ -1067,9 +1074,11 @@
 
             document.getElementById('modal-bio').innerText = bio || "O tomto členovi zatím nebyly přidány žádné informace.";
             
-            // Řízení zobrazení tajného tlačítka na minihru (pouze u MrHruzy)
+            // Řízení zobrazení tajného tlačítka na minihru
             const secretBtn = document.getElementById('secret-game-btn');
-            if (isHruza === "true") {
+            if (gameLink) {
+                secretBtn.href = gameLink;
+                secretBtn.setAttribute('data-tooltip', gameTooltip || "Tajná minihra");
                 secretBtn.classList.add('show-secret');
             } else {
                 secretBtn.classList.remove('show-secret');
