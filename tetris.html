@@ -29,22 +29,26 @@
             overflow-x: hidden;
         }
 
+        /* Kontejner pro vycentrované tlačítko zpět */
+        .top-nav-container {
+            display: flex;
+            justify-content: center;
+            padding: 30px 20px 10px 20px;
+            width: 100%;
+        }
+
         .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #d1d5db;
-            padding: 10px 18px;
+            padding: 10px 20px;
             border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            z-index: 10;
         }
 
         .back-btn:hover {
@@ -58,7 +62,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 80px 20px 40px 20px;
+            padding: 20px;
         }
 
         .game-container {
@@ -73,62 +77,6 @@
             max-width: 550px;
             width: 100%;
             justify-content: center;
-            position: relative;
-        }
-
-        /* Tlačítko minihry zarovnané doprostřed nahoře */
-        .secret-minigame-btn {
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(168, 85, 247, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            color: #d8b4fe;
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .secret-minigame-btn:hover {
-            background: #a855f7;
-            color: #ffffff;
-            transform: translateX(-50%) scale(1.1);
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
-        }
-
-        /* Tooltip pro tlačítko */
-        .secret-minigame-btn::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: -35px;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            background: #0b0711;
-            color: #ffffff;
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s ease;
-            pointer-events: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-
-        .secret-minigame-btn:hover::after {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
         }
 
         canvas {
@@ -136,7 +84,6 @@
             border: 2px solid rgba(168, 85, 247, 0.4);
             border-radius: 10px;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
-            margin-top: 25px; /* Mírné odsazení kvůli tlačítku nahoře */
         }
 
         .game-sidebar {
@@ -144,7 +91,6 @@
             flex-direction: column;
             gap: 20px;
             min-width: 140px;
-            margin-top: 25px;
         }
 
         .game-title {
@@ -209,6 +155,36 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 60px 40px 25px 40px;
             width: 100%;
+        }
+
+        .footer-cta {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .footer-cta h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
         }
 
         .footer-container {
@@ -353,17 +329,15 @@
 </head>
 <body>
 
-    <a href="tym.html" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i> Zpět na Tým
-    </a>
+    <!-- Vycentrované tlačítko zpět nahoru -->
+    <div class="top-nav-container">
+        <a href="tym.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Zpět na Tým
+        </a>
+    </div>
 
     <div class="main-wrapper">
         <div class="game-container">
-            <!-- Tajné tlačítko minihry uprostřed nahoře -->
-            <a href="pexeso.html" class="secret-minigame-btn" data-tooltip="Přepnout na Pexeso">
-                <i class="fa-solid fa-gamepad"></i>
-            </a>
-
             <!-- Herní plocha Tetrisu -->
             <canvas id="tetris" width="200" height="400"></canvas>
 
@@ -394,6 +368,11 @@
 
     <!-- PATIČKA -->
     <footer>
+        <div class="footer-cta">
+            <h3>CHCI BÝT SOUČÁSTÍ TÝMU!</h3>
+            <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="cta-button"><i class="fa-brands fa-discord"></i> Připoj se na Discord</a>
+        </div>
+
         <div class="footer-container">
             <div class="footer-col">
                 <div class="footer-header">
@@ -427,4 +406,241 @@
             <div class="footer-col">
                 <h4>INFO</h4>
                 <ul class="footer-links">
-                    <li><a href="https
+                    <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>
+                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('tetris');
+        const context = canvas.getContext('2d');
+        context.scale(20, 20);
+
+        let score = 0;
+        let linesCount = 0;
+        let dropCounter = 0;
+        let dropInterval = 1000;
+        let lastTime = 0;
+        let gameOver = false;
+        let gameStarted = false;
+
+        const matrixes = [
+            null,
+            [[0, 0, 0], [1, 1, 1], [0, 1, 0]],
+            [[0, 2, 2], [2, 2, 0], [0, 0, 0]],
+            [[3, 3, 0], [0, 3, 3], [0, 0, 0]],
+            [[0, 0, 4, 0], [0, 0, 4, 0], [0, 0, 4, 0], [0, 0, 4, 0]],
+            [[5, 5], [5, 5]],
+            [[0, 0, 6], [6, 6, 6], [0, 0, 0]],
+            [[7, 0, 0], [7, 7, 7], [0, 0, 0]]
+        ];
+
+        const colors = [
+            null,
+            '#a855f7',
+            '#ef4444',
+            '#22c55e',
+            '#06b6d4',
+            '#eab308',
+            '#f97316',
+            '#3b82f6'
+        ];
+
+        const arena = createMatrix(10, 20);
+
+        const player = {
+            pos: {x: 0, y: 0},
+            matrix: null,
+            score: 0,
+            lines: 0
+        };
+
+        function createMatrix(w, h) {
+            const matrix = [];
+            while (h--) {
+                matrix.push(new Array(w).fill(0));
+            }
+            return matrix;
+        }
+
+        function createPiece(type) {
+            return matrixes[type];
+        }
+
+        function drawMatrix(matrix, offset) {
+            matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        context.fillStyle = colors[value];
+                        context.fillRect(x + offset.x, y + offset.y, 1, 1);
+                        
+                        context.lineWidth = 0.05;
+                        context.strokeStyle = '#0b0711';
+                        context.strokeRect(x + offset.x, y + offset.y, 1, 1);
+                    }
+                });
+            });
+        }
+
+        function draw() {
+            context.fillStyle = '#0b0711';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawMatrix(arena, {x: 0, y: 0});
+            drawMatrix(player.matrix, player.pos);
+        }
+
+        function merge(arena, player) {
+            player.matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        arena[y + player.pos.y][x + player.pos.x] = value;
+                    }
+                });
+            });
+        }
+
+        function rotate(matrix, dir) {
+            for (let y = 0; y < matrix.length; ++y) {
+                for (let x = 0; x < y; ++x) {
+                    [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
+                }
+            }
+            if (dir > 0) {
+                matrix.forEach(row => row.reverse());
+            } else {
+                matrix.reverse();
+            }
+        }
+
+        function playerRotate(dir) {
+            const posX = player.pos.x;
+            let offset = 1;
+            rotate(player.matrix, dir);
+            while (collide(arena, player)) {
+                player.pos.x += offset;
+                offset = -(offset + (offset > 0 ? 1 : -1));
+                if (offset > player.matrix[0].length) {
+                    rotate(player.matrix, -dir);
+                    player.pos.x = posX;
+                    return;
+                }
+            }
+        }
+
+        function collide(arena, player) {
+            const m = player.matrix;
+            const o = player.pos;
+            for (let y = 0; y < m.length; ++y) {
+                for (let x = 0; x < m[y].length; ++x) {
+                    if (m[y][x] !== 0 &&
+                       (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function arenaSweep() {
+            let rowCount = 1;
+            outer: for (let y = arena.length - 1; y > 0; --y) {
+                for (let x = 0; x < arena[y].length; ++x) {
+                    if (arena[y][x] === 0) {
+                        continue outer;
+                    }
+                }
+                const row = arena.splice(y, 1)[0].fill(0);
+                arena.unshift(row);
+                ++y;
+
+                score += rowCount * 100;
+                linesCount++;
+                rowCount *= 2;
+            }
+            document.getElementById('score').innerText = score;
+            document.getElementById('lines').innerText = linesCount;
+        }
+
+        function playerDrop() {
+            player.pos.y++;
+            if (collide(arena, player)) {
+                player.pos.y--;
+                merge(arena, player);
+                playerReset();
+                arenaSweep();
+                if (gameOver) return;
+            }
+            dropCounter = 0;
+        }
+
+        function playerMove(dir) {
+            player.pos.x += dir;
+            if (collide(arena, player)) {
+                player.pos.x -= dir;
+            }
+        }
+
+        function playerReset() {
+            const pieces = '1234567';
+            player.matrix = createPiece(pieces[(pieces.length * Math.random()) | 0]);
+            player.pos.y = 0;
+            player.pos.x = ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
+            
+            if (collide(arena, player)) {
+                gameOver = true;
+                gameStarted = false;
+                alert("Konec hry! Skóre: " + score);
+            }
+        }
+
+        function update(time = 0) {
+            if (!gameStarted) return;
+            
+            const deltaTime = time - lastTime;
+            lastTime = time;
+            dropCounter += deltaTime;
+
+            if (dropCounter > dropInterval) {
+                playerDrop();
+            }
+
+            draw();
+            requestAnimationFrame(update);
+        }
+
+        function startGame() {
+            arena.forEach(row => row.fill(0));
+            score = 0;
+            linesCount = 0;
+            document.getElementById('score').innerText = score;
+            document.getElementById('lines').innerText = linesCount;
+            gameOver = false;
+            gameStarted = true;
+            playerReset();
+            lastTime = performance.now();
+            update();
+        }
+
+        document.addEventListener('keydown', event => {
+            if (!gameStarted) return;
+
+            if (event.key === 'ArrowLeft') {
+                playerMove(-1);
+            } else if (event.key === 'ArrowRight') {
+                playerMove(1);
+            } else if (event.key === 'ArrowDown') {
+                playerDrop();
+            } else if (event.key === 'ArrowUp') {
+                playerRotate(1);
+            }
+        });
+    </script>
+</body>
+</html>
