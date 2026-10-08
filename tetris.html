@@ -25,10 +25,8 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             overflow-x: hidden;
-            padding: 20px;
         }
 
         .back-btn {
@@ -46,12 +44,21 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            z-index: 10;
         }
 
         .back-btn:hover {
             background: #a855f7;
             color: #ffffff;
             border-color: #a855f7;
+        }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 40px 20px;
         }
 
         .game-container {
@@ -66,6 +73,62 @@
             max-width: 550px;
             width: 100%;
             justify-content: center;
+            position: relative;
+        }
+
+        /* Tlačítko minihry zarovnané doprostřed nahoře */
+        .secret-minigame-btn {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #d8b4fe;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .secret-minigame-btn:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+        }
+
+        /* Tooltip pro tlačítko */
+        .secret-minigame-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: #0b0711;
+            color: #ffffff;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .secret-minigame-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         canvas {
@@ -73,6 +136,7 @@
             border: 2px solid rgba(168, 85, 247, 0.4);
             border-radius: 10px;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            margin-top: 25px; /* Mírné odsazení kvůli tlačítku nahoře */
         }
 
         .game-sidebar {
@@ -80,6 +144,7 @@
             flex-direction: column;
             gap: 20px;
             min-width: 140px;
+            margin-top: 25px;
         }
 
         .game-title {
@@ -138,6 +203,128 @@
             margin-top: 5px;
         }
 
+        /* --- PATIČKA --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+            width: 100%;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
         @media (max-width: 600px) {
             .game-container {
                 flex-direction: column;
@@ -157,6 +344,10 @@
             .control-btn {
                 width: 100%;
             }
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
         }
     </style>
 </head>
@@ -166,261 +357,74 @@
         <i class="fa-solid fa-arrow-left"></i> Zpět na Tým
     </a>
 
-    <div class="game-container">
-        <!-- Herní plocha Tetrisu -->
-        <canvas id="tetris" width="200" height="400"></canvas>
+    <div class="main-wrapper">
+        <div class="game-container">
+            <!-- Tajné tlačítko minihry uprostřed nahoře -->
+            <a href="pexeso.html" class="secret-minigame-btn" data-tooltip="Přepnout na Pexeso">
+                <i class="fa-solid fa-gamepad"></i>
+            </a>
 
-        <div class="game-sidebar">
-            <h2 class="game-title"><i class="fa-solid fa-gamepad"></i> Tetris</h2>
-            
-            <div class="stat-box">
-                <div class="stat-label">Skóre</div>
-                <div class="stat-value" id="score">0</div>
-            </div>
+            <!-- Herní plocha Tetrisu -->
+            <canvas id="tetris" width="200" height="400"></canvas>
 
-            <div class="stat-box">
-                <div class="stat-label">Linek</div>
-                <div class="stat-value" id="lines">0</div>
-            </div>
+            <div class="game-sidebar">
+                <h2 class="game-title">Tetris</h2>
+                
+                <div class="stat-box">
+                    <div class="stat-label">Skóre</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
 
-            <button class="control-btn" id="start-btn" onclick="startGame()">Start / Restart</button>
+                <div class="stat-box">
+                    <div class="stat-label">Linek</div>
+                    <div class="stat-value" id="lines">0</div>
+                </div>
 
-            <div class="controls-hint">
-                <strong>Ovládání:</strong><br>
-                Šipky ← → : Pohyb<br>
-                Šipka ↑ : Otočení<br>
-                Šipka ↓ : Rychlý pád
+                <button class="control-btn" id="start-btn" onclick="startGame()">Start / Restart</button>
+
+                <div class="controls-hint">
+                    <strong>Ovládání:</strong><br>
+                    Šipky ← → : Pohyb<br>
+                    Šipka ↑ : Otočení<br>
+                    Šipka ↓ : Rychlý pád
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        const canvas = document.getElementById('tetris');
-        const context = canvas.getContext('2d');
-        context.scale(20, 20); // Každý blok bude mít velikost 20x20 pixelů
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
 
-        let score = 0;
-        let linesCount = 0;
-        let dropCounter = 0;
-        let dropInterval = 1000; // Rychlost padání (1 sekunda)
-        let lastTime = 0;
-        let gameOver = false;
-        let gameStarted = false;
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
 
-        // Definice tvarů kostek (Tetramina) a jejich barev
-        const matrixes = [
-            null,
-            [[0, 0, 0], [1, 1, 1], [0, 1, 0]], // T
-            [[0, 2, 2], [2, 2, 0], [0, 0, 0]], // Z
-            [[3, 3, 0], [0, 3, 3], [0, 0, 0]], // S
-            [[0, 0, 4, 0], [0, 0, 4, 0], [0, 0, 4, 0], [0, 0, 4, 0]], // I
-            [[5, 5], [5, 5]], // O
-            [[0, 0, 6], [6, 6, 6], [0, 0, 0]], // L
-            [[7, 0, 0], [7, 7, 7], [0, 0, 0]]  // J
-        ];
-
-        const colors = [
-            null,
-            '#a855f7', // Fialová (T)
-            '#ef4444', // Červená (Z)
-            '#22c55e', // Zelená (S)
-            '#06b6d4', // Modrá/Cyan (I)
-            '#eab308', // Žlutá (O)
-            '#f97316', // Oranžová (L)
-            '#3b82f6'  // Modrá (J)
-        ];
-
-        const arena = createMatrix(10, 20);
-
-        const player = {
-            pos: {x: 0, y: 0},
-            matrix: null,
-            score: 0,
-            lines: 0
-        };
-
-        function createMatrix(w, h) {
-            const matrix = [];
-            while (h--) {
-                matrix.push(new Array(w).fill(0));
-            }
-            return matrix;
-        }
-
-        function createPiece(type) {
-            return matrixes[type];
-        }
-
-        function drawMatrix(matrix, offset) {
-            matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) {
-                        context.fillStyle = colors[value];
-                        context.fillRect(x + offset.x, y + offset.y, 1, 1);
-                        
-                        // Tenký okraj pro hezčí vzhled kostiček
-                        context.lineWidth = 0.05;
-                        context.strokeStyle = '#0b0711';
-                        context.strokeRect(x + offset.x, y + offset.y, 1, 1);
-                    }
-                });
-            });
-        }
-
-        function draw() {
-            context.fillStyle = '#0b0711';
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            drawMatrix(arena, {x: 0, y: 0});
-            drawMatrix(player.matrix, player.pos);
-        }
-
-        function merge(arena, player) {
-            player.matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) {
-                        arena[y + player.pos.y][x + player.pos.x] = value;
-                    }
-                });
-            });
-        }
-
-        function rotate(matrix, dir) {
-            for (let y = 0; y < matrix.length; ++y) {
-                for (let x = 0; x < y; ++x) {
-                    [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
-                }
-            }
-            if (dir > 0) {
-                matrix.forEach(row => row.reverse());
-            } else {
-                matrix.reverse();
-            }
-        }
-
-        function playerRotate(dir) {
-            const posX = player.pos.x;
-            let offset = 1;
-            rotate(player.matrix, dir);
-            while (collide(arena, player)) {
-                player.pos.x += offset;
-                offset = -(offset + (offset > 0 ? 1 : -1));
-                if (offset > player.matrix[0].length) {
-                    rotate(player.matrix, -dir);
-                    player.pos.x = posX;
-                    return;
-                }
-            }
-        }
-
-        function collide(arena, player) {
-            const m = player.matrix;
-            const o = player.pos;
-            for (let y = 0; y < m.length; ++y) {
-                for (let x = 0; x < m[y].length; ++x) {
-                    if (m[y][x] !== 0 &&
-                       (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        function arenaSweep() {
-            let rowCount = 1;
-            outer: for (let y = arena.length - 1; y > 0; --y) {
-                for (let x = 0; x < arena[y].length; ++x) {
-                    if (arena[y][x] === 0) {
-                        continue outer;
-                    }
-                }
-                const row = arena.splice(y, 1)[0].fill(0);
-                arena.unshift(row);
-                ++y;
-
-                score += rowCount * 100;
-                linesCount++;
-                rowCount *= 2;
-            }
-            document.getElementById('score').innerText = score;
-            document.getElementById('lines').innerText = linesCount;
-        }
-
-        function playerDrop() {
-            player.pos.y++;
-            if (collide(arena, player)) {
-                player.pos.y--;
-                merge(arena, player);
-                playerReset();
-                arenaSweep();
-                if (gameOver) return;
-            }
-            dropCounter = 0;
-        }
-
-        function playerMove(dir) {
-            player.pos.x += dir;
-            if (collide(arena, player)) {
-                player.pos.x -= dir;
-            }
-        }
-
-        function playerReset() {
-            const pieces = '1234567';
-            player.matrix = createPiece(pieces[(pieces.length * Math.random()) | 0]);
-            player.pos.y = 0;
-            player.pos.x = ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
-            
-            if (collide(arena, player)) {
-                gameOver = true;
-                gameStarted = false;
-                alert("Konec hry! Skóre: " + score);
-            }
-        }
-
-        function update(time = 0) {
-            if (!gameStarted) return;
-            
-            const deltaTime = time - lastTime;
-            lastTime = time;
-            dropCounter += deltaTime;
-
-            if (dropCounter > dropInterval) {
-                playerDrop();
-            }
-
-            draw();
-            requestAnimationFrame(update);
-        }
-
-        function startGame() {
-            arena.forEach(row => row.fill(0));
-            score = 0;
-            linesCount = 0;
-            document.getElementById('score').innerText = score;
-            document.getElementById('lines').innerText = linesCount;
-            gameOver = false;
-            gameStarted = true;
-            playerReset();
-            lastTime = performance.now();
-            update();
-        }
-
-        // Klávesové zkratky
-        document.addEventListener('keydown', event => {
-            if (!gameStarted) return;
-
-            if (event.key === 'ArrowLeft') {
-                playerMove(-1);
-            } else if (event.key === 'ArrowRight') {
-                playerMove(1);
-            } else if (event.key === 'ArrowDown') {
-                playerDrop();
-            } else if (event.key === 'ArrowUp') {
-                playerRotate(1);
-            }
-        });
-    </script>
-</body>
-</html>
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="https
