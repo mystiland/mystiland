@@ -73,7 +73,7 @@
             border: 2px solid rgba(168, 85, 247, 0.4);
             border-radius: 20px;
             padding: 30px;
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
@@ -83,21 +83,76 @@
             font-size: 2rem;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
         }
 
-        .pexeso-placeholder-text {
+        .pexeso-stats {
             color: #b3b0c2;
-            font-size: 1.05rem;
-            margin-bottom: 25px;
+            font-size: 1rem;
+            margin-bottom: 20px;
         }
 
-        /* --- PATIČKA --- */
+        /* Mřížka pexesa (4x4) */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            aspect-ratio: 1;
+            background: #1f1435;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            user-select: none;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover {
+            border-color: #a855f7;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .card.flipped {
+            background: #2d1a4a;
+            border-color: #a855f7;
+        }
+
+        .card.matched {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            cursor: default;
+        }
+
+        .btn-restart {
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            color: #d8b4fe;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-restart:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+
+        /* --- PATIČKA (Sjednocená s ostatními stránkami) --- */
         footer {
             background-color: #050308;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px 20px 20px 20px;
+            padding: 60px 40px 25px 40px;
             margin-top: 50px;
         }
 
@@ -108,8 +163,8 @@
             justify-content: space-between;
             align-items: flex-start;
             flex-wrap: wrap;
-            gap: 40px;
-            padding-bottom: 30px;
+            gap: 60px;
+            padding-bottom: 40px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -135,7 +190,6 @@
         .footer-subtitle {
             font-size: 0.8rem;
             color: #8a859b;
-            text-transform: uppercase;
         }
 
         .footer-col {
@@ -207,7 +261,7 @@
             text-align: center;
             color: #585366;
             font-size: 0.85rem;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .mojang-disclaimer {
@@ -219,7 +273,7 @@
         @media (max-width: 768px) {
             .footer-container {
                 flex-direction: column;
-                gap: 30px;
+                gap: 40px;
             }
         }
     </style>
@@ -228,21 +282,22 @@
 
     <!-- HORNÍ ČÁST S TLAČÍTKEM ZPĚT -->
     <div class="pexeso-header">
-        <a href="/" class="btn-back">
-            <i class="fa-solid fa-arrow-left"></i> Zpět na hlavní stranu
+        <a href="tym.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Zpět do týmu
         </a>
     </div>
 
-    <!-- HLAVNÍ OBSAH (ZDE JE PEXESO) -->
+    <!-- HLAVNÍ OBSAH - PEXESO -->
     <main class="pexeso-main">
         <div class="pexeso-container">
-            <h1 class="pexeso-title">MystiLand Pexeso</h1>
-            <p class="pexeso-placeholder-text">Zde bude umístěný kód a mřížka tvého pexesa.</p>
+            <h1 class="pexeso-title">Tajné Pexeso</h1>
+            <div class="pexeso-stats">Tahy: <span id="moves">0</span></div>
             
-            <!-- Sem si vlož kód svého pexesa (např. mřížku karet, tlačítka atd.) -->
-            <div id="pexeso-game-area">
-                <!-- Pexeso hrací pole -->
+            <div class="game-grid" id="gameGrid">
+                <!-- Kartičky se vygenerují automaticky přes JavaScript -->
             </div>
+
+            <button class="btn-restart" onclick="startGame()">Nová hra</button>
         </div>
     </main>
 
@@ -258,16 +313,16 @@
                     </div>
                 </div>
                 <p>
-                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.[cite: 3]
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
                 </p>
                 <p class="mojang-disclaimer">
-                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.[cite: 3]
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
                 </p>
             </div>
 
             <div class="footer-col">
                 <h4>KONTAKTY</h4>
-                <p>E-mail: <a href="mailto:mystiland.info@gmail.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
                 
                 <div class="social-links">
                     <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
@@ -281,18 +336,93 @@
             <div class="footer-col">
                 <h4>INFO</h4>
                 <ul class="footer-links">
-                    <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>[cite: 3]
-                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>[cite: 3]
+                    <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>
+                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="copyright">
-            © 2026 Mystiland.eu | Všechna práva vyhrazena.[cite: 3]
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
         </div>
     </footer>
 
-    
+    <!-- SKRIPT PRO FUNKČNOST PEXESA -->
+    <script>
+        const emojis = ['⚔️', '🛡️', '💎', '⛏️', '🔮', '👑', '🔥', '⚡'];
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let isLocked = false;
+
+        function startGame() {
+            const gameGrid = document.getElementById('gameGrid');
+            gameGrid.innerHTML = '';
+            moves = 0;
+            matchedPairs = 0;
+            document.getElementById('moves').innerText = moves;
+            
+            // Zdvojnásobíme emoji pro vytvoření páru a zamícháme je
+            cards = [...emojis, ...emojis]
+                .sort(() => Math.random() - 0.5);
+
+            cards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.emoji = emoji;
+                card.dataset.index = index;
+                card.addEventListener('click', flipCard);
+                gameGrid.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (isLocked) return;
+            if (this.classList.contains('flipped') || this.classList.contains('matched')) return;
+
+            this.classList.add('flipped');
+            this.innerText = this.dataset.emoji;
+            flippedCards.push(this);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').innerText = moves;
+                checkForMatch();
+            }
+        }
+
+        function checkForMatch() {
+            const [card1, card2] = flippedCards;
+            const isMatch = card1.dataset.emoji === card2.dataset.emoji;
+
+            if (isMatch) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                flippedCards = [];
+                matchedPairs++;
+
+                if (matchedPairs === emojis.length) {
+                    setTimeout(() => {
+                        alert(`Gratulace! Vyhrál jsi za ${moves} tahů! 🎉`);
+                    }, 300);
+                }
+            } else {
+                isLocked = true;
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card1.innerText = '';
+                    card2.classList.remove('flipped');
+                    card2.innerText = '';
+                    flippedCards = [];
+                    isLocked = false;
+                }, 900);
+            }
+        }
+
+        // Spuštění hry při načtení stránky
+        startGame();
+    </script>
+
 </body>
 </html>
-
