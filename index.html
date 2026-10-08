@@ -614,11 +614,14 @@
         .btn-craftlist { background: linear-gradient(135deg, #0284c7, #0369a1); }
         .btn-craftlist:hover { box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5); }
 
-        .btn-mclist { background: linear-gradient(135deg, #CFE02D, #E2CD21); }
-        .btn-mclist:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); }
+        .btn-mclist { background: linear-gradient(135deg, #CFE02D, #E2CD21); color: #1a1a1a; }
+        .btn-mclist:hover { box-shadow: 0 6px 20px rgba(226, 205, 33, 0.5); }
 
         .btn-mcservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
         .btn-mcservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
+
+        .btn-minecraftservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
+        .btn-minecraftservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
 
         .btn-czechcraft { background: linear-gradient(135deg, #ea580c, #c2410c); }
         .btn-czechcraft:hover { box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5); }
@@ -1060,6 +1063,9 @@
                     <button class="btn-vote btn-mcservery" onclick="vote('mcservery')">
                         <i class="fa-solid fa-check"></i> McServery.cz
                     </button>
+                    <button class="btn-vote btn-minecraftservery" onclick="vote('minecraftservery')">
+                        <i class="fa-solid fa-check"></i> MinecraftServery.eu
+                    </button>
                     <button class="btn-vote btn-czechcraft" onclick="vote('czechcraft')">
                         <i class="fa-solid fa-clock"></i> Czech-Craft.eu
                     </button>
@@ -1169,7 +1175,6 @@
                 particle.style.textShadow = `0 0 14px ${randomColor}`;
             } else {
                 particle.classList.add('leaf-particle');
-                // ZVETŠENO: Výrazně větší velikost padajícího listí (14px až 26px)
                 const size = Math.random() * 12 + 14;
                 particle.style.width = size + 'px';
                 particle.style.height = (size * 0.65) + 'px';
@@ -1280,7 +1285,6 @@
                 triggerAchievement("Absolutní Bůh! (100K kliknutí)");
             }
 
-            // Vizuální exploze při kliknutí (ZVETŠENO: větší kousky listí)
             const rect = logoWrapper.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
@@ -1289,7 +1293,6 @@
                 const burstLeaf = document.createElement('div');
                 burstLeaf.classList.add('particle', 'burst-leaf');
                 
-                // ZVETŠENO: Velikost vybuchujících lístků (12px až 22px)
                 const size = Math.random() * 10 + 12;
                 burstLeaf.style.width = size + 'px';
                 burstLeaf.style.height = (size * 0.65) + 'px';
@@ -1378,8 +1381,8 @@
             const links = {
                 craftlist: `https://craftlist.org/mystiland?nickname=${encodeURIComponent(nick)}`,
                 mclist: `https://minecraft-list.cz/server/mystilandeu/vote?name=${encodeURIComponent(nick)}`,
+                mcservery: `https://mcservery.cz/server/mysti-land?nickname=${encodeURIComponent(nick)}`,
                 minecraftservery: `https://minecraftservery.eu/server/mystilandeu/vote/${encodeURIComponent(nick)}`
-                mcservery: `https://mcservery.cz/server/mysti-land?nickname=${encodeURIComponent(nick)}`
             };
 
             if (links[site]) {
