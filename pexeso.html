@@ -66,6 +66,7 @@
             justify-content: center;
             padding: 20px;
             text-align: center;
+            position: relative;
         }
 
         .pexeso-container {
@@ -83,14 +84,20 @@
             font-size: 2rem;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
         }
 
         .pexeso-stats {
+            display: flex;
+            justify-content: space-around;
             color: #b3b0c2;
-            font-size: 1rem;
+            font-size: 0.95rem;
             margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         /* Mřížka pexesa (4x4) */
@@ -113,7 +120,6 @@
             justify-content: center;
             transition: all 0.3s ease;
             user-select: none;
-            transform-style: preserve-3d;
         }
 
         .card:hover {
@@ -146,6 +152,105 @@
         .btn-restart:hover {
             background: #a855f7;
             color: #ffffff;
+        }
+
+        /* --- VÝHERNÍ MODÁLNÍ OKNO (TABULKA PŘED TEBOU) --- */
+        .win-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 3, 8, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .win-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .win-content {
+            background: #120a1f;
+            border: 2px solid #a855f7;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .win-modal.active .win-content {
+            transform: scale(1);
+        }
+
+        .win-content h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+        }
+
+        .win-content p {
+            color: #b3b0c2;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        .win-stats-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .win-stat-item span {
+            display: block;
+        }
+
+        .win-stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #d8b4fe;
+            margin-top: 5px;
+        }
+
+        .win-stat-label {
+            font-size: 0.85rem;
+            color: #8a859b;
+        }
+
+        .btn-win-restart {
+            background: linear-gradient(135deg, #a855f7, #7e22ce);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-win-restart:hover {
+            background: linear-gradient(135deg, #c084fc, #9333ea);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
         }
 
         /* --- PATIČKA (Sjednocená s ostatními stránkami) --- */
@@ -291,13 +396,38 @@
     <main class="pexeso-main">
         <div class="pexeso-container">
             <h1 class="pexeso-title">Tajné Pexeso</h1>
-            <div class="pexeso-stats">Tahy: <span id="moves">0</span></div>
+            
+            <div class="pexeso-stats">
+                <div>Tahy: <span id="moves">0</span></div>
+                <div>Čas: <span id="timer">0:00</span></div>
+            </div>
             
             <div class="game-grid" id="gameGrid">
                 <!-- Kartičky se vygenerují automaticky přes JavaScript -->
             </div>
 
             <button class="btn-restart" onclick="startGame()">Nová hra</button>
+        </div>
+
+        <!-- VÝHERNÍ OKNO (UKÁŽE SE PŘED TEBOU) -->
+        <div class="win-modal" id="winModal">
+            <div class="win-content">
+                <h2>Skvělá práce! 🎉</h2>
+                <p>Úspěšně jsi dokončil MystiLand pexeso.</p>
+                
+                <div class="win-stats-box">
+                    <div class="win-stat-item">
+                        <span class="win-stat-label">Počet tahů</span>
+                        <span class="win-stat-value" id="finalMoves">0</span>
+                    </div>
+                    <div class="win-stat-item">
+                        <span class="win-stat-label">Celkový čas</span>
+                        <span class="win-stat-value" id="finalTime">0:00</span>
+                    </div>
+                </div>
+
+                <button class="btn-win-restart" onclick="startGame()">Hrát znovu</button>
+            </div>
         </div>
     </main>
 
@@ -347,7 +477,7 @@
         </div>
     </footer>
 
-    <!-- SKRIPT PRO FUNKČNOST PEXESA -->
+    <!-- SKRIPT PRO FUNKČNOST PEXESA A ČASOVAČE -->
     <script>
         const emojis = ['⚔️', '🛡️', '💎', '⛏️', '🔮', '👑', '🔥', '⚡'];
         let cards = [];
@@ -355,15 +485,30 @@
         let matchedPairs = 0;
         let moves = 0;
         let isLocked = false;
+        
+        // Proměnné pro časovač
+        let secondsElapsed = 0;
+        let timerInterval = null;
+        let gameStarted = false;
 
         function startGame() {
+            // Zavřeme výherní tabulku, pokud byla otevřená
+            document.getElementById('winModal').classList.remove('active');
+            
             const gameGrid = document.getElementById('gameGrid');
             gameGrid.innerHTML = '';
+            
+            // Reset proměnných
             moves = 0;
             matchedPairs = 0;
-            document.getElementById('moves').innerText = moves;
+            secondsElapsed = 0;
+            gameStarted = false;
+            clearInterval(timerInterval);
             
-            // Zdvojnásobíme emoji pro vytvoření páru a zamícháme je
+            document.getElementById('moves').innerText = moves;
+            document.getElementById('timer').innerText = '0:00';
+            
+            // Zdvojnásobíme emoji a zamícháme
             cards = [...emojis, ...emojis]
                 .sort(() => Math.random() - 0.5);
 
@@ -377,9 +522,24 @@
             });
         }
 
+        function startTimer() {
+            if (!gameStarted) {
+                gameStarted = true;
+                timerInterval = setInterval(() => {
+                    secondsElapsed++;
+                    let mins = Math.floor(secondsElapsed / 60);
+                    let secs = secondsElapsed % 60;
+                    document.getElementById('timer').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                }, 1000);
+            }
+        }
+
         function flipCard() {
             if (isLocked) return;
             if (this.classList.contains('flipped') || this.classList.contains('matched')) return;
+
+            // Spustíme časovač při prvním otočení
+            startTimer();
 
             this.classList.add('flipped');
             this.innerText = this.dataset.emoji;
@@ -403,9 +563,16 @@
                 matchedPairs++;
 
                 if (matchedPairs === emojis.length) {
+                    clearInterval(timerInterval); // Zastavíme čas
+                    
+                    // Naplníme výherní tabulku daty
+                    document.getElementById('finalMoves').innerText = moves;
+                    document.getElementById('finalTime').innerText = document.getElementById('timer').innerText;
+                    
+                    // Zobrazíme výherní okno před uživatelem
                     setTimeout(() => {
-                        alert(`Gratulace! Vyhrál jsi za ${moves} tahů! 🎉`);
-                    }, 300);
+                        document.getElementById('winModal').classList.add('active');
+                    }, 400);
                 }
             } else {
                 isLocked = true;
