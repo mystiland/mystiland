@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herní Pexeso</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121214;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            color: #3b82f6;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            background: #1f1f23;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #2f2f35;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 90px);
+            grid-gap: 12px;
+        }
+
+        .card {
+            width: 90px;
+            height: 90px;
+            background-color: #2f2f35;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            user-select: none;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .card:hover {
+            background-color: #3f3f46;
+            transform: scale(1.03);
+        }
+
+        .card.flipped, .card.matched {
+            background-color: #ffffff;
+            cursor: default;
+            transform: none;
+        }
+
+        #restart-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #restart-btn:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎮 Herní Pexeso</h1>
+    
+    <div class="stats">
+        <div>Čas: <span id="timer">0</span> s</div>
+        <div>Chyby: <span id="mistakes">0</span></div>
+    </div>
+
+    <div class="grid" id="game-board"></div>
+
+    <button id="restart-btn" onclick="startGame()">Nová hra</button>
+
+    <script>
+        const board = document.getElementById('game-board');
+        const timerElement = document.getElementById('timer');
+        const mistakesElement = document.getElementById('mistakes');
+
+        // Symboly pro pexeso (8 dvojic)
+        const symbols = ['🚀', '💎', '🔥', '⚡', '💻', '⭐', '🏆', '🍕'];
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let mistakes = 0;
+        let seconds = 0;
+        let timerInterval = null;
+        let isLocked = false;
+
+        function startGame() {
+            // Reset proměnných
+            board.innerHTML = '';
+            flippedCards = [];
+            matchedPairs = 0;
+            mistakes = 0;
+            seconds = 0;
+            isLocked = false;
+            mistakesElement.textContent = mistakes;
+            timerElement.textContent = seconds;
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                seconds++;
+                timerElement.textContent = seconds;
+            }, 1000);
+
+            // Zdvojnásobení symbolů pro vytvoření párů a zamíchání
+            cards = [...symbols, ...symbols]
+                .sort(() => Math.random() - 0.5)
+                .map((symbol, index) => ({ id: index, symbol, isFlipped: false, isMatched: false }));
+
+            // Vykreslení karet na web
+            cards.forEach(cardData => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.id = cardData.id;
+                
+                card.addEventListener('click', () => flipCard(cardData, card));
+                board.appendChild(card);
+            });
+        }
+
+        function flipCard(cardData, cardElement) {
+            if (isLocked || cardElement.classList.contains('flipped') || cardElement.classList.contains('matched')) {
+                return;
+            }
+
+            cardElement.classList.add('flipped');
+            cardElement.textContent = cardData.symbol;
+            flippedCards.push({ cardData, cardElement });
+
+            if (flippedCards.length === 2) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+
+            if (card1.cardData.symbol === card2.cardData.symbol) {
+                // Shoda
+                card1.cardElement.classList.add('matched');
+                card2.cardElement.classList.add('matched');
+                flippedCards = [];
+                matchedPairs++;
+
+                // Konec hry
+                if (matchedPairs === symbols.length) {
+                    clearInterval(timerInterval);
+                    setTimeout(() => {
+                        alert(`Skvělá práce! Vyřešeno za ${seconds} sekund s ${mistakes} chybami.`);
+                    }, 300);
+                }
+            } else {
+                // Není shoda (chyba)
+                mistakes++;
+                mistakesElement.textContent = mistakes;
+                isLocked = true;
+
+                setTimeout(() => {
+                    card1.cardElement.classList.remove('flipped');
+                    card1.cardElement.textContent = '';
+                    card2.cardElement.classList.remove('flipped');
+                    card2.cardElement.textContent = '';
+                    flippedCards = [];
+                    isLocked = false;
+                }, 900); // Karty se otočí zpět po 0.9 sekundách
+            }
+        }
+
+        // Spuštění hry při načtení stránky
+        startGame();
+    </script>
+</body>
+</html>
