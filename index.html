@@ -1057,8 +1057,11 @@
                     <button class="btn-vote btn-mclist" onclick="vote('mclist')">
                         <i class="fa-solid fa-check"></i> Minecraft-List.cz
                     </button>
-                    <button class="btn-vote btn-mcservery" onclick="vote('mcservery')">
+                    <button class="btn-vote btn-mcservery" onclick="vote('minecraftserveryeu')">
                         <i class="fa-solid fa-check"></i> MinecraftServery.eu
+                    </button>
+                    <button class="btn-vote btn-mcservery" onclick="vote('mcservery')">
+                        <i class="fa-solid fa-check"></i> McServery.cz
                     </button>
                     <button class="btn-vote btn-czechcraft" onclick="vote('czechcraft')">
                         <i class="fa-solid fa-clock"></i> Czech-Craft.eu
@@ -1378,7 +1381,8 @@
             const links = {
                 craftlist: `https://craftlist.org/mystiland?nickname=${encodeURIComponent(nick)}`,
                 mclist: `https://minecraft-list.cz/server/mystilandeu/vote?name=${encodeURIComponent(nick)}`,
-                mcservery: `https://minecraftservery.eu/server/mystilandeu/vote/${encodeURIComponent(nick)}`
+                minecraftserveryeu: `https://minecraftservery.eu/server/mystilandeu/vote/${encodeURIComponent(nick)}`
+                mcservery: `https://mcservery.cz/server/mysti-land?nickname=${encodeURIComponent(nick)}`
             };
 
             if (links[site]) {
