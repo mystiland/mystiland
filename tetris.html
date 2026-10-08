@@ -37,24 +37,27 @@
             width: 100%;
         }
 
+        /* Tlačítko zpět do týmu stylizované podle obrázku */
         .back-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #d1d5db;
-            padding: 10px 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #a855f7, #8b5cf6);
+            border: none;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 14px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
             transition: all 0.3s ease;
         }
 
         .back-btn:hover {
-            background: #a855f7;
-            color: #ffffff;
-            border-color: #a855f7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
         }
 
         .main-wrapper {
@@ -329,10 +332,10 @@
 </head>
 <body>
 
-    <!-- Vycentrované tlačítko zpět nahoru -->
+    <!-- Vycentrované tlačítko zpět do týmu -->
     <div class="top-nav-container">
         <a href="tym.html" class="back-btn">
-            <i class="fa-solid fa-arrow-left"></i> Zpět na Tým
+            <i class="fa-solid fa-arrow-left"></i> ZPĚT DO TÝMU
         </a>
     </div>
 
@@ -357,10 +360,10 @@
                 <button class="control-btn" id="start-btn" onclick="startGame()">Start / Restart</button>
 
                 <div class="controls-hint">
-                    <strong>Ovládání:</strong><br>
-                    Šipky ← → : Pohyb<br>
-                    Šipka ↑ : Otočení<br>
-                    Šipka ↓ : Rychlý pád
+                    <strong>Ovládání (WASD):</strong><br>
+                    A / D : Pohyb vlevo / vpravo<br>
+                    W : Otočení kostky<br>
+                    S : Rychlý pád
                 </div>
             </div>
         </div>
@@ -628,16 +631,19 @@
             update();
         }
 
+        // Změněno ovládání na WASD (podporuje malá i velká písmena)
         document.addEventListener('keydown', event => {
             if (!gameStarted) return;
 
-            if (event.key === 'ArrowLeft') {
+            const key = event.key.toLowerCase();
+
+            if (key === 'a') {
                 playerMove(-1);
-            } else if (event.key === 'ArrowRight') {
+            } else if (key === 'd') {
                 playerMove(1);
-            } else if (event.key === 'ArrowDown') {
+            } else if (key === 's') {
                 playerDrop();
-            } else if (event.key === 'ArrowUp') {
+            } else if (key === 'w') {
                 playerRotate(1);
             }
         });
