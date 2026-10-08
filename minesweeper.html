@@ -130,6 +130,61 @@
             color: #a855f7;
         }
 
+        /* Panel pro vlastní nastavení */
+        .custom-settings {
+            display: none;
+            width: 100%;
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+        }
+
+        .custom-settings.visible {
+            display: flex;
+        }
+
+        .custom-settings label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: #c4b5fd;
+            font-weight: 600;
+        }
+
+        .custom-settings input {
+            background: #0b0711;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 6px;
+            width: 80px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .apply-custom-btn {
+            background: #a855f7;
+            border: none;
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background 0.2s;
+            align-self: flex-end;
+        }
+
+        .apply-custom-btn:hover {
+            background: #9333ea;
+        }
+
         .game-rules-info {
             width: 100%;
             background: rgba(168, 85, 247, 0.05);
@@ -146,32 +201,38 @@
             color: #ffffff;
         }
 
+        .board-wrapper {
+            max-height: 450px;
+            max-width: 100%;
+            overflow: auto;
+            border-radius: 10px;
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            background: #0b0711;
+        }
+
         .board {
             display: grid;
             gap: 2px;
             background: #0b0711;
-            border: 2px solid rgba(168, 85, 247, 0.4);
-            border-radius: 10px;
             padding: 5px;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
         }
 
         .cell {
-            width: 30px;
-            height: 30px;
+            width: 26px;
+            height: 26px;
             background: rgba(255, 255, 255, 0.06);
             border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             user-select: none;
             transition: background 0.2s ease;
         }
 
-        /* Skryté/neaktivní buňky pro vytvarování pole */
         .cell.cell-hidden-shape {
             background: transparent !important;
             border: none;
@@ -361,6 +422,7 @@
                     <button class="diff-btn" onclick="setDifficulty('hard', event)">Těžká</button>
                     <button class="diff-btn" onclick="setDifficulty('extreme', event)">Extrémní</button>
                     <button class="diff-btn" onclick="setDifficulty('hell', event)">🔥 Peklo</button>
+                    <button class="diff-btn" onclick="setDifficulty('custom', event)">⚙️ Vlastní</button>
                 </div>
                 <div class="game-stats">
                     <div class="stat-box" id="mines-count">Nástrahy: 10</div>
@@ -368,14 +430,29 @@
                 </div>
             </div>
 
-            <!-- Popis funkcí a obtížností -->
-            <div class="game-rules-info" id="rules-info">
-                <strong>Jednoduchá / Střední / Těžká:</strong> Klasická čtvercová mřížka s pumami.<br>
-                <strong>Extrémní:</strong> Hrací pole je vytvarované do specifického tvaru (trojúhelník nebo hvězda) s klasickými bombami uvnitř!<br>
-                <strong>🔥 Peklo:</strong> Klasické čtvercové pole, extrémně vysoký počet nástrah a přísný **časový limit 90 sekund**!
+            <!-- Vlastní nastavení pole -->
+            <div class="custom-settings" id="custom-settings">
+                <label>
+                    Velikost (řádky/sloupce 5-30):
+                    <input type="number" id="custom-size" value="12" min="5" max="30">
+                </label>
+                <label>
+                    Počet nástrah:
+                    <input type="number" id="custom-mines" value="20" min="1" max="300">
+                </label>
+                <button class="apply-custom-btn" onclick="applyCustomSettings()">Použít</button>
             </div>
 
-            <div class="board" id="board"></div>
+            <!-- Popis funkcí a obtížností -->
+            <div class="game-rules-info" id="rules-info">
+                <strong>Extrémní:</strong> Velké hrací pole tvarované do velkého trojúhelníku nebo hvězdy.<br>
+                <strong>🔥 Peklo:</strong> Klasické velké pole s 90vteřinovým limitem.<br>
+                <strong>⚙️ Vlastní:</strong> Nastav si vlastní velikost pole a počet nástrah podle sebe!
+            </div>
+
+            <div class="board-wrapper">
+                <div class="board" id="board"></div>
+            </div>
             <div class="game-message" id="game-message"></div>
         </div>
     </div>
@@ -394,7 +471,7 @@
                     MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
                 </p>
                 <p class="mojang-disclaimer">
-                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společnością Mojang Studios.
                 </p>
             </div>
 
@@ -430,8 +507,9 @@
             easy: { rows: 8, cols: 8, mines: 10, timeLimit: null },
             medium: { rows: 12, cols: 12, mines: 22, timeLimit: null },
             hard: { rows: 16, cols: 16, mines: 40, timeLimit: null },
-            extreme: { rows: 15, cols: 15, mines: 30, timeLimit: null }, // Extrémní tvarové pole
-            hell: { rows: 20, cols: 20, mines: 80, timeLimit: 90 }      // Peklo: 90 sekund limit + těžké
+            extreme: { rows: 21, cols: 21, mines: 55, timeLimit: null }, // Větší extrémní pole
+            hell: { rows: 20, cols: 20, mines: 80, timeLimit: 90 },
+            custom: { rows: 12, cols: 12, mines: 20, timeLimit: null }
         };
 
         let currentDiff = 'easy';
@@ -450,14 +528,24 @@
         const messageElement = document.getElementById('game-message');
         const minesCountElement = document.getElementById('mines-count');
         const timerBoxElement = document.getElementById('timer-box');
+        const customSettingsElement = document.getElementById('custom-settings');
 
         function setDifficulty(diff, event) {
             currentDiff = diff;
-            rows = configs[diff].rows;
-            cols = configs[diff].cols;
-            totalMines = configs[diff].mines;
-            timeLimit = configs.diff ? configs[diff].timeLimit : configs[currentDiff].timeLimit; // opraveno
-            timeLimit = configs[diff].timeLimit;
+            
+            if (diff === 'custom') {
+                customSettingsElement.classList.add('visible');
+                rows = parseInt(document.getElementById('custom-size').value) || 12;
+                cols = rows;
+                totalMines = parseInt(document.getElementById('custom-mines').value) || 20;
+                timeLimit = null;
+            } else {
+                customSettingsElement.classList.remove('visible');
+                rows = configs[diff].rows;
+                cols = configs[diff].cols;
+                totalMines = configs[diff].mines;
+                timeLimit = configs[diff].timeLimit;
+            }
 
             document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
             if (event && event.target) {
@@ -467,12 +555,29 @@
             initGame();
         }
 
-        // Funkce pro určení, zda buňka patří do tvaru (pro extrémní obtížnost)
+        function applyCustomSettings() {
+            let sizeInput = parseInt(document.getElementById('custom-size').value) || 12;
+            let minesInput = parseInt(document.getElementById('custom-mines').value) || 20;
+
+            // Omezení rozsahu
+            sizeInput = Math.max(5, Math.min(30, sizeInput));
+            document.getElementById('custom-size').value = sizeInput;
+
+            let maxPossibleMines = Math.floor(sizeInput * sizeInput * 0.4);
+            minesInput = Math.max(1, Math.min(maxPossibleMines, minesInput));
+            document.getElementById('custom-mines').value = minesInput;
+
+            rows = sizeInput;
+            cols = sizeInput;
+            totalMines = minesInput;
+
+            initGame();
+        }
+
+        // Větší a detailnější tvary pro extrémní obtížnost (velikost 21x21)
         function isCellInCustomShape(r, c, rows, cols) {
             if (currentDiff !== 'extreme') return true;
             
-            // Vybereme náhodně buď tvar trojúhelníku nebo hvězdy pro toto kolo
-            // (Můžeme použít globální proměnnou nebo deterministický tvar)
             if (!window.extremeShapeType) {
                 window.extremeShapeType = Math.random() < 0.5 ? 'triangle' : 'star';
             }
@@ -482,16 +587,17 @@
             const midC = Math.floor(cols / 2);
 
             if (type === 'triangle') {
-                // Trojúhelník špičkou nahoru
-                let widthAtRow = r; // roste seshora dolů
-                let startC = midR - Math.floor(widthAtRow / 2);
-                let endC = startC + widthAtRow;
-                return r >= 2 && c >= startC && c <= endC;
+                // Velký trojúhelník špičkou nahoru
+                let widthAtRow = r * 1.8; // širší rozpětí
+                let startC = midC - Math.floor(widthAtRow / 2);
+                let endC = midC + Math.floor(widthAtRow / 2);
+                return r >= 1 && c >= startC && c <= endC;
             } else {
-                // Tvar velké hvězdy / kříže (Diamond / Star shape)
+                // Velká hvězda / složitý geometrický tvar přes většinu pole
                 let distR = Math.abs(r - midR);
                 let distC = Math.abs(c - midC);
-                return (distR + distC <= midR + 2) && (distR <= 5 && distC <= 5);
+                // Kombinace kříže a diamantu pro vytvoření velké hvězdy
+                return (distR + distC <= 14) && (distR <= 8 && distC <= 8) && !(distR > 5 && distC > 5 && (distR + distC > 11));
             }
         }
 
@@ -503,11 +609,10 @@
             updateTimerDisplay();
             messageElement.innerText = '';
             
-            // Resetujeme tvar pro nové kolo v extrémnu
             window.extremeShapeType = Math.random() < 0.5 ? 'triangle' : 'star';
 
-            boardElement.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
-            boardElement.style.gridTemplateRows = `repeat(${rows}, 30px)`;
+            boardElement.style.gridTemplateColumns = `repeat(${cols}, 26px)`;
+            boardElement.style.gridTemplateRows = `repeat(${rows}, 26px)`;
 
             board = [];
             boardElement.innerHTML = '';
@@ -550,9 +655,8 @@
                 board.push(row);
             }
 
-            // Pokud je v extrémním tvaru moc/málo min, přizpůsobíme to
             if (currentDiff === 'extreme') {
-                totalMines = Math.min(configs.extreme.mines, Math.floor(activeCellsCount * 0.25));
+                totalMines = Math.min(55, Math.floor(activeCellsCount * 0.25));
             }
             minesCountElement.innerText = `Nástrahy: ${totalMines}`;
         }
@@ -594,13 +698,15 @@
 
         function placeMines(firstR, firstC) {
             let placed = 0;
+            let attempts = 0;
 
-            while (placed < totalMines) {
+            while (placed < totalMines && attempts < 10000) {
+                attempts++;
                 let r = Math.floor(Math.random() * rows);
                 let c = Math.floor(Math.random() * cols);
 
                 let cell = board[r][c];
-                if (!cell.active) continue; // Pouze do aktivních polí tvaru
+                if (!cell.active) continue; 
                 if (Math.abs(r - firstR) <= 1 && Math.abs(c - firstC) <= 1) continue;
 
                 if (!cell.isMine) {
