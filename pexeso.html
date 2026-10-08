@@ -29,25 +29,10 @@
             justify-content: space-between;
         }
 
-        /* --- HLAVIČKA A TLAČÍTKO ZPĚT --- */
+        /* --- HLAVIČKA S TLAČÍTKEM ZPĚT --- */
         .pexeso-header {
             text-align: center;
-            padding: 40px 20px 20px 20px;
-        }
-
-        .main-logo {
-            max-width: 220px;
-            width: 50%;
-            height: auto;
-            filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.7));
-            margin-bottom: 20px;
-            animation: pulseLogo 4s ease-in-out infinite;
-        }
-
-        @keyframes pulseLogo {
-            0% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.9)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5)); }
+            padding: 30px 20px 10px 20px;
         }
 
         .btn-back {
@@ -64,7 +49,6 @@
             font-size: 0.95rem;
             box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
             transition: all 0.3s ease;
-            margin-bottom: 20px;
         }
 
         .btn-back:hover {
@@ -242,19 +226,14 @@
 </head>
 <body>
 
-    <!-- HORNÍ ČÁST S LOGEM A TLAČÍTKEM ZPĚT -->
+    <!-- HORNÍ ČÁST S TLAČÍTKEM ZPĚT -->
     <div class="pexeso-header">
-        <a href="/">
-            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="main-logo">
+        <a href="/" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Zpět na hlavní stranu
         </a>
-        <div>
-            <a href="/" class="btn-back">
-                <i class="fa-solid fa-arrow-left"></i> Zpět na hlavní stranu
-            </a>
-        </div>
     </div>
 
-    <!-- HLAVNÍ OBSAH (ZDE VLOŽÍŠ PEXESO) -->
+    <!-- HLAVNÍ OBSAH (ZDE JE PEXESO) -->
     <main class="pexeso-main">
         <div class="pexeso-container">
             <h1 class="pexeso-title">MystiLand Pexeso</h1>
@@ -303,4 +282,15 @@
                 <h4>INFO</h4>
                 <ul class="footer-links">
                     <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>[cite: 3]
-                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_
+                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>[cite: 3]
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.[cite: 3]
+        </div>
+    </footer>
+
+</body>
+</html>
