@@ -130,7 +130,6 @@
             color: #a855f7;
         }
 
-        /* Popis funkcí a obtížností */
         .game-rules-info {
             width: 100%;
             background: rgba(168, 85, 247, 0.05);
@@ -172,6 +171,15 @@
             transition: background 0.2s ease;
         }
 
+        /* Skryté/neaktivní buňky pro vytvarování pole */
+        .cell.cell-hidden-shape {
+            background: transparent !important;
+            border: none;
+            cursor: default;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
         .cell:hover {
             background: rgba(168, 85, 247, 0.2);
         }
@@ -181,24 +189,9 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Klasická mina */
         .cell.mine-classic {
             background: rgba(239, 68, 68, 0.3) !important;
             color: #ef4444;
-        }
-
-        /* Speciální tvary pro Extrémní / Peklo */
-        .cell.mine-triangle {
-            background: rgba(239, 68, 68, 0.3) !important;
-            color: #ef4444;
-        }
-        .cell.mine-square {
-            background: rgba(59, 130, 246, 0.3) !important;
-            color: #3b82f6;
-        }
-        .cell.mine-star {
-            background: rgba(234, 179, 8, 0.3) !important;
-            color: #eab308;
         }
 
         .cell.flagged {
@@ -377,9 +370,9 @@
 
             <!-- Popis funkcí a obtížností -->
             <div class="game-rules-info" id="rules-info">
-                <strong>Jednoduchá / Střední / Těžká:</strong> Klasická hra s pumami.<br>
-                <strong>Extrémní:</strong> Hrací pole obsahuje trojúhelníky, čtverce a hvězdy namísto obyčejných min.<br>
-                <strong>🔥 Peklo:</strong> Maximální obtížnost! Obsahuje různé tvary polí a striktní **časový limit 90 sekund** na dokončení!
+                <strong>Jednoduchá / Střední / Těžká:</strong> Klasická čtvercová mřížka s pumami.<br>
+                <strong>Extrémní:</strong> Hrací pole je vytvarované do specifického tvaru (trojúhelník nebo hvězda) s klasickými bombami uvnitř!<br>
+                <strong>🔥 Peklo:</strong> Klasické čtvercové pole, extrémně vysoký počet nástrah a přísný **časový limit 90 sekund**!
             </div>
 
             <div class="board" id="board"></div>
@@ -437,8 +430,8 @@
             easy: { rows: 8, cols: 8, mines: 10, timeLimit: null },
             medium: { rows: 12, cols: 12, mines: 22, timeLimit: null },
             hard: { rows: 16, cols: 16, mines: 40, timeLimit: null },
-            extreme: { rows: 18, cols: 18, mines: 60, timeLimit: null },
-            hell: { rows: 20, cols: 20, mines: 75, timeLimit: 90 } // Peklo: 90 sekund limit
+            extreme: { rows: 15, cols: 15, mines: 30, timeLimit: null }, // Extrémní tvarové pole
+            hell: { rows: 20, cols: 20, mines: 80, timeLimit: 90 }      // Peklo: 90 sekund limit + těžké
         };
 
         let currentDiff = 'easy';
@@ -463,6 +456,7 @@
             rows = configs[diff].rows;
             cols = configs[diff].cols;
             totalMines = configs[diff].mines;
+            timeLimit = configs.diff ? configs[diff].timeLimit : configs[currentDiff].timeLimit; // opraveno
             timeLimit = configs[diff].timeLimit;
 
             document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
@@ -473,6 +467,34 @@
             initGame();
         }
 
+        // Funkce pro určení, zda buňka patří do tvaru (pro extrémní obtížnost)
+        function isCellInCustomShape(r, c, rows, cols) {
+            if (currentDiff !== 'extreme') return true;
+            
+            // Vybereme náhodně buď tvar trojúhelníku nebo hvězdy pro toto kolo
+            // (Můžeme použít globální proměnnou nebo deterministický tvar)
+            if (!window.extremeShapeType) {
+                window.extremeShapeType = Math.random() < 0.5 ? 'triangle' : 'star';
+            }
+
+            const type = window.extremeShapeType;
+            const midR = Math.floor(rows / 2);
+            const midC = Math.floor(cols / 2);
+
+            if (type === 'triangle') {
+                // Trojúhelník špičkou nahoru
+                let widthAtRow = r; // roste seshora dolů
+                let startC = midR - Math.floor(widthAtRow / 2);
+                let endC = startC + widthAtRow;
+                return r >= 2 && c >= startC && c <= endC;
+            } else {
+                // Tvar velké hvězdy / kříže (Diamond / Star shape)
+                let distR = Math.abs(r - midR);
+                let distC = Math.abs(c - midC);
+                return (distR + distC <= midR + 2) && (distR <= 5 && distC <= 5);
+            }
+        }
+
         function initGame() {
             gameOver = false;
             firstClick = true;
@@ -480,24 +502,31 @@
             timer = timeLimit !== null ? timeLimit : 0;
             updateTimerDisplay();
             messageElement.innerText = '';
-            minesCountElement.innerText = `Nástrahy: ${totalMines}`;
             
+            // Resetujeme tvar pro nové kolo v extrémnu
+            window.extremeShapeType = Math.random() < 0.5 ? 'triangle' : 'star';
+
             boardElement.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
             boardElement.style.gridTemplateRows = `repeat(${rows}, 30px)`;
 
             board = [];
             boardElement.innerHTML = '';
 
+            let activeCellsCount = 0;
+
             for (let r = 0; r < rows; r++) {
                 let row = [];
                 for (let c = 0; c < cols; c++) {
+                    let active = isCellInCustomShape(r, c, rows, cols);
+                    if (active) activeCellsCount++;
+
                     let cellData = {
                         r, c,
                         isMine: false,
-                        mineType: null,
                         revealed: false,
                         flagged: false,
-                        neighborMines: 0
+                        neighborMines: 0,
+                        active: active
                     };
                     row.push(cellData);
 
@@ -506,16 +535,26 @@
                     cellEl.dataset.r = r;
                     cellEl.dataset.c = c;
 
-                    cellEl.addEventListener('click', () => clickCell(r, c));
-                    cellEl.addEventListener('contextmenu', (e) => {
-                        e.preventDefault();
-                        toggleFlag(r, c);
-                    });
+                    if (!active) {
+                        cellEl.classList.add('cell-hidden-shape');
+                    } else {
+                        cellEl.addEventListener('click', () => clickCell(r, c));
+                        cellEl.addEventListener('contextmenu', (e) => {
+                            e.preventDefault();
+                            toggleFlag(r, c);
+                        });
+                    }
 
                     boardElement.appendChild(cellEl);
                 }
                 board.push(row);
             }
+
+            // Pokud je v extrémním tvaru moc/málo min, přizpůsobíme to
+            if (currentDiff === 'extreme') {
+                totalMines = Math.min(configs.extreme.mines, Math.floor(activeCellsCount * 0.25));
+            }
+            minesCountElement.innerText = `Nástrahy: ${totalMines}`;
         }
 
         function updateTimerDisplay() {
@@ -537,7 +576,7 @@
                         revealAllMines();
                         gameOver = true;
                         messageElement.style.color = '#ef4444';
-                        messageElement.innerText = `Čas vypršel! Prohrál/a jsi v pekelném režimu!`;
+                        messageElement.innerText = `Čas vypršel! V pekelném režimu se ti nepřežilo.`;
                     }
                 } else {
                     timer++;
@@ -555,36 +594,29 @@
 
         function placeMines(firstR, firstC) {
             let placed = 0;
-            const mineTypes = ['triangle', 'square', 'star'];
 
             while (placed < totalMines) {
                 let r = Math.floor(Math.random() * rows);
                 let c = Math.floor(Math.random() * cols);
 
+                let cell = board[r][c];
+                if (!cell.active) continue; // Pouze do aktivních polí tvaru
                 if (Math.abs(r - firstR) <= 1 && Math.abs(c - firstC) <= 1) continue;
 
-                if (!board[r][c].isMine) {
-                    board[r][c].isMine = true;
-                    
-                    // U extrémní a pekelné obtížnosti se používají rovnou tvary
-                    if (currentDiff === 'extreme' || currentDiff === 'hell') {
-                        board[r][c].mineType = mineTypes[Math.floor(Math.random() * mineTypes.length)];
-                    } else {
-                        board[r][c].mineType = 'classic';
-                    }
-                    
+                if (!cell.isMine) {
+                    cell.isMine = true;
                     placed++;
                 }
             }
 
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
-                    if (!board[r][c].isMine) {
+                    if (board[r][c].active && !board[r][c].isMine) {
                         let count = 0;
                         for (let dr = -1; dr <= 1; dr++) {
                             for (let dc = -1; dc <= 1; dc++) {
                                 let nr = r + dr, nc = c + dc;
-                                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].isMine) {
+                                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].active && board[nr][nc].isMine) {
                                     count++;
                                 }
                             }
@@ -596,7 +628,7 @@
         }
 
         function clickCell(r, c) {
-            if (gameOver || board[r][c].flagged || board[r][c].revealed) return;
+            if (gameOver || !board[r][c].active || board[r][c].flagged || board[r][c].revealed) return;
 
             if (firstClick) {
                 placeMines(r, c);
@@ -618,7 +650,7 @@
         }
 
         function revealCell(r, c) {
-            if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c].revealed || board[r][c].flagged) return;
+            if (r < 0 || r >= rows || c < 0 || c >= cols || !board[r][c].active || board[r][c].revealed || board[r][c].flagged) return;
 
             board[r][c].revealed = true;
             let cellEl = getCellElement(r, c);
@@ -637,7 +669,7 @@
         }
 
         function toggleFlag(r, c) {
-            if (gameOver || board[r][c].revealed) return;
+            if (gameOver || !board[r][c].active || board[r][c].revealed) return;
 
             let cellData = board[r][c];
             cellData.flagged = !cellData.flagged;
@@ -655,23 +687,10 @@
         function revealAllMines() {
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
-                    if (board[r][c].isMine) {
+                    if (board[r][c].active && board[r][c].isMine) {
                         let cellEl = getCellElement(r, c);
-                        let type = board[r][c].mineType;
-                        
-                        if (type === 'triangle') {
-                            cellEl.innerHTML = '<i class="fa-solid fa-caret-up"></i>';
-                            cellEl.classList.add('mine-triangle');
-                        } else if (type === 'square') {
-                            cellEl.innerHTML = '<i class="fa-solid fa-square"></i>';
-                            cellEl.classList.add('mine-square');
-                        } else if (type === 'star') {
-                            cellEl.innerHTML = '<i class="fa-solid fa-star"></i>';
-                            cellEl.classList.add('mine-star');
-                        } else {
-                            cellEl.innerHTML = '<i class="fa-solid fa-bomb"></i>';
-                            cellEl.classList.add('mine-classic');
-                        }
+                        cellEl.innerHTML = '<i class="fa-solid fa-bomb"></i>';
+                        cellEl.classList.add('mine-classic');
                     }
                 }
             }
@@ -681,7 +700,8 @@
             let won = true;
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
-                    if (!board[r][c].isMine && !board[r][c].revealed) {
+                    let cell = board[r][c];
+                    if (cell.active && !cell.isMine && !cell.revealed) {
                         won = false;
                         break;
                     }
