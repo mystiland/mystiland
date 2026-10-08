@@ -85,7 +85,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             gap: 15px;
             flex-wrap: wrap;
         }
@@ -130,6 +130,23 @@
             color: #a855f7;
         }
 
+        /* Popis funkcí a obtížností */
+        .game-rules-info {
+            width: 100%;
+            background: rgba(168, 85, 247, 0.05);
+            border: 1px dashed rgba(168, 85, 247, 0.3);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            font-size: 0.82rem;
+            color: #c4b5fd;
+            line-height: 1.4;
+        }
+
+        .game-rules-info strong {
+            color: #ffffff;
+        }
+
         .board {
             display: grid;
             gap: 2px;
@@ -164,13 +181,13 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Styly pro klasickou minu */
+        /* Klasická mina */
         .cell.mine-classic {
             background: rgba(239, 68, 68, 0.3) !important;
             color: #ef4444;
         }
 
-        /* Styly pro různé typy pastí v EXTRÉMNÍ obtížnosti */
+        /* Speciální tvary pro Extrémní / Peklo */
         .cell.mine-triangle {
             background: rgba(239, 68, 68, 0.3) !important;
             color: #ef4444;
@@ -210,36 +227,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 60px 40px 25px 40px;
             width: 100%;
-        }
-
-        .footer-cta {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .footer-cta h3 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
-            color: #ffffff;
-            padding: 14px 32px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
         }
 
         .footer-container {
@@ -380,11 +367,19 @@
                     <button class="diff-btn" onclick="setDifficulty('medium', event)">Střední</button>
                     <button class="diff-btn" onclick="setDifficulty('hard', event)">Těžká</button>
                     <button class="diff-btn" onclick="setDifficulty('extreme', event)">Extrémní</button>
+                    <button class="diff-btn" onclick="setDifficulty('hell', event)">🔥 Peklo</button>
                 </div>
                 <div class="game-stats">
                     <div class="stat-box" id="mines-count">Nástrahy: 10</div>
                     <div class="stat-box" id="timer-box">Čas: 0s</div>
                 </div>
+            </div>
+
+            <!-- Popis funkcí a obtížností -->
+            <div class="game-rules-info" id="rules-info">
+                <strong>Jednoduchá / Střední / Těžká:</strong> Klasická hra s pumami.<br>
+                <strong>Extrémní:</strong> Hrací pole obsahuje trojúhelníky, čtverce a hvězdy namísto obyčejných min.<br>
+                <strong>🔥 Peklo:</strong> Maximální obtížnost! Obsahuje různé tvary polí a striktní **časový limit 90 sekund** na dokončení!
             </div>
 
             <div class="board" id="board"></div>
@@ -439,16 +434,18 @@
 
     <script>
         const configs = {
-            easy: { rows: 8, cols: 8, mines: 10 },
-            medium: { rows: 12, cols: 12, mines: 22 },
-            hard: { rows: 16, cols: 16, mines: 40 },
-            extreme: { rows: 18, cols: 18, mines: 60 }
+            easy: { rows: 8, cols: 8, mines: 10, timeLimit: null },
+            medium: { rows: 12, cols: 12, mines: 22, timeLimit: null },
+            hard: { rows: 16, cols: 16, mines: 40, timeLimit: null },
+            extreme: { rows: 18, cols: 18, mines: 60, timeLimit: null },
+            hell: { rows: 20, cols: 20, mines: 75, timeLimit: 90 } // Peklo: 90 sekund limit
         };
 
         let currentDiff = 'easy';
         let rows = configs.easy.rows;
         let cols = configs.easy.cols;
         let totalMines = configs.easy.mines;
+        let timeLimit = configs.easy.timeLimit;
 
         let board = [];
         let gameOver = false;
@@ -466,6 +463,7 @@
             rows = configs[diff].rows;
             cols = configs[diff].cols;
             totalMines = configs[diff].mines;
+            timeLimit = configs[diff].timeLimit;
 
             document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
             if (event && event.target) {
@@ -479,8 +477,8 @@
             gameOver = false;
             firstClick = true;
             stopTimer();
-            timer = 0;
-            timerBoxElement.innerText = `Čas: 0s`;
+            timer = timeLimit !== null ? timeLimit : 0;
+            updateTimerDisplay();
             messageElement.innerText = '';
             minesCountElement.innerText = `Nástrahy: ${totalMines}`;
             
@@ -520,11 +518,31 @@
             }
         }
 
+        function updateTimerDisplay() {
+            if (timeLimit !== null) {
+                timerBoxElement.innerText = `Limit: ${timer}s`;
+            } else {
+                timerBoxElement.innerText = `Čas: ${timer}s`;
+            }
+        }
+
         function startTimer() {
             stopTimer();
             timerInterval = setInterval(() => {
-                timer++;
-                timerBoxElement.innerText = `Čas: ${timer}s`;
+                if (timeLimit !== null) {
+                    timer--;
+                    timerBoxElement.innerText = `Limit: ${timer}s`;
+                    if (timer <= 0) {
+                        stopTimer();
+                        revealAllMines();
+                        gameOver = true;
+                        messageElement.style.color = '#ef4444';
+                        messageElement.innerText = `Čas vypršel! Prohrál/a jsi v pekelném režimu!`;
+                    }
+                } else {
+                    timer++;
+                    timerBoxElement.innerText = `Čas: ${timer}s`;
+                }
             }, 1000);
         }
 
@@ -548,8 +566,8 @@
                 if (!board[r][c].isMine) {
                     board[r][c].isMine = true;
                     
-                    // Typy polí se generují pouze v případě extrémní obtížnosti
-                    if (currentDiff === 'extreme') {
+                    // U extrémní a pekelné obtížnosti se používají rovnou tvary
+                    if (currentDiff === 'extreme' || currentDiff === 'hell') {
                         board[r][c].mineType = mineTypes[Math.floor(Math.random() * mineTypes.length)];
                     } else {
                         board[r][c].mineType = 'classic';
@@ -591,7 +609,7 @@
                 revealAllMines();
                 gameOver = true;
                 messageElement.style.color = '#ef4444';
-                messageElement.innerText = `Bum! Konec hry (Čas: ${timer}s). Zkus to znovu!`;
+                messageElement.innerText = `Bum! Konec hry. Zkus to znovu!`;
                 return;
             }
 
@@ -651,7 +669,6 @@
                             cellEl.innerHTML = '<i class="fa-solid fa-star"></i>';
                             cellEl.classList.add('mine-star');
                         } else {
-                            // Klasická mina pro Jednoduchou, Střední a Těžkou obtížnost
                             cellEl.innerHTML = '<i class="fa-solid fa-bomb"></i>';
                             cellEl.classList.add('mine-classic');
                         }
@@ -674,7 +691,7 @@
                 stopTimer();
                 gameOver = true;
                 messageElement.style.color = '#22c55e';
-                messageElement.innerText = `Gratulace! Vyhrál/a jsi v čase ${timer}s!`;
+                messageElement.innerText = `Gratulace! Úspěšně jsi vyhrál/a hru!`;
             }
         }
 
