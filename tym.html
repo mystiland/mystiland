@@ -257,7 +257,7 @@
             color: #ffffff;
         }
 
-        /* --- RÁMEČEK PRO VOLNÝ TÝM (HLEDÁME LIDI - MALÝ) --- */
+        /* --- RÁMEČEK PRO VOLNÝ TÝM --- */
         .recruitment-card {
             background: rgba(20, 13, 30, 0.5);
             border: 2px dashed rgba(168, 85, 247, 0.35);
@@ -314,7 +314,7 @@
             color: #ffffff;
         }
 
-        /* --- VELKÁ NÁBOROVÁ KARTA (PODLE SCREENSHOTU) --- */
+        /* --- VELKÁ NÁBOROVÁ KARTA --- */
         .big-recruitment-banner {
             background: linear-gradient(145deg, #161022, #110b1a);
             border: 1px solid rgba(245, 158, 11, 0.25);
@@ -378,13 +378,6 @@
             background: linear-gradient(135deg, #fbbf24, #d97706);
         }
 
-        .big-recruitment-badge-img {
-            width: 90px;
-            height: auto;
-            filter: drop-shadow(0 5px 15px rgba(245, 158, 11, 0.3));
-            flex-shrink: 0;
-        }
-
         @media (max-width: 768px) {
             .big-recruitment-banner {
                 flex-direction: column;
@@ -439,6 +432,60 @@
 
         .modal-overlay.active .modal-card {
             transform: scale(1);
+        }
+
+        /* --- TAJNÉ TLAČÍTKO PRO MINIHRU (VLEVO NAOPAK KŘÍŽKU) --- */
+        .secret-minigame-btn {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #d8b4fe;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .secret-minigame-btn:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: scale(1.1);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+        }
+
+        /* Stylový tooltip (text při najetí) */
+        .secret-minigame-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: #0b0711;
+            color: #ffffff;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .secret-minigame-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         .modal-close {
@@ -894,7 +941,7 @@
             </div>
         </section>
 
-        <!-- VELKÁ NÁBOROVÁ TABULKA (PODLE SCREENSHOTU) -->
+        <!-- VELKÁ NÁBOROVÁ TABULKA -->
         <div class="big-recruitment-banner">
             <div class="big-recruitment-content">
                 <h3>Chceš se stát součástí našeho týmu?</h3>
@@ -911,6 +958,11 @@
     <!-- VYSKAKOVACÍ OKNO MODAL -->
     <div class="modal-overlay" id="profile-modal" onclick="closeProfile(event)">
         <div class="modal-card">
+            <!-- Tajné tlačítko na minihru naproti křížku -->
+            <a href="pexeso.html" class="secret-minigame-btn" data-tooltip="Tajná minihra">
+                <i class="fa-solid fa-gamepad"></i>
+            </a>
+
             <button class="modal-close" onclick="forceCloseProfile()"><i class="fa-solid fa-xmark"></i></button>
             
             <div class="modal-avatar-box">
