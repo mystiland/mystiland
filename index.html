@@ -617,8 +617,8 @@
         .btn-mclist { background: linear-gradient(135deg, #CFE02D, #E2CD21); }
         .btn-mclist:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); }
 
-        .btn-minecraftserveryeu { background: linear-gradient(135deg, #6366f1, #4338ca); }
-        .btn-minecraftserveryeu:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
+        .btn-minecraftservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
+        .btn-minecraftservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
 
         .btn-mcservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
         .btn-mcservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
@@ -1060,7 +1060,7 @@
                     <button class="btn-vote btn-mclist" onclick="vote('mclist')">
                         <i class="fa-solid fa-check"></i> Minecraft-List.cz
                     </button>
-                    <button class="btn-vote btn-minecraftserveryeu" onclick="vote('minecraftserveryeu')">
+                    <button class="btn-vote btn-minecraftservery" onclick="vote('minecraftservery')">
                         <i class="fa-solid fa-check"></i> MinecraftServery.eu
                     </button>
                     <button class="btn-vote btn-mcservery" onclick="vote('mcservery')">
@@ -1384,7 +1384,7 @@
             const links = {
                 craftlist: `https://craftlist.org/mystiland?nickname=${encodeURIComponent(nick)}`,
                 mclist: `https://minecraft-list.cz/server/mystilandeu/vote?name=${encodeURIComponent(nick)}`,
-                minecraftserveryeu: `https://minecraftservery.eu/server/mystilandeu/vote/${encodeURIComponent(nick)}`
+                minecraftservery: `https://minecraftservery.eu/server/mystilandeu/vote/${encodeURIComponent(nick)}`
                 mcservery: `https://mcservery.cz/server/mysti-land?nickname=${encodeURIComponent(nick)}`
             };
 
