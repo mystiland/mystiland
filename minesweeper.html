@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tajný MiniSleeper – MystiLand</title>
+    
+    <!-- Logo v kartě prohlížeče -->
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0711;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* Kontejner pro vycentrované tlačítko zpět */
+        .top-nav-container {
+            display: flex;
+            justify-content: center;
+            padding: 30px 20px 10px 20px;
+            width: 100%;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #a855f7, #8b5cf6);
+            border: none;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+        }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: #140d1e;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .diff-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .diff-btn.active, .diff-btn:hover {
+            background: #a855f7;
+            color: #ffffff;
+            border-color: #a855f7;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 6px 14px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+
+        /* Herní mřížka generovaná dynamicky */
+        .board {
+            display: grid;
+            gap: 2px;
+            background: #0b0711;
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .cell:hover {
+            background: rgba(168, 85, 247, 0.2);
+        }
+
+        .cell.revealed {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cell.mine {
+            background: #ef4444 !important;
+            color: #ffffff;
+        }
+
+        .cell.flagged {
+            color: #a855f7;
+        }
+
+        /* Barvy čísel odhalených políček */
+        .c-1 { color: #3b82f6; }
+        .c-2 { color: #22c55e; }
+        .c-3 { color: #ef4444; }
+        .c-4 { color: #a855f7; }
+        .c-5 { color: #f97316; }
+        .c-6 { color: #06b6d4; }
+        .c-7 { color: #eab308; }
+        .c-8 { color: #ffffff; }
+
+        .game-message {
+            margin-top: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            min-height: 24px;
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+            width: 100%;
+        }
+
+        .footer-cta {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .footer-cta h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Vycentrované tlačítko zpět do týmu -->
+    <div class="top-nav-container">
+        <a href="tym.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> ZPĚT DO TÝMU
+        </a>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="game-container">
+            <div class="game-header">
+                <div class="difficulty-selector">
+                    <button class="diff-btn active" onclick="setDifficulty('easy')">Jednoduchá</button>
+                    <button class="diff-btn" onclick="setDifficulty('medium')">Střední</button>
+                    <button class="diff-btn" onclick="setDifficulty('hard')">Těžká</button>
+                </div>
+                <div class="game-stats">
+                    <div class="stat-box" id="mines-count">Min: 10</div>
+                </div>
+            </div>
+
+            <div class="board" id="board"></div>
+            <div class="game-message" id="game-message"></div>
+        </div>
+    </div>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-cta">
+            <h3>CHCI BÝT SOUČÁSTÍ TÝMU!</h3>
+            <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="cta-button"><i class="fa-brands fa-discord"></i> Připoj se na Discord</a>
+        </div>
+
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>
+                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <script>
+        const configs = {
+            easy: { rows: 8, cols: 8, mines: 10 },
+            medium: { rows: 12, cols: 12, mines: 20 },
+            hard: { rows: 16, cols: 16, mines: 40 }
+        };
+
+        let currentDiff = 'easy';
+        let rows = configs.easy.rows;
+        let cols = configs.easy.cols;
+        let totalMines = configs.easy.mines;
+
+        let board = [];
+        let gameOver = false;
+        let firstClick = true;
+
+        const boardElement = document.getElementById('board');
+        const messageElement = document.getElementById('game-message');
+        const minesCountElement = document.getElementById('mines-count');
+
+        function setDifficulty(diff) {
+            currentDiff = diff;
+            rows = configs[diff].rows;
+            cols = configs[diff].cols;
+            totalMines = configs[diff].mines;
+
+            document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            initGame();
+        }
+
+        function initGame() {
+            gameOver = false;
+            firstClick = true;
+            messageElement.innerText = '';
+            minesCountElement.innerText = `Min: ${totalMines}`;
+            
+            boardElement.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
+            boardElement.style.gridTemplateRows = `repeat(${rows}, 30px)`;
+
+            board = [];
+            boardElement.innerHTML = '';
+
+            for (let r = 0; r < rows; r++) {
+                let row = [];
+                for (let c = 0; c < cols; c++) {
+                    let cellData = {
+                        r, c,
+                        isMine: false,
+                        revealed: false,
+                        flagged: false,
+                        neighborMines: 0
+                    };
+                    row.push(cellData);
+
+                    let cellEl = document.createElement('div');
+                    cellEl.classList.add('cell');
+                    cellEl.dataset.r = r;
+                    cellEl.dataset.c = c;
+
+                    cellEl.addEventListener('click', () => clickCell(r, c));
+                    cellEl.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        toggleFlag(r, c);
+                    });
+
+                    boardElement.appendChild(cellEl);
+                }
+                board.push(row);
+            }
+        }
+
+        function placeMines(firstR, firstC) {
+            let placed = 0;
+            while (placed < totalMines) {
+                let r = Math.floor(Math.random() * rows);
+                let c = Math.floor(Math.random() * cols);
+
+                // Neumisťovat minu na první kliknutí ani do jeho bezprostředního okolí
+                if (Math.abs(r - firstR) <= 1 && Math.abs(c - firstC) <= 1) continue;
+
+                if (!board[r][c].isMine) {
+                    board[r][c].isMine = true;
+                    placed++;
+                }
+            }
+
+            // Spočítat sousední miny
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    if (!board[r][c].isMine) {
+                        let count = 0;
+                        for (let dr = -1; dr <= 1; dr++) {
+                            for (let dc = -1; dc <= 1; dc++) {
+                                let nr = r + dr, nc = c + dc;
+                                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].isMine) {
+                                    count++;
+                                }
+                            }
+                        }
+                        board[r][c].neighborMines = count;
+                    }
+                }
+            }
+        }
+
+        function clickCell(r, c) {
+            if (gameOver || board[r][c].flagged || board[r][c].revealed) return;
+
+            if (firstClick) {
+                placeMines(r, c);
+                firstClick = false;
+            }
+
+            if (board[r][c].isMine) {
+                revealAllMines();
+                gameOver = true;
+                messageElement.style.color = '#ef4444';
+                messageElement.innerText = 'Bum! Konec hry. Zkus to znovu!';
+                return;
+            }
+
+            revealCell(r, c);
+            checkWin();
+        }
+
+        function revealCell(r, c) {
+            if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c].revealed || board[r][c].flagged) return;
+
+            board[r][c].revealed = true;
+            let cellEl = getCellElement(r, c);
+            cellEl.classList.add('revealed');
+
+            if (board[r][c].neighborMines > 0) {
+                cellEl.innerText = board[r][c].neighborMines;
+                cellEl.classList.add(`c-${board[r][c].neighborMines}`);
+            } else {
+                // Pokud nemá žádné sousední miny, odkrýt rekurzivně okolí
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        revealCell(r + dr, c + dc);
+                    }
+                }
+            }
+        }
+
+        function toggleFlag(r, c) {
+            if (gameOver || board[r][c].revealed) return;
+
+            let cellData = board[r][c];
+            cellData.flagged = !cellData.flagged;
+            let cellEl = getCellElement(r, c);
+
+            if (cellData.flagged) {
+                cellEl.innerHTML = '<i class="fa-solid fa-flag"></i>';
+                cellEl.classList.add('flagged');
+            } else {
+                cellEl.innerHTML = '';
+                cellEl.classList.remove('flagged');
+            }
+        }
+
+        function revealAllMines() {
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    if (board[r][c].isMine) {
+                        let cellEl = getCellElement(r, c);
+                        cellEl.innerHTML = '<i class="fa-solid fa-bomb"></i>';
+                        cellEl.classList.add('mine');
+                    }
+                }
+            }
+        }
+
+        function checkWin() {
+            let won = true;
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    if (!board[r][c].isMine && !board[r][c].revealed) {
+                        won = false;
+                        break;
+                    }
+                }
+            }
+            if (won) {
+                gameOver = true;
+                messageElement.style.color = '#22c55e';
+                messageElement.innerText = 'Gratulace! Vyhrál/a jsi!';
+            }
+        }
+
+        function getCellElement(r, c) {
+            return document.querySelector(`.cell[data-r='${r}'][data-c='${c}']`);
+        }
+
+        // Spuštění hry při načtení
+        initGame();
+    </script>
+</body>
+</html>
