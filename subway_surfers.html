@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subway Surfers – MystiLand</title>
+    
+    <!-- Logo v kartě prohlížeče -->
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0711;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* --- HLAVIČKA S TLAČÍTKEM ZPĚT --- */
+        .game-header {
+            text-align: center;
+            padding: 30px 20px 10px 20px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #a855f7, #7e22ce);
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 10px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+            background: linear-gradient(135deg, #c084fc, #9333ea);
+        }
+
+        /* --- OBSAH HRY --- */
+        .game-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-container {
+            background: rgba(18, 10, 31, 0.85);
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            color: #b3b0c2;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* PLÁTNO PRO HRU */
+        canvas {
+            background: linear-gradient(to bottom, #120a1f, #1f1435);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            display: block;
+            margin: 0 auto 15px auto;
+            max-width: 100%;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .controls-hint {
+            color: #8a859b;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-restart {
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            color: #d8b4fe;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-restart:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+
+        /* --- PROHRA / VÝHERNÍ MODÁLNÍ OKNO --- */
+        .win-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 3, 8, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .win-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .win-content {
+            background: #120a1f;
+            border: 2px solid #a855f7;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .win-modal.active .win-content {
+            transform: scale(1);
+        }
+
+        .win-content h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+        }
+
+        .win-content p {
+            color: #b3b0c2;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        .win-stats-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .win-stat-item span {
+            display: block;
+        }
+
+        .win-stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #d8b4fe;
+            margin-top: 5px;
+        }
+
+        .win-stat-label {
+            font-size: 0.85rem;
+            color: #8a859b;
+        }
+
+        .btn-win-restart {
+            background: linear-gradient(135deg, #a855f7, #7e22ce);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-win-restart:hover {
+            background: linear-gradient(135deg, #c084fc, #9333ea);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HORNÍ ČÁST S TLAČÍTKEM ZPĚT -->
+    <div class="game-header">
+        <a href="tym" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Zpět do týmu
+        </a>
+    </div>
+
+    <!-- HLAVNÍ OBSAH - SUBWAY SURFERS -->
+    <main class="game-main">
+        <div class="game-container">
+            <h1 class="game-title">Subway Surfers</h1>
+            
+            <div class="game-stats">
+                <div>Skóre: <span id="score">0</span></div>
+                <div>Nejlepší: <span id="highScore">0</span></div>
+            </div>
+            
+            <canvas id="gameCanvas" width="400" height="250"></canvas>
+            <div class="controls-hint">Ovládání: ŠIPKA NAHORU (Skok) / MEZERNÍK</div>
+
+            <button class="btn-restart" onclick="startGame()">Nová hra</button>
+        </div>
+
+        <!-- KONEC HRY MODÁLNÍ OKNO -->
+        <div class="win-modal" id="winModal">
+            <div class="win-content">
+                <h2>Konec hry! 🛹</h2>
+                <p>Skvělej běh! Kolik bodů se ti podařilo posbírat?</p>
+                
+                <div class="win-stats-box">
+                    <div class="win-stat-item">
+                        <span class="win-stat-label">Dosažené skóre</span>
+                        <span class="win-stat-value" id="finalScore">0</span>
+                    </div>
+                </div>
+
+                <button class="btn-win-restart" onclick="startGame()">Hrát znovu</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>
+                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <!-- SKRIPT PRO SUBWAY SURFERS HRU -->
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let score = 0;
+        let highScore = localStorage.getItem('mystiLandHighScore') || 0;
+        document.getElementById('highScore').innerText = highScore;
+
+        let gameRunning = false;
+
+        // Nastavení hráče (surfař)
+        let player = {
+            x: 50,
+            y: 180,
+            width: 25,
+            height: 35,
+            vy: 0,
+            jumpStrength: -10,
+            gravity: 0.5,
+            grounded: true
+        };
+
+        // Překážky
+        let obstacles = [];
+        let obstacleTimer = 0;
+        let gameSpeed = 4;
+
+        function startGame() {
+            document.getElementById('winModal').classList.remove('active');
+            score = 0;
+            obstacles = [];
+            obstacleTimer = 0;
+            gameSpeed = 4;
+            player.y = 180;
+            player.vy = 0;
+            player.grounded = true;
+            gameRunning = true;
+            document.getElementById('score').innerText = score;
+            loop();
+        }
+
+        // Ovládání skoku
+        window.addEventListener('keydown', (e) => {
+            if ((e.code === 'Space' || e.code === 'ArrowUp') && player.grounded && gameRunning) {
+                player.vy = player.jumpStrength;
+                player.grounded = false;
+            }
+        });
+
+        // Kliknutí na plátno také skočí (mobil / myš)
+        canvas.addEventListener('click', () => {
+            if (player.grounded && gameRunning) {
+                player.vy = player.jumpStrength;
+                player.grounded = false;
+            }
+        });
+
+        function spawnObstacle() {
+            const types = ['train', 'barrier'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            obstacles.push({
+                x: canvas.width,
+                y: type === 'train' ? 155 : 185,
+                width: type === 'train' ? 35 : 20,
+                height: type === 'train' ? 60 : 30,
+                type: type
+            });
+        }
+
+        function update() {
+            if (!gameRunning) return;
+
+            // Skóre roste s časem
+            score++;
+            document.getElementById('score').innerText = Math.floor(score / 10);
+
+            // Zrychlování hry
+            gameSpeed = 4 + Math.floor(score / 300);
+
+            // Gravitace a pohyb hráče
+            player.vy += player.gravity;
+            player.y += player.vy;
+
+            // Kontrola dopadu na zem (zem je na y = 180)
+            if (player.y >= 180) {
+                player.y = 180;
+                player.vy = 0;
+                player.grounded = true;
+            }
+
+            // Generování překážek
+            obstacleTimer++;
+            if (obstacleTimer > Math.max(50, 110 - gameSpeed * 5)) {
+                spawnObstacle();
+                obstacleTimer = 0;
+            }
+
+            // Pohyb a kolize překážek
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].x -= gameSpeed;
+
+                // Kolizní detekce (AABB)
+                if (
+                    player.x < obstacles[i].x + obstacles[i].width &&
+                    player.x + player.width > obstacles[i].x &&
+                    player.y < obstacles[i].y + obstacles[i].height &&
+                    player.y + player.height > obstacles[i].y
+                ) {
+                    gameOver();
+                }
+
+                // Odstranění překážek mimo obrazovku
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
+                }
+            }
+        }
+
+        function draw() {
+            // Vymazání plátna
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Kreslení tratě (koleje)
+            ctx.strokeStyle = '#a855f7';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, 215);
+            ctx.lineTo(canvas.width, 215);
+            ctx.stroke();
+
+            // Kreslení překážek
+            obstacles.forEach(obs => {
+                if (obs.type === 'train') {
+                    ctx.fillStyle = '#7e22ce'; // Fialový vlak MystiLand
+                    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                    ctx.fillStyle = '#c084fc';
+                    ctx.fillRect(obs.x + 5, obs.y + 10, 8, 12);
+                    ctx.fillRect(obs.x + 22, obs.y + 10, 8, 12);
+                } else {
+                    ctx.fillStyle = '#ef4444'; // Zátaras
+                    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                }
+            });
+
+            // Kreslení postavičky (surfař)
+            // Tělo
+            ctx.fillStyle = '#c084fc';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            // Hlavička
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(player.x + player.width / 2, player.y - 6, 8, 0, Math.PI * 2);
+            ctx.fill();
+            // Skateboard pod nohama
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillRect(player.x - 5, player.y + player.height, player.width + 10, 5);
+        }
+
+        function loop() {
+            if (!gameRunning) return;
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            let finalScoreVal = Math.floor(score / 10);
+            
+            if (finalScoreVal > highScore) {
+                highScore = finalScoreVal;
+                localStorage.setItem('mystiLandHighScore', highScore);
+                document.getElementById('highScore').innerText = highScore;
+            }
+
+            document.getElementById('finalScore').innerText = finalScoreVal;
+            document.getElementById('winModal').classList.add('active');
+        }
+
+        // Automatické spuštění hry po načtení
+        startGame();
+    </script>
+
+</body>
+</html>
