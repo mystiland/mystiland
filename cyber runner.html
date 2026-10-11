@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subway Surfers – MystiLand</title>
+    <title>Cyber Neon Runner – MystiLand</title>
     
     <!-- Logo v kartě prohlížeče -->
     <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
@@ -17,6 +17,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
         }
 
         body {
@@ -27,12 +28,14 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: background-color 1s ease;
+            overflow-x: hidden;
         }
 
         /* --- HLAVIČKA S TLAČÍTKEM ZPĚT --- */
         .game-header {
             text-align: center;
-            padding: 30px 20px 10px 20px;
+            padding: 25px 20px 10px 20px;
         }
 
         .btn-back {
@@ -64,20 +67,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             position: relative;
         }
 
         .game-container {
-            background: rgba(18, 10, 31, 0.85);
+            background: rgba(18, 10, 31, 0.88);
             border: 2px solid rgba(168, 85, 247, 0.4);
             border-radius: 20px;
-            padding: 25px;
-            max-width: 500px;
+            padding: 20px;
+            max-width: 600px;
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            transition: border-color 0.8s ease, box-shadow 0.8s ease;
         }
 
         .game-title {
@@ -85,62 +89,88 @@
             font-weight: 800;
             color: #ffffff;
             margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            text-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
         }
 
         .game-stats {
             display: flex;
             justify-content: space-around;
             color: #b3b0c2;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.03);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.04);
             padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .game-stats span {
+            color: #d8b4fe;
+            font-weight: 700;
         }
 
         /* PLÁTNO PRO HRU */
         canvas {
-            background: linear-gradient(to bottom, #120a1f, #1f1435);
-            border: 2px solid rgba(168, 85, 247, 0.3);
-            border-radius: 12px;
+            background: #07030e;
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            border-radius: 14px;
             display: block;
-            margin: 0 auto 15px auto;
+            margin: 0 auto 12px auto;
             max-width: 100%;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(168, 85, 247, 0.3);
+            transition: border-color 0.8s ease;
+            touch-action: none;
         }
 
         .controls-hint {
-            color: #8a859b;
+            color: #c084fc;
             font-size: 0.85rem;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            background: rgba(168, 85, 247, 0.12);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px dashed rgba(168, 85, 247, 0.4);
+            transition: all 0.5s ease;
         }
 
-        .btn-restart {
+        .game-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-action {
             background: rgba(168, 85, 247, 0.2);
             border: 1px solid rgba(168, 85, 247, 0.5);
             color: #d8b4fe;
             font-weight: 700;
-            padding: 8px 20px;
+            padding: 9px 18px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .btn-restart:hover {
+        .btn-action:hover {
             background: #a855f7;
             color: #ffffff;
+            transform: translateY(-1px);
         }
 
-        /* --- PROHRA / VÝHERNÍ MODÁLNÍ OKNO --- */
+        /* --- PROHRA MODÁLNÍ OKNO --- */
         .win-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 3, 8, 0.8);
+            background: rgba(5, 3, 8, 0.88);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
@@ -160,7 +190,7 @@
             background: #120a1f;
             border: 2px solid #a855f7;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 35px 25px;
             max-width: 400px;
             width: 90%;
             text-align: center;
@@ -182,33 +212,29 @@
 
         .win-content p {
             color: #b3b0c2;
-            margin-bottom: 25px;
-            font-size: 1.05rem;
+            margin-bottom: 20px;
+            font-size: 1rem;
         }
 
         .win-stats-box {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 25px;
+            padding: 12px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-around;
         }
 
-        .win-stat-item span {
-            display: block;
-        }
-
         .win-stat-value {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #d8b4fe;
-            margin-top: 5px;
+            margin-top: 2px;
         }
 
         .win-stat-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #8a859b;
         }
 
@@ -236,8 +262,8 @@
         footer {
             background-color: #050308;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 60px 40px 25px 40px;
-            margin-top: 50px;
+            padding: 50px 30px 25px 30px;
+            margin-top: 40px;
         }
 
         .footer-container {
@@ -247,8 +273,8 @@
             justify-content: space-between;
             align-items: flex-start;
             flex-wrap: wrap;
-            gap: 60px;
-            padding-bottom: 40px;
+            gap: 40px;
+            padding-bottom: 30px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -278,18 +304,18 @@
 
         .footer-col {
             flex: 1;
-            min-width: 260px;
+            min-width: 240px;
         }
 
         .footer-col p {
             color: #8a859b;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-bottom: 15px;
         }
 
         .footer-col h4 {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
             color: #ffffff;
             letter-spacing: 0.5px;
         }
@@ -301,8 +327,8 @@
         }
 
         .social-icon {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -311,7 +337,7 @@
             align-items: center;
             color: #a855f7;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
@@ -327,13 +353,13 @@
         }
 
         .footer-links li {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .footer-links a {
             color: #8a859b;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: color 0.3s ease;
         }
 
@@ -345,11 +371,11 @@
             text-align: center;
             color: #585366;
             font-size: 0.85rem;
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
         .mojang-disclaimer {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: #585366;
             margin-top: 10px;
         }
@@ -357,46 +383,54 @@
         @media (max-width: 768px) {
             .footer-container {
                 flex-direction: column;
-                gap: 40px;
+                gap: 30px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- HORNÍ ČÁST S TLAČÍTKEM ZPĚT -->
     <div class="game-header">
         <a href="tym" class="btn-back">
             <i class="fa-solid fa-arrow-left"></i> Zpět do týmu
         </a>
     </div>
 
-    <!-- HLAVNÍ OBSAH - SUBWAY SURFERS -->
+    <!-- HLAVNÍ OBSAH - CYBER NEON RUNNER -->
     <main class="game-main">
-        <div class="game-container">
-            <h1 class="game-title">Subway Surfers</h1>
+        <div class="game-container" id="gameContainerBox">
+            <h1 class="game-title">Cyber Neon Runner</h1>
             
             <div class="game-stats">
                 <div>Skóre: <span id="score">0</span></div>
+                <div>Coiny: <span id="coinsCount">0</span></div>
+                <div>Rychlost: <span id="speedLevel">1.0x</span></div>
                 <div>Nejlepší: <span id="highScore">0</span></div>
             </div>
             
-            <canvas id="gameCanvas" width="400" height="250"></canvas>
-            <div class="controls-hint">Ovládání: ŠIPKA NAHORU (Skok) / MEZERNÍK</div>
+            <canvas id="gameCanvas" width="520" height="270"></canvas>
+            <div class="controls-hint" id="controlsHintText">⚡ Ovládání: MEZERNÍK / ŠIPKA NAHORU / KLIKNUTÍ (Skok)</div>
 
-            <button class="btn-restart" onclick="startGame()">Nová hra</button>
+            <div class="game-buttons">
+                <button class="btn-action" onclick="startGame()"><i class="fa-solid fa-rotate-right"></i> Nová hra</button>
+                <button class="btn-action" id="soundToggleBtn" onclick="toggleSound()"><i class="fa-solid fa-volume-high"></i> Hudba: Zap</button>
+            </div>
         </div>
 
         <!-- KONEC HRY MODÁLNÍ OKNO -->
         <div class="win-modal" id="winModal">
             <div class="win-content">
-                <h2>Konec hry! 🛹</h2>
-                <p>Skvělej běh! Kolik bodů se ti podařilo posbírat?</p>
+                <h2>Konec hry! 💥</h2>
+                <p>Tvůj neonový běh skončil. Zkus to znovu!</p>
                 
                 <div class="win-stats-box">
                     <div class="win-stat-item">
-                        <span class="win-stat-label">Dosažené skóre</span>
+                        <span class="win-stat-label">Skóre</span>
                         <span class="win-stat-value" id="finalScore">0</span>
+                    </div>
+                    <div class="win-stat-item">
+                        <span class="win-stat-label">Sebrané Coiny</span>
+                        <span class="win-stat-value" id="finalCoins">0</span>
                     </div>
                 </div>
 
@@ -405,7 +439,6 @@
         </div>
     </main>
 
-    <!-- PATIČKA -->
     <footer>
         <div class="footer-container">
             <div class="footer-col">
@@ -451,164 +484,452 @@
         </div>
     </footer>
 
-    <!-- SKRIPT PRO SUBWAY SURFERS HRU -->
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
         let score = 0;
-        let highScore = localStorage.getItem('mystiLandHighScore') || 0;
+        let coins = 0;
+        let highScore = localStorage.getItem('mystiLandNeonHighScore') || 0;
         document.getElementById('highScore').innerText = highScore;
 
         let gameRunning = false;
+        let baseSpeed = 2.5; // Pomalejší a přehledný start
+        let gameSpeed = 2.5;
+        let speedMultiplier = 1.0;
+        let rotationAngle = 0;
+        let soundEnabled = true;
 
-        // Nastavení hráče (surfař)
+        // Dynamická proměna barev pozadí
+        let colorHue = 270; 
+
+        // Audio System via Web Audio API
+        let audioCtx = null;
+        let musicInterval = null;
+        let musicStep = 0;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playSound(type) {
+            if (!soundEnabled || !audioCtx) return;
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                let now = audioCtx.currentTime;
+
+                if (type === 'jump') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.exponentialRampToValueAtTime(480, now + 0.15);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                } else if (type === 'coin') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(587.33, now); // D5
+                    osc.frequency.setValueAtTime(880, now + 0.08); // A5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                } else if (type === 'hit') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(140, now);
+                    osc.frequency.linearRampToValueAtTime(30, now + 0.35);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function startMusicLoop() {
+            if (musicInterval) clearInterval(musicInterval);
+            musicStep = 0;
+
+            const melodyNotes = [
+                220.00, 261.63, 329.63, 392.00, 440.00, 392.00, 329.63, 261.63,
+                246.94, 293.66, 349.23, 440.00, 493.88, 440.00, 349.23, 293.66,
+                196.00, 261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 261.63,
+                220.00, 277.18, 329.63, 440.00, 554.37, 440.00, 329.63, 277.18
+            ];
+
+            const bassNotes = [110.00, 110.00, 123.47, 123.47, 98.00, 98.00, 110.00, 110.00];
+
+            musicInterval = setInterval(() => {
+                if (!soundEnabled || !gameRunning || !audioCtx) return;
+                try {
+                    let now = audioCtx.currentTime;
+
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    let noteIdx = musicStep % melodyNotes.length;
+                    let freq = melodyNotes[noteIdx];
+                    
+                    if (score > 300) freq *= 1.05;
+
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.02, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+                    
+                    osc.start(now);
+                    osc.stop(now + 0.14);
+
+                    if (musicStep % 2 === 0) {
+                        let bassOsc = audioCtx.createOscillator();
+                        let bassGain = audioCtx.createGain();
+                        bassOsc.type = 'triangle';
+                        bassOsc.connect(bassGain);
+                        bassGain.connect(audioCtx.destination);
+
+                        let bassIdx = Math.floor(musicStep / 2) % bassNotes.length;
+                        bassOsc.frequency.setValueAtTime(bassNotes[bassIdx], now);
+                        bassGain.gain.setValueAtTime(0.035, now);
+                        bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+                        bassOsc.start(now);
+                        bassOsc.stop(now + 0.22);
+                    }
+
+                    musicStep++;
+                } catch(e) {}
+            }, 160);
+        }
+
+        function stopMusicLoop() {
+            if (musicInterval) {
+                clearInterval(musicInterval);
+                musicInterval = null;
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggleBtn');
+            if (soundEnabled) {
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Hudba: Zap';
+                initAudio();
+                if (gameRunning) startMusicLoop();
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> Hudba: Vyp';
+                stopMusicLoop();
+            }
+        }
+
+        /* --- STREAMING_CHUNK:Configuring Player Physics & Obstacles... --- */
+        // OPRAVENÁ FYZIKA: Vyšší a plynulejší skok
         let player = {
-            x: 50,
-            y: 180,
-            width: 25,
-            height: 35,
+            x: 70,
+            y: 194,
+            size: 26,
             vy: 0,
-            jumpStrength: -10,
-            gravity: 0.5,
+            jumpStrength: -10.0, // Vyšší odraz pro snadné přeskakování
+            gravity: 0.45,       // Příjemná, akorátní gravitace
             grounded: true
         };
 
-        // Překážky
         let obstacles = [];
-        let obstacleTimer = 0;
-        let gameSpeed = 4;
+        let coinsList = [];
+        let spawnTimer = 0;
 
         function startGame() {
+            initAudio();
             document.getElementById('winModal').classList.remove('active');
             score = 0;
+            coins = 0;
             obstacles = [];
-            obstacleTimer = 0;
-            gameSpeed = 4;
-            player.y = 180;
+            coinsList = [];
+            spawnTimer = 0;
+            baseSpeed = 2.5; 
+            speedMultiplier = 1.0;
+            gameSpeed = 2.5;
+            rotationAngle = 0;
+            colorHue = 270;
+            player.y = 194;
             player.vy = 0;
             player.grounded = true;
             gameRunning = true;
+            
             document.getElementById('score').innerText = score;
+            document.getElementById('coinsCount').innerText = coins;
+            document.getElementById('speedLevel').innerText = speedMultiplier.toFixed(1) + 'x';
+            
+            startMusicLoop();
             loop();
         }
 
-        // Ovládání skoku
-        window.addEventListener('keydown', (e) => {
-            if ((e.code === 'Space' || e.code === 'ArrowUp') && player.grounded && gameRunning) {
+        function triggerJump() {
+            if (!gameRunning) return;
+            initAudio();
+
+            if (player.grounded) {
                 player.vy = player.jumpStrength;
                 player.grounded = false;
+                playSound('jump');
             }
-        });
-
-        // Kliknutí na plátno také skočí (mobil / myš)
-        canvas.addEventListener('click', () => {
-            if (player.grounded && gameRunning) {
-                player.vy = player.jumpStrength;
-                player.grounded = false;
-            }
-        });
-
-        function spawnObstacle() {
-            const types = ['train', 'barrier'];
-            const type = types[Math.floor(Math.random() * types.length)];
-            
-            obstacles.push({
-                x: canvas.width,
-                y: type === 'train' ? 155 : 185,
-                width: type === 'train' ? 35 : 20,
-                height: type === 'train' ? 60 : 30,
-                type: type
-            });
         }
 
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                e.preventDefault();
+                triggerJump();
+            }
+        });
+
+        canvas.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            triggerJump();
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            triggerJump();
+        }, { passive: false });
+
+        // OPRAVENÝ GENERÁTOR: Všechny coiny v přirozené dráze skoku
+        function spawnObjects() {
+            let rand = Math.random();
+
+            if (rand < 0.5) {
+                // 1 Ostnáč na zemi
+                obstacles.push({
+                    x: canvas.width + 20,
+                    y: 194,
+                    width: 26,
+                    height: 26
+                });
+
+                // Zlatá mince přímo na vrcholku plynulého skoku
+                coinsList.push({
+                    x: canvas.width + 33,
+                    y: 135,
+                    radius: 11,
+                    collected: false
+                });
+
+            } else if (rand < 0.8) {
+                // 2 Ostnáče vedle sebe
+                obstacles.push({
+                    x: canvas.width + 20,
+                    y: 194,
+                    width: 25,
+                    height: 26
+                });
+                obstacles.push({
+                    x: canvas.width + 45,
+                    y: 194,
+                    width: 25,
+                    height: 26
+                });
+
+                // Mince uprostřed dvojskoku
+                coinsList.push({
+                    x: canvas.width + 45,
+                    y: 120,
+                    radius: 11,
+                    collected: false
+                });
+
+            } else {
+                // Volné coiny na cestě
+                coinsList.push({
+                    x: canvas.width + 20,
+                    y: 145,
+                    radius: 11,
+                    collected: false
+                });
+            }
+        }
+
+        /* --- STREAMING_CHUNK:Updating physics and collision checks... --- */
         function update() {
             if (!gameRunning) return;
 
-            // Skóre roste s časem
             score++;
-            document.getElementById('score').innerText = Math.floor(score / 10);
+            document.getElementById('score').innerText = score;
 
-            // Zrychlování hry
-            gameSpeed = 4 + Math.floor(score / 300);
+            // Pozvolné zrychlování
+            speedMultiplier = 1.0 + Math.floor(score / 600) * 0.1;
+            gameSpeed = baseSpeed * speedMultiplier;
+            document.getElementById('speedLevel').innerText = speedMultiplier.toFixed(1) + 'x';
 
-            // Gravitace a pohyb hráče
+            colorHue = (colorHue + 0.2) % 360;
+
+            const groundY = 220;
+
+            // Fyzika skoku
             player.vy += player.gravity;
             player.y += player.vy;
 
-            // Kontrola dopadu na zem (zem je na y = 180)
-            if (player.y >= 180) {
-                player.y = 180;
+            if (player.y + player.size >= groundY) {
+                player.y = groundY - player.size;
                 player.vy = 0;
                 player.grounded = true;
+            } else {
+                player.grounded = false;
             }
 
-            // Generování překážek
-            obstacleTimer++;
-            if (obstacleTimer > Math.max(50, 110 - gameSpeed * 5)) {
-                spawnObstacle();
-                obstacleTimer = 0;
+            if (!player.grounded) {
+                rotationAngle += 0.11 * speedMultiplier;
+            } else {
+                rotationAngle = Math.round(rotationAngle / (Math.PI / 2)) * (Math.PI / 2);
             }
 
-            // Pohyb a kolize překážek
+            spawnTimer++;
+            let dynamicInterval = Math.max(90, Math.floor(150 / speedMultiplier));
+            if (spawnTimer >= dynamicInterval) {
+                spawnObjects();
+                spawnTimer = 0;
+            }
+
+            // Posun coinů & velkorysá detekce sebrání
+            for (let i = coinsList.length - 1; i >= 0; i--) {
+                coinsList[i].x -= gameSpeed;
+
+                if (!coinsList[i].collected) {
+                    let dx = (player.x + player.size / 2) - coinsList[i].x;
+                    let dy = (player.y + player.size / 2) - coinsList[i].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    // Zvětšená zóna sběru pro snadné sebrání
+                    if (dist < player.size / 2 + coinsList[i].radius + 12) {
+                        coinsList[i].collected = true;
+                        coins += 1;
+                        document.getElementById('coinsCount').innerText = coins;
+                        playSound('coin');
+                    }
+                }
+
+                if (coinsList[i].x < -30) {
+                    coinsList.splice(i, 1);
+                }
+            }
+
+            // Posun ostnů a detekce kolize (spravedlivý p=6 hitbox)
             for (let i = obstacles.length - 1; i >= 0; i--) {
                 obstacles[i].x -= gameSpeed;
 
-                // Kolizní detekce (AABB)
+                let p = 6;
                 if (
-                    player.x < obstacles[i].x + obstacles[i].width &&
-                    player.x + player.width > obstacles[i].x &&
-                    player.y < obstacles[i].y + obstacles[i].height &&
-                    player.y + player.height > obstacles[i].y
+                    player.x + p < obstacles[i].x + obstacles[i].width - p &&
+                    player.x + player.size - p > obstacles[i].x + p &&
+                    player.y + p < obstacles[i].y + obstacles[i].height - p &&
+                    player.y + player.size - p > obstacles[i].y + p
                 ) {
                     gameOver();
                 }
 
-                // Odstranění překážek mimo obrazovku
-                if (obstacles[i].x + obstacles[i].width < 0) {
+                if (obstacles[i].x + obstacles[i].width < -50) {
                     obstacles.splice(i, 1);
                 }
             }
         }
 
+        /* --- STREAMING_CHUNK:Drawing canvas elements... --- */
         function draw() {
-            // Vymazání plátna
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Kreslení tratě (koleje)
-            ctx.strokeStyle = '#a855f7';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(0, 215);
-            ctx.lineTo(canvas.width, 215);
-            ctx.stroke();
+            const groundY = 220;
 
-            // Kreslení překážek
-            obstacles.forEach(obs => {
-                if (obs.type === 'train') {
-                    ctx.fillStyle = '#7e22ce'; // Fialový vlak MystiLand
-                    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
-                    ctx.fillStyle = '#c084fc';
-                    ctx.fillRect(obs.x + 5, obs.y + 10, 8, 12);
-                    ctx.fillRect(obs.x + 22, obs.y + 10, 8, 12);
-                } else {
-                    ctx.fillStyle = '#ef4444'; // Zátaras
-                    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+            let dynamicColor = `hsl(${colorHue}, 65%, 11%)`;
+            let gridColor = `hsl(${colorHue}, 70%, 25%)`;
+            let glowColor = `hsl(${colorHue}, 85%, 60%)`;
+
+            let bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            bgGrad.addColorStop(0, dynamicColor);
+            bgGrad.addColorStop(1, '#05020a');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Mřížka na pozadí
+            ctx.strokeStyle = gridColor;
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.25;
+            for (let x = 0; x < canvas.width; x += 30) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1.0;
+
+            // Zářící podlaha
+            ctx.strokeStyle = glowColor;
+            ctx.lineWidth = 3;
+            ctx.shadowColor = glowColor;
+            ctx.shadowBlur = 12;
+            ctx.beginPath();
+            ctx.moveTo(0, groundY);
+            ctx.lineTo(canvas.width, groundY);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Kreslení coinů
+            coinsList.forEach(c => {
+                if (!c.collected) {
+                    ctx.fillStyle = '#facc15';
+                    ctx.shadowColor = '#facc15';
+                    ctx.shadowBlur = 12;
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
                 }
             });
 
-            // Kreslení postavičky (surfař)
-            // Tělo
-            ctx.fillStyle = '#c084fc';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-            // Hlavička
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(player.x + player.width / 2, player.y - 6, 8, 0, Math.PI * 2);
-            ctx.fill();
-            // Skateboard pod nohama
-            ctx.fillStyle = '#38bdf8';
-            ctx.fillRect(player.x - 5, player.y + player.height, player.width + 10, 5);
+            // Ostny
+            obstacles.forEach(obs => {
+                ctx.fillStyle = '#ef4444';
+                ctx.shadowColor = '#ef4444';
+                ctx.shadowBlur = 12;
+                ctx.beginPath();
+                ctx.moveTo(obs.x + obs.width / 2, obs.y);
+                ctx.lineTo(obs.x + obs.width, obs.y + obs.height);
+                ctx.lineTo(obs.x, obs.y + obs.height);
+                ctx.closePath();
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            });
+
+            // Hráč
+            ctx.save();
+            ctx.translate(player.x + player.size / 2, player.y + player.size / 2);
+            ctx.rotate(rotationAngle);
+
+            ctx.fillStyle = glowColor;
+            ctx.shadowColor = glowColor;
+            ctx.shadowBlur = 15;
+            ctx.fillRect(-player.size / 2, -player.size / 2, player.size, player.size);
+            
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(-player.size / 2, -player.size / 2, player.size, player.size);
+
+            ctx.restore();
         }
 
         function loop() {
@@ -620,19 +941,20 @@
 
         function gameOver() {
             gameRunning = false;
-            let finalScoreVal = Math.floor(score / 10);
+            stopMusicLoop();
+            playSound('hit');
             
-            if (finalScoreVal > highScore) {
-                highScore = finalScoreVal;
-                localStorage.setItem('mystiLandHighScore', highScore);
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('mystiLandNeonHighScore', highScore);
                 document.getElementById('highScore').innerText = highScore;
             }
 
-            document.getElementById('finalScore').innerText = finalScoreVal;
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('finalCoins').innerText = coins;
             document.getElementById('winModal').classList.add('active');
         }
 
-        // Automatické spuštění hry po načtení
         startGame();
     </script>
 
