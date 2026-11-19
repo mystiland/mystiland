@@ -202,33 +202,27 @@
             font-size: 1.1rem;
             color: #ffffff;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             word-break: break-word;
         }
 
-        /* Odznáček s rolí (Badge) */
-        .role-badge {
-            padding: 5px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #ffffff;
-            white-space: nowrap;
-            letter-spacing: 0.3px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        /* --- OBRÁZEK ROLE (PIXEL-ART) --- */
+        .role-image {
+            height: 21px; /* 3x zvětšení z původních 7px pro ostrou čitelnost */
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            image-rendering: pixelated; /* Zachová ostré pixely bez rozmazání */
+            image-rendering: crisp-edges;
+            margin-bottom: 14px;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
         }
 
-        /* Barevné rozlišení rolí */
-        .role-majitel { background-color: #DEC03B; }
-        .role-vedeni { background-color: #dc2626; }
-        .role-hl-dev, .role-dev, .role-zk-dev { background-color: #7c3aed; }
-        .role-hl-tech, .role-tech, .role-zk-tech { background-color: #f97316; }
-        .role-hl-build, .role-plus-build, .role-build, .role-zk-build { background-color: #eab308; color: #000; }
-        .role-hl-help, .role-plus-help, .role-help, .role-zk-help { background-color: #22c55e; }
-        .role-hl-mod, .role-plus-mod, .role-mod, .role-zk-mod { background-color: #06b6d4; }
-        .role-hl-creat, .role-creat, .role-zk-creat { background-color: #ec4899; }
-        .role-grafik { background-color: #3b82f6; }
+        /* Trochu větší odznak ve vyskakovacím okně (modalu) */
+        .modal-card .role-image {
+            height: 28px; /* 4x zvětšení v detailu profilu */
+            margin-bottom: 10px;
+        }
 
         /* Sociální sítě na kartě člena */
         .member-socials {
@@ -436,7 +430,7 @@
 
         /* --- TAJNÉ TLAČÍTKO PRO MINIHRU --- */
         .secret-minigame-btn {
-            display: none; /* Ve výchozím stavu schované */
+            display: none;
             position: absolute;
             top: 15px;
             left: 20px;
@@ -454,7 +448,7 @@
         }
 
         .secret-minigame-btn.show-secret {
-            display: flex; /* Zobrazí se jen pokud má třídu show-secret */
+            display: flex;
         }
 
         .secret-minigame-btn:hover {
@@ -464,7 +458,6 @@
             box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
         }
 
-        /* Stylový tooltip (text při najetí) */
         .secret-minigame-btn::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -753,11 +746,10 @@
             <h2 class="team-group-title">Vedení Tým</h2>
             <div class="team-grid">
                 
-                <!-- MrHruza (Zde nastaveno otvírání minihry Pexeso) -->
+                <!-- MrHruza -->
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="MrHruza" 
                      data-role="Majitel" 
-                     data-role-class="role-majitel" 
                      data-discord="https://discord.com/users/1218869019461812286" 
                      data-instagram=""
                      data-game-link="pexeso"
@@ -767,7 +759,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/MrHruza" alt="MrHruza">
                     </div>
                     <span class="member-name">MrHruza</span>
-                    <span class="role-badge role-majitel">Majitel</span>
+                    <img class="role-image" alt="Majitel">
                     <div class="member-socials">
                         <a href="https://discord.com/users/1218869019461812286" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -779,7 +771,6 @@
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="fufik856" 
                      data-role="Majitel" 
-                     data-role-class="role-majitel" 
                      data-discord="https://discord.com/users/923149225406132266" 
                      data-instagram="https://www.instagram.com/vojtacz856"
                      data-game-link="cyber neon runner"
@@ -789,7 +780,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/fufik856" alt="fufik856">
                     </div>
                     <span class="member-name">fufik856</span>
-                    <span class="role-badge role-majitel">Majitel</span>
+                    <img class="role-image" alt="Majitel">
                     <div class="member-socials">
                         <a href="https://discord.com/users/923149225406132266" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -804,7 +795,6 @@
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="Moks" 
                      data-role="Team Leader" 
-                     data-role-class="role-vedeni" 
                      data-discord="https://discord.com/users/674536600109056020" 
                      data-instagram=""
                      data-bio="Moks :D">
@@ -812,7 +802,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/Moks" alt="Moks">
                     </div>
                     <span class="member-name">Moks</span>
-                    <span class="role-badge role-vedeni">Team Leader</span>
+                    <img class="role-image" alt="Team Leader">
                     <div class="member-socials">
                         <a href="https://discord.com/users/674536600109056020" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -871,7 +861,6 @@
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="P3tr2586" 
                      data-role="Zk. Builder" 
-                     data-role-class="role-zk-build" 
                      data-discord="https://discord.com/users/968190897151959120" 
                      data-instagram=""
                      data-bio="">
@@ -879,7 +868,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/P3tr2586" alt="P3tr2586">
                     </div>
                     <span class="member-name">P3tr2586</span>
-                    <span class="role-badge role-zk-build">Zk. Builder</span>
+                    <img class="role-image" alt="Zk. Builder">
                     <div class="member-socials">
                         <a href="https://discord.com/users/968190897151959120" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -891,7 +880,6 @@
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="Stigmatika_" 
                      data-role="Zk. Builder" 
-                     data-role-class="role-zk-build" 
                      data-discord="https://discord.com/users/638443426693513221" 
                      data-instagram=""
                      data-bio="">
@@ -899,7 +887,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/Stigmatika_" alt="Stigmatika_">
                     </div>
                     <span class="member-name">Stigmatika_</span>
-                    <span class="role-badge role-zk-build">Zk. Builder</span>
+                    <img class="role-image" alt="Zk. Builder">
                     <div class="member-socials">
                         <a href="https://discord.com/users/638443426693513221" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -908,8 +896,6 @@
                 </div>
             </div>
         </section>
-
-        
 
         <!-- CREATOR TÝM -->
         <section class="team-group">
@@ -920,7 +906,6 @@
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="merlindog155" 
                      data-role="Hl. Creator" 
-                     data-role-class="role-hl-creat" 
                      data-discord="https://discord.com/users/687712293986893836" 
                      data-instagram=""
                      data-game-link="minesweeper"
@@ -930,7 +915,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/merlindog155" alt="merlindog155">
                     </div>
                     <span class="member-name">merlindog155</span>
-                    <span class="role-badge role-hl-creat">Hl. Creator</span>
+                    <img class="role-image" alt="Hl. Creator">
                     <div class="member-socials">
                         <a href="https://discord.com/users/687712293986893836" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -942,7 +927,6 @@
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="Dalaxiss" 
                      data-role="Zk. Creator" 
-                     data-role-class="role-hl-creat" 
                      data-discord="https://discord.com/users/1370485461889319044" 
                      data-instagram=""
                      data-game-link="tetris"
@@ -952,7 +936,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/Dalaxiss" alt="Dalaxiss">
                     </div>
                     <span class="member-name">Dalaxiss</span>
-                    <span class="role-badge role-hl-creat">Zk. Creator</span>
+                    <img class="role-image" alt="Zk. Creator">
                     <div class="member-socials">
                         <a href="https://discord.com/users/1370485461889319044" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -964,7 +948,6 @@
                 <div class="member-card" onclick="openProfile(this)" 
                      data-nick="Drusilia" 
                      data-role="Zk. Creator" 
-                     data-role-class="role-hl-creat" 
                      data-discord="https://discord.com/users/1282677903548616725" 
                      data-instagram=""
                      data-bio="Echa z jiných dimenzí a šepot duší kolem mě. Ponořuji se do paranormálních aktivit, kde zkoumám hranice toho, co lidský rozum dokáže pochopit. Srdce mi bije v rytmu K-POPové energie, zatímco objevuji hypnotickou kulturu a tajemství Koreje. A když padne tma, usedám ke stolu jako vypravěč v DnD, kde s každým hodem kostky oživuji staré legendy a tvořím nové osudy.">
@@ -972,7 +955,7 @@
                         <img src="https://visage.surgeplay.com/bust/160/Drusilia" alt="Drusilia">
                     </div>
                     <span class="member-name">Drusilia</span>
-                    <span class="role-badge role-hl-creat">Zk. Creator</span>
+                    <img class="role-image" alt="Zk. Creator">
                     <div class="member-socials">
                         <a href="https://discord.com/users/1282677903548616725" target="_blank" onclick="event.stopPropagation()" class="member-social-btn" title="Discord">
                             <i class="fa-brands fa-discord"></i>
@@ -1022,7 +1005,7 @@
             </div>
             
             <div class="modal-name" id="modal-name">Nick</div>
-            <div class="role-badge" id="modal-role">Role</div>
+            <img class="role-image" id="modal-role-img" src="" alt="Role">
             
             <div class="modal-bio" id="modal-bio">Text o členovi...</div>
             
@@ -1079,6 +1062,51 @@
     </footer>
 
     <script>
+        // Slovník všech obrázků pro jednotlivé role
+        const roleImages = {
+            "Majitel": "https://github.com/user-attachments/assets/e5540e85-5bf0-47be-9f20-e3fc24928448",
+            "Vedení": "https://github.com/user-attachments/assets/8f531464-e46f-49bc-a91f-7b3f18d63881",
+            "Team Leader": "https://github.com/user-attachments/assets/53faba94-89a1-41a6-88c9-ea720143412a",
+            
+            "Hl. Developer": "https://github.com/user-attachments/assets/65edadef-a56f-41b5-9043-53b5f6cc0dc7",
+            "Developer": "https://github.com/user-attachments/assets/cdf6c926-a33e-4bf9-96fd-927149aa458a",
+            "Zk. Developer": "https://github.com/user-attachments/assets/7ee55c7a-53ba-4a2e-b5d4-ac32eb62701f",
+            
+            "Hl. Technik": "https://github.com/user-attachments/assets/6e532df6-e6cc-4c14-97b4-8f270add8cfb",
+            "Technik": "https://github.com/user-attachments/assets/e5c9880e-101c-4fa9-898c-f9e6015aac8c",
+            "Zk. Technik": "https://github.com/user-attachments/assets/f1e2f42d-73db-499b-820c-0fe241bf895c",
+            
+            "Hl. Moderátor": "https://github.com/user-attachments/assets/1217c5b8-3dd1-4b15-a7ad-7fe29bafef4d",
+            "Plus Moderátor": "https://github.com/user-attachments/assets/8a3121e9-95e2-49ee-9d17-531a85d1f5da",
+            "Moderátor": "https://github.com/user-attachments/assets/7d204c85-f732-4d3e-a40c-a36aef4c2158",
+            "Zk. Moderátor": "https://github.com/user-attachments/assets/ea278e3a-752f-42cb-9aba-75814c93e728",
+            
+            "Plus Helper": "https://github.com/user-attachments/assets/f8d5dffb-8f22-4314-aa63-b47aad1740f2",
+            "Helper": "https://github.com/user-attachments/assets/cdaa29a5-b2b6-413b-95ef-b2b0679657bc",
+            "Zk. Helper": "https://github.com/user-attachments/assets/34168e55-7b14-4166-bcc1-711ab8ad5eed",
+            
+            "Hl. Builder": "https://github.com/user-attachments/assets/c5070047-e169-4940-95d4-5661391db360",
+            "Plus Builder": "https://github.com/user-attachments/assets/f2ee4538-eefe-476d-8f80-444d79cb6589",
+            "Builder": "https://github.com/user-attachments/assets/38b44dd2-aaef-42b0-84bd-f3133aa0e680",
+            "Zk. Builder": "https://github.com/user-attachments/assets/49536449-6ae1-4d66-89ca-24fe2a786694",
+            
+            "Hl. Creator": "https://github.com/user-attachments/assets/dcdc9240-23eb-4272-b76f-8d02a6b8e321",
+            "Creator": "https://github.com/user-attachments/assets/87158774-89c1-4408-9ff3-1483745ccb67",
+            "Zk. Creator": "https://github.com/user-attachments/assets/ffea9a15-99e5-4367-9140-c41aad34c643",
+            
+            "Grafik": "https://github.com/user-attachments/assets/09e5a3d0-8b4e-4ad0-9e0c-b2410e7813fd"
+        };
+
+        // Automatické přiřazení správného obrázku každé kartě člena podle data-role
+        document.querySelectorAll('.member-card').forEach(card => {
+            const roleName = card.getAttribute('data-role');
+            const imgEl = card.querySelector('.role-image');
+            if (imgEl && roleImages[roleName]) {
+                imgEl.src = roleImages[roleName];
+                imgEl.alt = roleName;
+            }
+        });
+
         // Mobilní Menu
         const menuToggle = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
@@ -1099,7 +1127,6 @@
         function openProfile(card) {
             const nick = card.getAttribute('data-nick');
             const role = card.getAttribute('data-role');
-            const roleClass = card.getAttribute('data-role-class');
             const discord = card.getAttribute('data-discord');
             const instagram = card.getAttribute('data-instagram');
             const bio = card.getAttribute('data-bio');
@@ -1109,9 +1136,15 @@
             document.getElementById('modal-img').src = `https://visage.surgeplay.com/bust/160/${nick}`;
             document.getElementById('modal-name').innerText = nick;
             
-            const roleBadge = document.getElementById('modal-role');
-            roleBadge.innerText = role;
-            roleBadge.className = `role-badge ${roleClass}`;
+            // Nastavení obrázku role v modalu
+            const modalRoleImg = document.getElementById('modal-role-img');
+            if (roleImages[role]) {
+                modalRoleImg.src = roleImages[role];
+                modalRoleImg.alt = role;
+                modalRoleImg.style.display = 'block';
+            } else {
+                modalRoleImg.style.display = 'none';
+            }
 
             document.getElementById('modal-bio').innerText = bio || "O tomto členovi zatím nebyly přidány žádné informace.";
             
