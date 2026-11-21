@@ -1,252 +1,607 @@
 <!DOCTYPE html>
-<html lang="cs" data-bs-theme="dark">
+<html lang="cs">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Zabrání vyhledávačům (Google apod.) stránku najít a zaindexovat -->
     <meta name="robots" content="noindex, nofollow">
-    <title>Pravidla AT · Interní dokument</title>
+    <title>Pravidla AT – MystiLand</title>
     
-    <!-- Bootstrap 5 a ikony pro moderní tmavý vzhled -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Logo v kartě prohlížeče -->
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body {
-            background-color: #0f1015;
-            color: #e2e8f0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Horní lišta */
-        .storefront-header {
-            background: rgba(20, 22, 29, 0.85);
+        body {
+            background-color: #0b0711;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- HORNÍ LIŠTA (NAVBAR) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 7, 17, 0.92);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            position: sticky;
-            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
             z-index: 1000;
         }
 
-        .brand-text {
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.25s ease;
+            padding: 6px 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-shop {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
             font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: 1px;
-            color: #fff;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            transition: all 0.3s ease;
         }
 
-        .brand-text span {
-            color: #f59e0b; /* Zlatá/oranžová akcentní barva */
+        .btn-shop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.6);
+            background: linear-gradient(135deg, #fbbf24, #d97706);
         }
 
-        .brand-copy small {
-            display: block;
-            font-size: 0.65rem;
-            letter-spacing: 2.5px;
-            color: #94a3b8;
-            margin-top: -4px;
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 5px;
         }
 
-        .nav-link {
-            color: #94a3b8;
-            font-weight: 500;
-            transition: color 0.2s;
-            padding: 0.5rem 1rem !important;
+        /* --- HLAVNÍ OBSAH S PŘECHODEM POZADÍ --- */
+        .main-content {
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+            background: linear-gradient(to bottom, #0b0711 0%, #07040b 60%, #040207 100%);
+            padding: 60px 20px 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .nav-link:hover, .nav-link.active {
-            color: #fff;
-        }
-
-        .nav-link.active {
-            color: #f59e0b !important;
-        }
-
-        /* Hlavní obsah a karty pravidel */
-        .rules-hero {
-            padding: 3.5rem 0 2rem;
+        .rules-section {
+            max-width: 950px;
+            width: 100%;
             text-align: center;
         }
 
-        .rules-badge {
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            padding: 0.35rem 0.9rem;
+        .at-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            color: #c084fc;
+            padding: 6px 16px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 1px;
             text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .rules-header-subtitle {
+            color: #9ca3af;
+            font-size: 1.05rem;
+            margin-bottom: 50px;
+        }
+
+        /* Karty pravidel ve stylu MystiLand */
+        .rules-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            text-align: left;
         }
 
         .rule-card {
-            background: #161821;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 1.75rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
         .rule-card:hover {
-            border-color: rgba(245, 158, 11, 0.35);
+            border-color: rgba(168, 85, 247, 0.3);
+            background: rgba(255, 255, 255, 0.03);
             transform: translateY(-2px);
         }
 
-        .rule-number {
-            display: inline-flex;
+        .rule-card-header {
+            display: flex;
             align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .rule-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            display: flex;
             justify-content: center;
-            width: 34px;
-            height: 34px;
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
+            align-items: center;
+            color: #a855f7;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .rule-card-title {
+            font-size: 1.45rem;
             font-weight: 800;
-            border-radius: 8px;
-            margin-right: 0.75rem;
+            color: #ffffff;
+        }
+
+        .rule-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
 
         .rule-list li {
-            margin-bottom: 0.75rem;
-            color: #cbd5e1;
-            line-height: 1.6;
+            color: #9ca3af;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            padding-left: 22px;
+            position: relative;
+        }
+
+        .rule-list li::before {
+            content: "•";
+            color: #a855f7;
+            font-weight: bold;
+            font-size: 1.3rem;
+            position: absolute;
+            left: 0;
+            top: -3px;
         }
 
         .rule-list li strong {
-            color: #fff;
+            color: #ffffff;
+            font-weight: 700;
         }
 
+        .rule-tag {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-right: 6px;
+        }
+
+        /* --- PATIČKA --- */
         footer {
-            margin-top: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 1.5rem 0;
-            color: #64748b;
-            font-size: 0.875rem;
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+            text-transform: uppercase;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 7, 17, 0.98);
+                backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                display: none;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 0;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+
+            .nav-links a:hover, .nav-links a.active {
+                border-radius: 0;
+                background: rgba(168, 85, 247, 0.15);
+            }
+
+            .btn-shop {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
+            .page-title {
+                font-size: 2.1rem;
+            }
+
+            .rule-card {
+                padding: 20px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- HORNÍ NAVIGAČNÍ LIŠTA -->
-    <header class="storefront-header">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container py-1">
-                <!-- Logo / Název -->
-                <a href="#" class="navbar-brand d-flex align-items-center text-decoration-none">
-                    <div class="bg-warning text-dark rounded-3 d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px; font-size: 1.2rem;">
-                        <i class="bi bi-shield-lock-fill"></i>
-                    </div>
-                    <span class="ms-2 brand-copy">
-                        <span class="brand-text">SERVER<span>TEAM</span></span>
-                        <small>INTERNÍ PORTÁL</small>
-                    </span>
-                </a>
+    <!-- HORNÍ NAVIGATION BAR -->
+    <header class="navbar">
+        <a href="/" class="nav-logo">
+            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
+        </a>
 
-                <!-- Tlačítko pro mobil -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <!-- Odkazy menu -->
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/">Domů</a></li>
+            <li><a href="/novinky">Novinky</a></li>
+            <li><a href="/tym">Tým</a></li>
+            <li><a href="/pravidla" class="active">Pravidla AT</a></li>
+            <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
+        </ul>
 
-                <!-- Odkazy v liště -->
-                <div class="collapse navbar-collapse" id="mainNav">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
-                        <li class="nav-item">
-                            <a href="#obecna" class="nav-link active"><i class="bi bi-book me-1"></i>Obecná pravidla</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#chovani" class="nav-link"><i class="bi bi-people me-1"></i>Chování AT</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#tresty" class="nav-link"><i class="bi bi-hammer me-1"></i>Trestání hráčů</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#mlcenlivost" class="nav-link"><i class="bi bi-eye-slash me-1"></i>Mlčenlivost</a>
-                        </li>
-                    </ul>
+        <div class="nav-right">
+            <a href="https://store.mystiland.eu" class="btn-shop">
+                <i class="fa-solid fa-cart-shopping"></i> Obchod
+            </a>
 
-                    <!-- Pravý štítek -->
-                    <div class="d-flex justify-content-center">
-                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2">
-                            <i class="bi bi-lock-fill me-1"></i> Pouze pro AT
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </nav>
+            <button class="mobile-toggle" id="menu-toggle" aria-label="Otevřít menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
     </header>
 
-    <!-- HLAVNÍ OBSAH STRÁNKY -->
-    <main class="container mb-5" style="max-width: 900px;">
-        
-        <div class="rules-hero">
-            <span class="rules-badge"><i class="bi bi-exclamation-triangle-fill me-1"></i> Přísně interní dokument</span>
-            <h1 class="display-5 fw-bold text-white mb-3">Pravidla pro Admin Team</h1>
-            <p class="text-secondary mx-auto" style="max-width: 600px;">
-                Zde se nachází zástupný text pravidel. Každý člen týmu je povinen se s těmito body seznámit a řídit se jimi po celou dobu svého působení.
+    <!-- HLAVNÍ OBSAH STRÁNKY PRAVIDLA PRO AT -->
+    <main class="main-content">
+        <section class="rules-section">
+            <div class="at-badge">
+                <i class="fa-solid fa-shield-halved"></i> Interní dokument · Pouze pro Admin Team
+            </div>
+            <h1 class="page-title">Pravidla pro Admin Team</h1>
+            <p class="rules-header-subtitle">
+                Závazný kodex a pokyny pro všechny členy týmu MystiLand.eu. Neznalost těchto pravidel neomlouvá.
             </p>
-        </div>
+            
+            <div class="rules-grid">
+                
+                <!-- Karta 1 -->
+                <div class="rule-card">
+                    <div class="rule-card-header">
+                        <div class="rule-icon"><i class="fa-solid fa-book-open"></i></div>
+                        <h3 class="rule-card-title">1. Obecná ustanovení (Random text)</h3>
+                    </div>
+                    <ul class="rule-list">
+                        <li><span class="rule-tag">§ 1.1</span><strong>Znalost pravidel:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Každý člen AT musí dokonale znát pravidla serveru i tento interní dokument.</li>
+                        <li><span class="rule-tag">§ 1.2</span><strong>Aktivita a omluvenky:</strong> Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pokud víš, že nebudeš delší dobu aktivní, je nutné to předem nahlásit vedení.</li>
+                        <li><span class="rule-tag">§ 1.3</span><strong>Zneužití pravomocí:</strong> Ut enim ad minim veniam, quis nostrud exercitation ullamco. Jakékoliv zneužití práv, gamemodu či příkazů pro vlastní prospěch se trestá okamžitým vyhazovem.</li>
+                    </ul>
+                </div>
 
-        <!-- Sekce 1 -->
-        <section id="obecna" class="rule-card">
-            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
-                <span class="rule-number">01</span> Obecná ustanovení (Random text)
-            </h3>
-            <ul class="rule-list mb-0">
-                <li><strong>1.1 Znalost pravidel:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Každý člen AT musí znát základní pravidla serveru i tento interní řád.</li>
-                <li><strong>1.2 Aktivita:</strong> Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Minimální týdenní aktivita činí X hodin, případnou neaktivitu je nutné předem omluvit.</li>
-                <li><strong>1.3 Zneužití práv:</strong> Ut enim ad minim veniam, quis nostrud exercitation ullamco. Jakékoliv zneužívání příkazů nebo výhod pro vlastní prospěch či prospěch kamarádů je přísně zakázáno.</li>
-            </ul>
+                <!-- Karta 2 -->
+                <div class="rule-card">
+                    <div class="rule-card-header">
+                        <div class="rule-icon"><i class="fa-solid fa-users"></i></div>
+                        <h3 class="rule-card-title">2. Chování a reprezentace (Random text)</h3>
+                    </div>
+                    <ul class="rule-list">
+                        <li><span class="rule-tag">§ 2.1</span><strong>Vystupování na serveru i Discordu:</strong> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. Člen AT reprezentuje celý projekt MystiLand a vystupuje vždy slušně a s chladnou hlavou.</li>
+                        <li><span class="rule-tag">§ 2.2</span><strong>Nestrannost:</strong> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia. Všem hráčům měříme stejným metrem bez ohledu na to, zda jde o kamaráda nebo VIP hráče.</li>
+                        <li><span class="rule-tag">§ 2.3</span><strong>Týmová spolupráce:</strong> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Respektuj ostatní členy týmu a pokyny vyšších pozic.</li>
+                    </ul>
+                </div>
+
+                <!-- Karta 3 -->
+                <div class="rule-card">
+                    <div class="rule-card-header">
+                        <div class="rule-icon"><i class="fa-solid fa-gavel"></i></div>
+                        <h3 class="rule-card-title">3. Trestání a důkazy (Random text)</h3>
+                    </div>
+                    <ul class="rule-list">
+                        <li><span class="rule-tag">§ 3.1</span><strong>Povinnost důkazů:</strong> Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet. Před udělením každého trestu (ban, mute, warn) si vždy pořiď jasný důkaz (screenshot nebo video).</li>
+                        <li><span class="rule-tag">§ 3.2</span><strong>Sazebník trestů:</strong> Consectetur, adipisci velit, sed quia non numquam eius modi tempora. Délky trestů uděluj výhradně podle interní tabulky trestů.</li>
+                    </ul>
+                </div>
+
+                <!-- Karta 4 -->
+                <div class="rule-card">
+                    <div class="rule-card-header">
+                        <div class="rule-icon"><i class="fa-solid fa-eye-slash"></i></div>
+                        <h3 class="rule-card-title">4. Mlčenlivost a bezpečnost (Random text)</h3>
+                    </div>
+                    <ul class="rule-list">
+                        <li><span class="rule-tag">§ 4.1</span><strong>Zákaz vynášení informací:</strong> Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse. Veškeré dění v AT kanálech, chystané updaty a odkaz na tuto stránku jsou přísně tajné.</li>
+                        <li><span class="rule-tag">§ 4.2</span><strong>Zabezpečení účtu (2FA):</strong> At vero eos et accusamus et iusto odio dignissimos ducimus. Každý člen AT musí mít aktivní dvoufázové ověření na Discordu i silné heslo ve hře.</li>
+                    </ul>
+                </div>
+
+            </div>
         </section>
-
-        <!-- Sekce 2 -->
-        <section id="chovani" class="rule-card">
-            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
-                <span class="rule-number">02</span> Chování a reprezentace (Random text)
-            </h3>
-            <ul class="rule-list mb-0">
-                <li><strong>2.1 Vystupování:</strong> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. Člen AT reprezentuje celý projekt a musí vystupovat slušně a profesionálně.</li>
-                <li><strong>2.2 Nestrannost:</strong> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia. Při řešení sporů mezi hráči postupuj vždy nestranně a bez emocí.</li>
-                <li><strong>2.3 Spolupráce v týmu:</strong> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Respektuj ostatní členy týmu a vyšší vedení.</li>
-            </ul>
-        </section>
-
-        <!-- Sekce 3 -->
-        <section id="tresty" class="rule-card">
-            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
-                <span class="rule-number">03</span> Udělování trestů a důkazy (Random text)
-            </h3>
-            <ul class="rule-list mb-0">
-                <li><strong>3.1 Důkazní materiál:</strong> Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet. Před udělením banu či mute si vždy pořiď screenshot nebo videozáznam.</li>
-                <li><strong>3.2 Délka trestů:</strong> Consectetur, adipisci velit, sed quia non numquam eius modi tempora. Tresty uděluj přesně podle interní tabulky trestů, nevymýšlej si vlastní délky.</li>
-            </ul>
-        </section>
-
-        <!-- Sekce 4 -->
-        <section id="mlcenlivost" class="rule-card">
-            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
-                <span class="rule-number">04</span> Mlčenlivost a bezpečnost (Random text)
-            </h3>
-            <ul class="rule-list mb-0">
-                <li><strong>4.1 Interní informace:</strong> Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse. Veškeré informace z AT chatů, chystané updaty a tento odkaz je zakázáno sdílet s hráči.</li>
-                <li><strong>4.2 Zabezpečení účtu:</strong> At vero eos et accusamus et iusto odio dignissimos ducimus. Každý člen AT musí mít zapnuté dvoufázové ověření (2FA) na Discordu i na serveru.</li>
-            </ul>
-        </section>
-
     </main>
 
     <!-- PATIČKA -->
-    <footer class="text-center">
-        <div class="container">
-            <span>© 2026 Interní dokumentace Admin Teamu · Nesdílejte tento odkaz mimo AT.</span>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společností Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@email.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>
+                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const toggleIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            if (navMenu.classList.contains('show')) {
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-xmark');
+            } else {
+                toggleIcon.classList.remove('fa-xmark');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
 </body>
 </html>
