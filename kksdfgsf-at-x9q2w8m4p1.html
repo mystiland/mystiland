@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="cs" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Zabrání vyhledávačům (Google apod.) stránku najít a zaindexovat -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>Pravidla AT · Interní dokument</title>
+    
+    <!-- Bootstrap 5 a ikony pro moderní tmavý vzhled -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        body {
+            background-color: #0f1015;
+            color: #e2e8f0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Horní lišta */
+        .storefront-header {
+            background: rgba(20, 22, 29, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand-text {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .brand-text span {
+            color: #f59e0b; /* Zlatá/oranžová akcentní barva */
+        }
+
+        .brand-copy small {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 2.5px;
+            color: #94a3b8;
+            margin-top: -4px;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 0.5rem 1rem !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+        }
+
+        .nav-link.active {
+            color: #f59e0b !important;
+        }
+
+        /* Hlavní obsah a karty pravidel */
+        .rules-hero {
+            padding: 3.5rem 0 2rem;
+            text-align: center;
+        }
+
+        .rules-badge {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 0.35rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .rule-card {
+            background: #161821;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .rule-card:hover {
+            border-color: rgba(245, 158, 11, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .rule-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            font-weight: 800;
+            border-radius: 8px;
+            margin-right: 0.75rem;
+        }
+
+        .rule-list li {
+            margin-bottom: 0.75rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .rule-list li strong {
+            color: #fff;
+        }
+
+        footer {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1.5rem 0;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HORNÍ NAVIGAČNÍ LIŠTA -->
+    <header class="storefront-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container py-1">
+                <!-- Logo / Název -->
+                <a href="#" class="navbar-brand d-flex align-items-center text-decoration-none">
+                    <div class="bg-warning text-dark rounded-3 d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <span class="ms-2 brand-copy">
+                        <span class="brand-text">SERVER<span>TEAM</span></span>
+                        <small>INTERNÍ PORTÁL</small>
+                    </span>
+                </a>
+
+                <!-- Tlačítko pro mobil -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Odkazy v liště -->
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
+                        <li class="nav-item">
+                            <a href="#obecna" class="nav-link active"><i class="bi bi-book me-1"></i>Obecná pravidla</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#chovani" class="nav-link"><i class="bi bi-people me-1"></i>Chování AT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#tresty" class="nav-link"><i class="bi bi-hammer me-1"></i>Trestání hráčů</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#mlcenlivost" class="nav-link"><i class="bi bi-eye-slash me-1"></i>Mlčenlivost</a>
+                        </li>
+                    </ul>
+
+                    <!-- Pravý štítek -->
+                    <div class="d-flex justify-content-center">
+                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2">
+                            <i class="bi bi-lock-fill me-1"></i> Pouze pro AT
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HLAVNÍ OBSAH STRÁNKY -->
+    <main class="container mb-5" style="max-width: 900px;">
+        
+        <div class="rules-hero">
+            <span class="rules-badge"><i class="bi bi-exclamation-triangle-fill me-1"></i> Přísně interní dokument</span>
+            <h1 class="display-5 fw-bold text-white mb-3">Pravidla pro Admin Team</h1>
+            <p class="text-secondary mx-auto" style="max-width: 600px;">
+                Zde se nachází zástupný text pravidel. Každý člen týmu je povinen se s těmito body seznámit a řídit se jimi po celou dobu svého působení.
+            </p>
+        </div>
+
+        <!-- Sekce 1 -->
+        <section id="obecna" class="rule-card">
+            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
+                <span class="rule-number">01</span> Obecná ustanovení (Random text)
+            </h3>
+            <ul class="rule-list mb-0">
+                <li><strong>1.1 Znalost pravidel:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Každý člen AT musí znát základní pravidla serveru i tento interní řád.</li>
+                <li><strong>1.2 Aktivita:</strong> Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Minimální týdenní aktivita činí X hodin, případnou neaktivitu je nutné předem omluvit.</li>
+                <li><strong>1.3 Zneužití práv:</strong> Ut enim ad minim veniam, quis nostrud exercitation ullamco. Jakékoliv zneužívání příkazů nebo výhod pro vlastní prospěch či prospěch kamarádů je přísně zakázáno.</li>
+            </ul>
+        </section>
+
+        <!-- Sekce 2 -->
+        <section id="chovani" class="rule-card">
+            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
+                <span class="rule-number">02</span> Chování a reprezentace (Random text)
+            </h3>
+            <ul class="rule-list mb-0">
+                <li><strong>2.1 Vystupování:</strong> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. Člen AT reprezentuje celý projekt a musí vystupovat slušně a profesionálně.</li>
+                <li><strong>2.2 Nestrannost:</strong> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia. Při řešení sporů mezi hráči postupuj vždy nestranně a bez emocí.</li>
+                <li><strong>2.3 Spolupráce v týmu:</strong> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Respektuj ostatní členy týmu a vyšší vedení.</li>
+            </ul>
+        </section>
+
+        <!-- Sekce 3 -->
+        <section id="tresty" class="rule-card">
+            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
+                <span class="rule-number">03</span> Udělování trestů a důkazy (Random text)
+            </h3>
+            <ul class="rule-list mb-0">
+                <li><strong>3.1 Důkazní materiál:</strong> Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet. Před udělením banu či mute si vždy pořiď screenshot nebo videozáznam.</li>
+                <li><strong>3.2 Délka trestů:</strong> Consectetur, adipisci velit, sed quia non numquam eius modi tempora. Tresty uděluj přesně podle interní tabulky trestů, nevymýšlej si vlastní délky.</li>
+            </ul>
+        </section>
+
+        <!-- Sekce 4 -->
+        <section id="mlcenlivost" class="rule-card">
+            <h3 class="h5 fw-bold text-white d-flex align-items-center mb-3">
+                <span class="rule-number">04</span> Mlčenlivost a bezpečnost (Random text)
+            </h3>
+            <ul class="rule-list mb-0">
+                <li><strong>4.1 Interní informace:</strong> Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse. Veškeré informace z AT chatů, chystané updaty a tento odkaz je zakázáno sdílet s hráči.</li>
+                <li><strong>4.2 Zabezpečení účtu:</strong> At vero eos et accusamus et iusto odio dignissimos ducimus. Každý člen AT musí mít zapnuté dvoufázové ověření (2FA) na Discordu i na serveru.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- PATIČKA -->
+    <footer class="text-center">
+        <div class="container">
+            <span>© 2026 Interní dokumentace Admin Teamu · Nesdílejte tento odkaz mimo AT.</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
