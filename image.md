@@ -30,3 +30,8 @@ role
 <img width="41" height="7" alt="helper" src="https://github.com/user-attachments/assets/cdaa29a5-b2b6-413b-95ef-b2b0679657bc" />
 <img width="41" height="7" alt="grafik" src="https://github.com/user-attachments/assets/09e5a3d0-8b4e-4ad0-9e0c-b2410e7813fd" />
 <img width="59" height="7" alt="developer" src="https://github.com/user-attachments/assets/cdf6c926-a33e-4bf9-96fd-927149aa458a" />
+
+
+minecraft
+
+<img width="112" height="112" alt="scroll" src="https://github.com/user-attachments/assets/6dbf1e41-4ecd-4533-b62f-9a0759032fd0" />
