@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* --- PADAJÍCÍ PRVKY --- */
+        /* --- PADAJÍCÍ PRVKY (VÁNOČNÍ VLOČKY) --- */
         .falling-container {
             position: absolute;
             top: 0;
@@ -46,12 +46,13 @@
             animation: fall linear forwards;
         }
 
-        /* Minecraftové listí – čtvercový vzhled s jemným zaoblením a mřížkovým stínováním jako ve hře */
+        /* Kulaté, zářící bílé vánoční vločky */
         .particle.leaf-particle {
-            background: linear-gradient(135deg, #22c55e, #15803d);
-            border: 2px solid #0f5132;
-            border-radius: 6px;
-            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.3), 0 0 10px rgba(34, 197, 94, 0.5);
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(147, 197, 253, 0.6);
         }
 
         /* Čísla 6 a 7 (pouze po dosažení 67 kliknutí na 5 sekund) */
@@ -75,15 +76,15 @@
             }
             50% {
                 opacity: 0;
-                transform: translateY(50vh) translateX(-40px) rotate(180deg);
+                transform: translateY(50vh) translateX(-30px) rotate(180deg);
             }
             100% {
-                transform: translateY(100vh) translateX(-80px) rotate(360deg);
+                transform: translateY(100vh) translateX(-60px) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        /* Větší kousky listí při kliknutí na logo */
+        /* Větší kulaté vločky při kliknutí na logo */
         @keyframes burstParticle {
             0% {
                 transform: translate(0, 0) scale(0.6) rotate(0deg);
@@ -96,10 +97,11 @@
         }
 
         .particle.burst-leaf {
-            background: linear-gradient(135deg, #4ade80, #16a34a);
-            border: 2px solid #14532d;
-            border-radius: 6px;
-            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4), 0 0 12px rgba(74, 222, 128, 0.7);
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 1), 0 0 25px rgba(96, 165, 250, 0.8);
             top: 0;
             left: 0;
             animation: burstParticle 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
@@ -625,8 +627,8 @@
         .btn-minecraftservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
         .btn-minecraftservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
 
-        .btn-czechcraft { background: linear-gradient(135deg, #ea580c, #c2410c); }
-        .btn-czechcraft:hover { box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5); }
+        .btn-mchub { background: linear-gradient(135deg, #ea580c, #c2410c); }
+        .btn-mchub:hover { box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5); }
 
         .discord-container {
             text-align: center;
@@ -924,7 +926,7 @@
 </head>
 <body>
 
-    <!-- Kontejner pro padající prvky -->
+    <!-- Kontejner pro padající vločky -->
     <div class="falling-container" id="fallingContainer"></div>
 
     <!-- Achievement Toast (Oznámení) -->
@@ -976,8 +978,8 @@
             <!-- Achievementy -->
             <div class="badges-container">
                 <span class="badge-tag" id="badge-10">
-                    <i class="fa-solid fa-seedling"></i> 10 kliků
-                    <span class="badge-tooltip">Začínáš to rozjíždět! Minecraftové listí tě sleduje.</span>
+                    <i class="fa-solid fa-snowflake"></i> 10 kliků
+                    <span class="badge-tooltip">Začínáš to rozjíždět! Vločky tě sledují.</span>
                 </span>
                 <span class="badge-tag" id="badge-67">
                     <i class="fa-solid fa-ghost"></i> 67 KLIKNUTÍ
@@ -989,7 +991,7 @@
                 </span>
                 <span class="badge-tag" id="badge-250">
                     <i class="fa-solid fa-fire"></i> 250 kliků
-                    <span class="badge-tooltip">Horká půda pod nohama! Pokračuj.</span>
+                    <span class="badge-tooltip">Horká čokoláda v mrazu! Pokračuj.</span>
                 </span>
                 <span class="badge-tag" id="badge-500">
                     <i class="fa-solid fa-bolt"></i> 500 kliků
@@ -1068,8 +1070,8 @@
                     <button class="btn-vote btn-minecraftservery" onclick="vote('minecraftservery')">
                         <i class="fa-solid fa-check"></i> MinecraftServery.eu
                     </button>
-                    <button class="btn-vote btn-czechcraft" onclick="vote('czechcraft')">
-                        <i class="fa-solid fa-clock"></i> Czech-Craft.eu
+                    <button class="btn-vote btn-mchub" onclick="vote('mchub')">
+                        <i class="fa-solid fa-clock"></i> McHub.cz
                     </button>
                 </div>
             </div>
@@ -1143,7 +1145,7 @@
     </footer>
 
     <script>
-        // --- LOGIKA PADAJÍCÍCH PRVKŮ ---
+        // --- LOGIKA PADAJÍCÍCH VLOČEK ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
@@ -1177,7 +1179,7 @@
                 particle.style.textShadow = `0 0 14px ${randomColor}`;
             } else {
                 particle.classList.add('leaf-particle');
-                const size = Math.random() * 6 + 18; // velikost odpovídající listům
+                const size = Math.random() * 8 + 8; // Velikost kulatých vloček
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
             }
@@ -1194,7 +1196,7 @@
             }, duration * 1000);
         }
 
-        setInterval(createParticle, 300);
+        setInterval(createParticle, 250);
 
         window.addEventListener('resize', updateFallingContainerHeight);
         window.addEventListener('load', updateFallingContainerHeight);
@@ -1295,9 +1297,6 @@
                 const burstLeaf = document.createElement('div');
                 burstLeaf.classList.add('particle', 'burst-leaf');
                 
-                burstLeaf.style.width = '24px';
-                burstLeaf.style.height = '24px';
-
                 burstLeaf.style.left = (centerX + window.scrollX) + 'px';
                 burstLeaf.style.top = (centerY + window.scrollY) + 'px';
 
@@ -1369,8 +1368,8 @@
         function vote(site) {
             const nick = nickInput.value.trim();
 
-            if (site === 'czechcraft') {
-                showErrorModal("Oznámení", "Error: Hlasování na Czech-Craft.eu bude již brzy přidáno.");
+            if (site === 'mchub') {
+                showErrorModal("Oznámení", "Error: Hlasování na McHub.cz bude již brzy přidáno.");
                 return;
             }
 
