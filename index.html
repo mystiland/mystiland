@@ -46,11 +46,14 @@
             animation: fall linear forwards;
         }
 
-        /* Větší zelené listí (výchozí pozadí) */
+        /* Minecraftové bločky listí (čtvercový tvar s jemným pixelovým stínováním) */
         .particle.leaf-particle {
+            width: 24px;
+            height: 24px;
             background: linear-gradient(135deg, #22c55e, #15803d);
-            border-radius: 50% 0 50% 50%;
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+            border: 2px solid #0f5132;
+            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.25), 0 0 8px rgba(34, 197, 94, 0.4);
+            border-radius: 2px;
         }
 
         /* Čísla 6 a 7 (pouze po dosažení 67 kliknutí na 5 sekund) */
@@ -74,30 +77,33 @@
             }
             50% {
                 opacity: 0;
-                transform: translateY(50vh) translateX(-40px) rotate(360deg);
+                transform: translateY(50vh) translateX(-40px) rotate(180deg);
             }
             100% {
-                transform: translateY(100vh) translateX(-80px) rotate(720deg);
+                transform: translateY(100vh) translateX(-80px) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        /* Větší kousky listí při kliknutí na draka */
+        /* Větší čtvercové bločky listí při kliknutí na draka */
         @keyframes burstParticle {
             0% {
                 transform: translate(0, 0) scale(0.6) rotate(0deg);
                 opacity: 1;
             }
             100% {
-                transform: translate(var(--burst-x), var(--burst-y)) scale(1.4) rotate(360deg);
+                transform: translate(var(--burst-x), var(--burst-y)) scale(1.4) rotate(180deg);
                 opacity: 0;
             }
         }
 
         .particle.burst-leaf {
+            width: 28px;
+            height: 28px;
             background: linear-gradient(135deg, #4ade80, #16a34a);
-            border-radius: 50% 0 50% 50%;
-            box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+            border: 2px solid #14532d;
+            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.3), 0 0 10px rgba(74, 222, 128, 0.6);
+            border-radius: 2px;
             top: 0;
             left: 0;
             animation: burstParticle 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
@@ -1175,9 +1181,9 @@
                 particle.style.textShadow = `0 0 14px ${randomColor}`;
             } else {
                 particle.classList.add('leaf-particle');
-                const size = Math.random() * 12 + 14;
-                particle.style.width = size + 'px';
-                particle.style.height = (size * 0.65) + 'px';
+                // Velikost pro Minecraftový bloček listí (zajišťuje čtvercový rozměr)
+                particle.style.width = '24px';
+                particle.style.height = '24px';
             }
 
             const duration = Math.random() * 3 + 4;
@@ -1267,6 +1273,7 @@
             if (clickCount >= 250 && !unlocked250) {
                 unlocked250 = true;
                 document.getElementById('badge-250').classList.add('unlocked');
+                triggerInsightText = "Velký pokrok! (250 kliknutí)";
                 triggerAchievement("Velký pokrok! (250 kliknutí)");
             }
             if (clickCount >= 500 && !unlocked500) {
@@ -1293,9 +1300,8 @@
                 const burstLeaf = document.createElement('div');
                 burstLeaf.classList.add('particle', 'burst-leaf');
                 
-                const size = Math.random() * 10 + 12;
-                burstLeaf.style.width = size + 'px';
-                burstLeaf.style.height = (size * 0.65) + 'px';
+                burstLeaf.style.width = '28px';
+                burstLeaf.style.height = '28px';
 
                 burstLeaf.style.left = (centerX + window.scrollX) + 'px';
                 burstLeaf.style.top = (centerY + window.scrollY) + 'px';
