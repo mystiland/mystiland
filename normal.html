@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MystiLand – Minecraft Server</title>
+    
+    <!-- Logo v kartě prohlížeče -->
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0711;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- PADAJÍCÍ PRVKY --- */
+        .falling-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            top: -60px;
+            opacity: 0;
+            animation: fall linear forwards;
+        }
+
+        /* Větší zelené listí (výchozí pozadí) */
+        .particle.leaf-particle {
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border-radius: 50% 0 50% 50%;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Čísla 6 a 7 (pouze po dosažení 67 kliknutí na 5 sekund) */
+        .particle.troll-num {
+            font-size: 2.2rem;
+            font-weight: 900;
+            font-family: 'Impact', sans-serif;
+            text-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.9;
+            }
+            35% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0;
+                transform: translateY(50vh) translateX(-40px) rotate(360deg);
+            }
+            100% {
+                transform: translateY(100vh) translateX(-80px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Větší kousky listí při kliknutí na draka */
+        @keyframes burstParticle {
+            0% {
+                transform: translate(0, 0) scale(0.6) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--burst-x), var(--burst-y)) scale(1.4) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .particle.burst-leaf {
+            background: linear-gradient(135deg, #4ade80, #16a34a);
+            border-radius: 50% 0 50% 50%;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+            top: 0;
+            left: 0;
+            animation: burstParticle 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        .navbar, .hero-content, .main-content, .modal-overlay, footer {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* --- ACHIEVEMENT / OZNÁMENÍ --- */
+        .achievement-toast {
+            position: fixed;
+            top: 90px;
+            right: -380px;
+            background: rgba(18, 10, 31, 0.95);
+            border: 2px solid #a855f7;
+            border-radius: 12px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .achievement-toast.show {
+            right: 25px;
+        }
+
+        .achievement-icon {
+            font-size: 2.2rem;
+            color: #c084fc;
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+        }
+
+        .achievement-texts {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .achievement-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #d8b4fe;
+            font-weight: 700;
+        }
+
+        .achievement-desc {
+            font-size: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* --- HORNÍ LIŠTA (NAVBAR) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 7, 17, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            background: rgba(168, 85, 247, 0.15);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-shop {
+            background: linear-gradient(135deg, #a855f7, #7e22ce);
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-shop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+            background: linear-gradient(135deg, #c084fc, #9333ea);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- HERO SEKCIE --- */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 95vh;
+            padding-top: 120px;
+            background: linear-gradient(to bottom, rgba(11, 7, 17, 0.3) 0%, rgba(11, 7, 17, 0.95) 85%, #0b0711 100%), 
+                        url('https://github.com/user-attachments/assets/4037ab6f-2d0c-4583-bfef-74181d9f50c6') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 60px;
+        }
+
+        .hero-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .main-logo {
+            max-width: 440px;
+            width: 85%;
+            height: auto;
+            filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.7));
+            animation: pulseLogo 4s ease-in-out infinite;
+            transition: transform 0.1s ease;
+            user-select: none;
+        }
+
+        .main-logo:active {
+            transform: scale(0.92);
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 50px rgba(168, 85, 247, 0.9)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5)); }
+        }
+
+        .click-counter {
+            display: none;
+            font-size: 0.95rem;
+            color: #d8b4fe;
+            background: rgba(18, 10, 31, 0.8);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            padding: 6px 18px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .click-counter.visible {
+            display: inline-block;
+        }
+
+        /* --- BADGES / ACHIEVEMENTY --- */
+        .badges-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 750px;
+            min-height: 35px;
+        }
+
+        .badge-tag {
+            display: none; 
+            position: relative;
+            background: rgba(168, 85, 247, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.7);
+            color: #f3e8ff;
+            font-size: 0.8rem;
+            padding: 6px 14px;
+            border-radius: 12px;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transition: background 0.2s;
+        }
+
+        .badge-tag.unlocked {
+            display: inline-flex; 
+        }
+
+        .badge-tag:hover {
+            background: rgba(168, 85, 247, 0.5);
+        }
+
+        .badge-tag .badge-tooltip {
+            visibility: hidden;
+            background-color: rgba(12, 6, 20, 0.95);
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 210px;
+            font-size: 0.75rem;
+            border: 1px solid #a855f7;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .badge-tag:hover .badge-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .glitch-box {
+            background: rgba(18, 10, 31, 0.9);
+            border: 2px solid rgba(168, 85, 247, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 22px 50px;
+            border-radius: 18px;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .glitch-label {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #c084fc;
+            font-weight: 700;
+        }
+
+        .glitch-date {
+            font-family: 'Consolas', monospace;
+            font-size: 2.3rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 4px;
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.9);
+        }
+
+        .glitch-effect {
+            animation: glitch 0.3s infinite alternate;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); color: #d8b4fe; }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, -1px); color: #f3e8ff; }
+            80% { transform: translate(1px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* --- HLAVNÍ OBSAH --- */
+        .main-content {
+            background: linear-gradient(to bottom, #0b0711 0%, #07040b 100%);
+            padding: 40px 20px 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -8px;
+            width: 60px;
+            height: 4px;
+            background-color: #a855f7;
+            border-radius: 2px;
+        }
+
+        .about-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .about-description {
+            color: #b3b0c2;
+            font-size: 1.1rem;
+            margin-top: 15px;
+        }
+
+        .news-section {
+            max-width: 950px;
+            width: 100%;
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .news-section .section-title::after {
+            display: none;
+        }
+
+        .news-header-subtitle {
+            color: #9ca3af;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            margin-bottom: 35px;
+        }
+
+        .news-item {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+            text-align: left;
+            padding: 10px 0;
+        }
+
+        .news-image {
+            width: 45%;
+            min-width: 280px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .news-content {
+            flex: 1;
+        }
+
+        .news-title {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .news-date {
+            color: #c084fc;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .news-date span {
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        .news-text {
+            color: #9ca3af;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        /* --- HLASOVACÍ SEKCIE --- */
+        .vote-section {
+            max-width: 1000px;
+            width: 100%;
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .vote-card {
+            background: rgba(18, 10, 31, 0.7);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .vote-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .player-head-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            background: #150d22;
+        }
+
+        .nick-input {
+            background: rgba(11, 7, 17, 0.9);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 10px;
+            padding: 12px 20px;
+            color: #ffffff;
+            font-size: 1.05rem;
+            width: 280px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .nick-input:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .vote-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn-vote {
+            padding: 12px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-vote:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-craftlist { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        .btn-craftlist:hover { box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5); }
+
+        .btn-mclist { background: linear-gradient(135deg, #CFE02D, #E2CD21); color: #FFFFFF; }
+        .btn-mclist:hover { box-shadow: 0 6px 20px rgba(226, 205, 33, 0.5); }
+
+        .btn-mcservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
+        .btn-mcservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
+
+        .btn-minecraftservery { background: linear-gradient(135deg, #6366f1, #4338ca); }
+        .btn-minecraftservery:hover { box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
+
+        .btn-czechcraft { background: linear-gradient(135deg, #ea580c, #c2410c); }
+        .btn-czechcraft:hover { box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5); }
+
+        .discord-container {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .discord-box-text {
+            color: #d8b4fe;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .btn-discord {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 35px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #5865F2, #4752C4);
+            color: white;
+            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-discord:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(88, 101, 242, 0.65);
+        }
+
+        /* --- MODÁLNÍ OKNO --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: #120a1f;
+            border: 1px solid #a855f7;
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            color: #a855f7;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .modal-text {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .btn-modal-close {
+            background: #a855f7;
+            color: #ffffff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-modal-close:hover {
+            background: #9333ea;
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            background-color: #050308;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px 25px 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-subtitle {
+            font-size: 0.8rem;
+            color: #8a859b;
+            text-transform: uppercase;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .footer-col p {
+            color: #8a859b;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #a855f7;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8a859b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #585366;
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .mojang-disclaimer {
+            font-size: 0.8rem;
+            color: #585366;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 7, 17, 0.98);
+                backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                display: none;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 0;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+
+            .nav-links a:hover, .nav-links a.active {
+                border-radius: 0;
+                background: rgba(168, 85, 247, 0.15);
+            }
+
+            .btn-shop {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
+            .news-item {
+                flex-direction: column;
+            }
+
+            .news-image {
+                width: 100%;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Kontejner pro padající prvky -->
+    <div class="falling-container" id="fallingContainer"></div>
+
+    <!-- Achievement Toast (Oznámení) -->
+    <div class="achievement-toast" id="achievementToast">
+        <div class="achievement-icon"><i class="fa-solid fa-crown"></i></div>
+        <div class="achievement-texts">
+            <div class="achievement-title">Achievement Odemčen!</div>
+            <div class="achievement-desc" id="achievementDescText">Název achievementu</div>
+        </div>
+    </div>
+
+    <!-- HORNÍ NAVIGATION BAR -->
+    <header class="navbar">
+        <a href="/" class="nav-logo">
+            <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo">
+        </a>
+
+        <!-- Odkazy menu -->
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/" class="active">Domů</a></li>
+            <li><a href="/novinky">Novinky</a></li>
+            <li><a href="/tym">Tým</a></li>
+            <li><a href="/pravidla">Pravidla</a></li>
+            <li><a href="https://wiki.mystiland.eu/" target="_blank">Wiki</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <a href="https://store.mystiland.eu" class="btn-shop">
+                <i class="fa-solid fa-cart-shopping"></i> Obchod
+            </a>
+
+            <button class="mobile-toggle" id="menu-toggle" aria-label="Otevřít menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- HORNÍ HERO SEKCIE -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <!-- KLIKACÍ LOGO -->
+            <div class="logo-wrapper" id="logoWrapper" title="Klikni pro počítání!">
+                <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand" class="main-logo" id="mainLogo">
+            </div>
+            
+            <!-- Počítadlo -->
+            <div class="click-counter" id="clickCounter">Kliknutí: 0</div>
+
+            <!-- Achievementy -->
+            <div class="badges-container">
+                <span class="badge-tag" id="badge-10">
+                    <i class="fa-solid fa-seedling"></i> 10 kliků
+                    <span class="badge-tooltip">Začínáš to rozjíždět! Zelené listí tě sleduje.</span>
+                </span>
+                <span class="badge-tag" id="badge-67">
+                    <i class="fa-solid fa-ghost"></i> 67 KLIKNUTÍ
+                    <span class="badge-tooltip" id="tooltip-67">Legendární 5sekundová čísla 6 a 7!</span>
+                </span>
+                <span class="badge-tag" id="badge-100">
+                    <i class="fa-solid fa-tree"></i> 100 kliků
+                    <span class="badge-tooltip">Stovka na kontě! Skvělá práce.</span>
+                </span>
+                <span class="badge-tag" id="badge-250">
+                    <i class="fa-solid fa-fire"></i> 250 kliků
+                    <span class="badge-tooltip">Horká půda pod nohama! Pokračuj.</span>
+                </span>
+                <span class="badge-tag" id="badge-500">
+                    <i class="fa-solid fa-bolt"></i> 500 kliků
+                    <span class="badge-tooltip">Rychlost blesku! Jsi neskutečný.</span>
+                </span>
+                <span class="badge-tag" id="badge-1000">
+                    <i class="fa-solid fa-shield-halved"></i> 1 000 kliků
+                    <span class="badge-tooltip">Tisícovka! Legenda MystiLandu.</span>
+                </span>
+                <span class="badge-tag" id="badge-100k">
+                    <i class="fa-solid fa-crown"></i> 100K KLIKŮ
+                    <span class="badge-tooltip">Absolutní Bůh klikání! Není slov.</span>
+                </span>
+            </div>
+
+            <div class="glitch-box">
+                <span class="glitch-label">Spuštění serveru</span>
+                <div class="glitch-date glitch-effect" id="glitch-date-text">??.??.2026</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HLAVNÍ OBSAH -->
+    <main class="main-content" style="margin-top: 100px;">
+        <div class="about-container">
+            <h2 class="section-title">O našem serveru</h2>
+            <p class="about-description">
+                Vítejte na MystiLandu, v zemi Minecraftu, kde je všechno mysteriózní, ve světě, kde se rozhodujete vy a jen vy určité co z našeho světa vás bude bavit nejvíce. 
+                Od prvních prvků se snažíme stavět svět, kde každý hráč si nachází právě to své, čímž tvoří naši přátelskou komunitu. 
+                Z vašich možných voleb jsme pro vás vybrali například skvělý příběh o stvoření MystiLandu nebo klasický survival s jedinečnými mysteriózními záhadami nebezpečných dungeonů a unikátních předmětů, které na jiných zemích nenaleznete. 
+                Co náš mysteriózní MystiLand ještě nabízí? Tato volba je jen na vás.
+            </p>
+        </div>
+
+        <section class="news-section" id="novinky">
+            <h2 class="section-title">Novinky</h2>
+            <p class="news-header-subtitle">Zůstaňte na pozoru a odkrývejte nová tajemství MystiLandu. Nenechte si ujít žádnou novinku.</p>
+            
+            <div class="news-item">
+                <div class="news-image">
+                    <img src="https://github.com/user-attachments/assets/4c6b54b6-8503-4b56-abfd-6a70c4c5b2fa" alt="Novinka obrázek">
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">Spuštění webu!</h3>
+                    <div class="news-date">Datum vydání - <span>13.09.2026</span></div>
+                    <p class="news-text">
+                        Spouštíme náš web! Server MystiLand.eu má od dnešního dne svůj oficiální web. Můžeš zde najít základní informace o nášem serveru, seznámit se s naším admin týmem nebo si přečíst serverová pravidla. 🚀
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HLASOVACÍ SEKCIE -->
+        <section class="vote-section" id="hlasovani">
+            <h2 class="section-title">Hlasování</h2>
+            <p class="news-header-subtitle">Každé dvě hodiny můžete vyslat svůj hlas a probudit v sobě skrytou sílu. Posilněte svoje pouto s MystiLandem a urychlete svůj postup v našich světech.</p>
+            
+            <div class="vote-card">
+                <h3 style="font-size: 1.5rem; font-weight: 700;">Hlasovací konfigurátor</h3>
+                
+                <div class="vote-input-wrapper">
+                    <img src="https://minotar.net/helm/Steve/48.png" id="player-head-image" alt="Hlava hráče" class="player-head-img">
+                    <input type="text" id="player-nick-input" class="nick-input" placeholder="Zadej svůj herní nick..." maxlength="16" autocomplete="off">
+                </div>
+
+                <div class="vote-buttons">
+                    <button class="btn-vote btn-craftlist" onclick="vote('craftlist')">
+                        <i class="fa-solid fa-check"></i> CraftList.cz
+                    </button>
+                    <button class="btn-vote btn-mclist" onclick="vote('mclist')">
+                        <i class="fa-solid fa-check"></i> Minecraft-List.cz
+                    </button>
+                    <button class="btn-vote btn-mcservery" onclick="vote('mcservery')">
+                        <i class="fa-solid fa-check"></i> McServery.cz
+                    </button>
+                    <button class="btn-vote btn-minecraftservery" onclick="vote('minecraftservery')">
+                        <i class="fa-solid fa-check"></i> MinecraftServery.eu
+                    </button>
+                    <button class="btn-vote btn-czechcraft" onclick="vote('czechcraft')">
+                        <i class="fa-solid fa-clock"></i> Czech-Craft.eu
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div class="discord-container">
+            <p class="discord-box-text">
+                Získejte své místo na našem Discordu ještě předtím, než se otevřou nové mysteriózní brány. Sledujte každé odhalení a budujte s námi osud MystiLandu.
+            </p>
+
+            <a href="https://discord.com/invite/3GWM5Vy2HV" class="btn-discord" target="_blank">
+                <i class="fa-brands fa-discord"></i> Připojit se na Discord
+            </a>
+        </div>
+    </main>
+
+    <!-- MODÁLNÍ OKNO -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <h3 class="modal-title" id="modalTitle">Error 404</h3>
+            <p class="modal-text" id="modalText">Již brzy bude přidáno.</p>
+            <button class="btn-modal-close" onclick="closeModal()">Rozumím</button>
+        </div>
+    </div>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-header">
+                    <img src="https://github.com/user-attachments/assets/11cf6009-7c8a-4266-826f-40b9c32d7068" alt="MystiLand Logo" class="footer-logo">
+                    <div>
+                        <div class="footer-title">MYSTILAND.EU</div>
+                        <div class="footer-subtitle">MINECRAFT SERVER</div>
+                    </div>
+                </div>
+                <p>
+                    MystiLand je nově vznikající Minecraft server s důrazem na skvělou komunitu a originální zážitek ze hry.
+                </p>
+                <p class="mojang-disclaimer">
+                    Nejedná se o oficiální produkt Minecraftu. Nejsem spojen se společnością Mojang Studios.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAKTY</h4>
+                <p>E-mail: <a href="mailto:mystiland.info@gmail.com" style="color: #a855f7; text-decoration: none; font-weight: 600;">mystiland.info@gmail.com</a></p>
+                
+                <div class="social-links">
+                    <a href="https://discord.com/invite/3GWM5Vy2HV" target="_blank" class="social-icon" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@MystiLand" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@mystiland.eu" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/mystiland.eu/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594093271514" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul class="footer-links">
+                    <li><a href="https://mystiland.eu/documents/podminky_a_mojang.pdf" target="_blank">Podmínky a Mojang</a></li>
+                    <li><a href="https://mystiland.eu/documents/odpovednost_a_pravidla.pdf" target="_blank">Odpovědnost & Pravidla</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Mystiland.eu | Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <script>
+        // --- LOGIKA PADAJÍCÍCH PRVKŮ ---
+        const fallingContainer = document.getElementById('fallingContainer');
+
+        function updateFallingContainerHeight() {
+            fallingContainer.style.height = Math.max(
+                document.body.scrollHeight, 
+                document.documentElement.scrollHeight, 
+                document.body.offsetHeight, 
+                document.documentElement.offsetHeight, 
+                document.body.clientHeight, 
+                document.documentElement.clientHeight
+            ) + 'px';
+        }
+
+        let isNumbersActive = false;
+
+        function createParticle() {
+            updateFallingContainerHeight();
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const startX = Math.random() * window.innerWidth;
+            particle.style.left = startX + 'px';
+
+            if (isNumbersActive) {
+                particle.classList.add('troll-num');
+                particle.innerText = Math.random() < 0.5 ? '6' : '7';
+                
+                const trollColors = ['#c084fc', '#a855f7', '#9333ea', '#e879f9', '#d8b4fe'];
+                const randomColor = trollColors[Math.floor(Math.random() * trollColors.length)];
+                particle.style.color = randomColor;
+                particle.style.textShadow = `0 0 14px ${randomColor}`;
+            } else {
+                particle.classList.add('leaf-particle');
+                const size = Math.random() * 12 + 14;
+                particle.style.width = size + 'px';
+                particle.style.height = (size * 0.65) + 'px';
+            }
+
+            const duration = Math.random() * 3 + 4;
+            particle.style.animationDuration = duration + 's';
+
+            fallingContainer.appendChild(particle);
+
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.remove();
+                }
+            }, duration * 1000);
+        }
+
+        setInterval(createParticle, 300);
+
+        window.addEventListener('resize', updateFallingContainerHeight);
+        window.addEventListener('load', updateFallingContainerHeight);
+
+
+        // --- CLICKER, STOPKY A ACHIEVEMENTY ---
+        let clickCount = 0;
+        let startTime = null;
+        const logoWrapper = document.getElementById('logoWrapper');
+        const clickCounter = document.getElementById('clickCounter');
+        const achievementToast = document.getElementById('achievementToast');
+        const achievementDescText = document.getElementById('achievementDescText');
+        const tooltip67 = document.getElementById('tooltip-67');
+
+        let unlocked10 = false;
+        let unlocked67 = false;
+        let unlocked100 = false;
+        let unlocked250 = false;
+        let unlocked500 = false;
+        let unlocked1000 = false;
+        let unlocked100k = false;
+
+        function triggerAchievement(text) {
+            achievementDescText.innerText = text;
+            achievementToast.classList.add('show');
+            setTimeout(() => {
+                achievementToast.classList.remove('show');
+            }, 4000);
+        }
+
+        logoWrapper.addEventListener('click', () => {
+            if (!startTime) {
+                startTime = new Date();
+            }
+
+            clickCount++;
+
+            if (clickCount === 1) {
+                clickCounter.classList.add('visible');
+            }
+
+            clickCounter.innerText = `Kliknutí: ${clickCount}`;
+
+            if (clickCount >= 10 && !unlocked10) {
+                unlocked10 = true;
+                document.getElementById('badge-10').classList.add('unlocked');
+                triggerAchievement("Začátečník (10 kliknutí)");
+            }
+            if (clickCount === 67 && !unlocked67) {
+                unlocked67 = true;
+                document.getElementById('badge-67').classList.add('unlocked');
+                
+                const endTime = new Date();
+                const totalSeconds = Math.floor((endTime - startTime) / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                
+                tooltip67.innerText = `Šestasedma Master! Zvládnuto za ${minutes} min a ${seconds} s!`;
+                triggerAchievement(`67 KLIKNUTÍ! Čas: ${minutes}m ${seconds}s`);
+
+                isNumbersActive = true;
+                clearTimeout(window.numTimeout);
+                window.numTimeout = setTimeout(() => {
+                    isNumbersActive = false;
+                }, 5000);
+            }
+            if (clickCount >= 100 && !unlocked100) {
+                unlocked100 = true;
+                document.getElementById('badge-100').classList.add('unlocked');
+                triggerAchievement("Stovka na kontě! (100 kliknutí)");
+            }
+            if (clickCount >= 250 && !unlocked250) {
+                unlocked250 = true;
+                document.getElementById('badge-250').classList.add('unlocked');
+                triggerAchievement("Velký pokrok! (250 kliknutí)");
+            }
+            if (clickCount >= 500 && !unlocked500) {
+                unlocked500 = true;
+                document.getElementById('badge-500').classList.add('unlocked');
+                triggerAchievement("Polovina tisícovky! (500 kliknutí)");
+            }
+            if (clickCount >= 1000 && !unlocked1000) {
+                unlocked1000 = true;
+                document.getElementById('badge-1000').classList.add('unlocked');
+                triggerAchievement("Tisícovka! (1 000 kliknutí)");
+            }
+            if (clickCount >= 100000 && !unlocked100k) {
+                unlocked100k = true;
+                document.getElementById('badge-100k').classList.add('unlocked');
+                triggerAchievement("Absolutní Bůh! (100K kliknutí)");
+            }
+
+            const rect = logoWrapper.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 6; i++) {
+                const burstLeaf = document.createElement('div');
+                burstLeaf.classList.add('particle', 'burst-leaf');
+                
+                const size = Math.random() * 10 + 12;
+                burstLeaf.style.width = size + 'px';
+                burstLeaf.style.height = (size * 0.65) + 'px';
+
+                burstLeaf.style.left = (centerX + window.scrollX) + 'px';
+                burstLeaf.style.top = (centerY + window.scrollY) + 'px';
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 160 + 60;
+                const burstX = Math.cos(angle) * distance;
+                const burstY = Math.sin(angle) * distance;
+
+                burstLeaf.style.setProperty('--burst-x', burstX + 'px');
+                burstLeaf.style.setProperty('--burst-y', burstY + 'px');
+
+                document.body.appendChild(burstLeaf);
+
+                setTimeout(() => {
+                    burstLeaf.remove();
+                }, 1000);
+            }
+        });
+
+
+        // Mobilní menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const toggleIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            if (navMenu.classList.contains('show')) {
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-xmark');
+            } else {
+                toggleIcon.classList.remove('fa-xmark');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Glitch kód pro datum
+        const glitchElement = document.getElementById('glitch-date-text');
+        const glitchFormats = ["??.02.2027", "15.??.2027", "??.??.2027", "28.11.????", "??.??.2027", "??.08.2027", "20.??.????", "??.??.????"];
+
+        setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * glitchFormats.length);
+            glitchElement.innerText = glitchFormats[randomIndex];
+        }, 180);
+
+        // Hlasovací konfigurátor a modální okno
+        const nickInput = document.getElementById('player-nick-input');
+        const playerHead = document.getElementById('player-head-image');
+
+        nickInput.addEventListener('input', () => {
+            const nick = nickInput.value.trim();
+            if (nick.length > 0) {
+                playerHead.src = `https://minotar.net/helm/${nick}/48.png`;
+            } else {
+                playerHead.src = `https://minotar.net/helm/Steve/48.png`;
+            }
+        });
+
+        function showErrorModal(title, message) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalText').innerText = message;
+            document.getElementById('errorModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('errorModal').classList.remove('active');
+        }
+
+        function vote(site) {
+            const nick = nickInput.value.trim();
+
+            if (site === 'czechcraft') {
+                showErrorModal("Oznámení", "Error: Hlasování na Czech-Craft.eu bude již brzy přidáno.");
+                return;
+            }
+
+            if (!nick) {
+                showErrorModal("Chybí Nick!", "Zadej prosím svůj herní nick před hlasováním!");
+                return;
+            }
+
+            const links = {
+                craftlist: `https://craftlist.org/mystiland?nickname=${encodeURIComponent(nick)}`,
+                mclist: `https://minecraft-list.cz/server/mystilandeu/vote?name=${encodeURIComponent(nick)}`,
+                mcservery: `https://mcservery.cz/server/mysti-land?nickname=${encodeURIComponent(nick)}`,
+                minecraftservery: `https://minecraftservery.eu/server/mystilandeu/vote/${encodeURIComponent(nick)}`
+            };
+
+            if (links[site]) {
+                window.open(links[site], '_blank');
+            }
+        }
+    </script>
+
+</body>
+</html>
