@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* --- PADAJÍCÍ PRVKY (VÁNOČNÍ VLOČKY) --- */
+        /* --- PADAJÍCÍ PRVKY --- */
         .falling-container {
             position: absolute;
             top: 0;
@@ -46,14 +46,12 @@
             animation: fall linear forwards;
         }
 
-        /* Vločky jako zářící zimní pixelové čtverečky/krystaly */
+        /* Minecraftové listí – čtvercový vzhled s jemným zaoblením a mřížkovým stínováním jako ve hře */
         .particle.leaf-particle {
-            width: 14px;
-            height: 14px;
-            background: linear-gradient(135deg, #ffffff, #93c5fd);
-            border: 1px solid #60a5fa;
-            box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.8), 0 0 10px rgba(147, 197, 253, 0.8);
-            border-radius: 2px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border: 2px solid #0f5132;
+            border-radius: 6px;
+            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.3), 0 0 10px rgba(34, 197, 94, 0.5);
         }
 
         /* Čísla 6 a 7 (pouze po dosažení 67 kliknutí na 5 sekund) */
@@ -77,15 +75,15 @@
             }
             50% {
                 opacity: 0;
-                transform: translateY(50vh) translateX(-30px) rotate(180deg);
+                transform: translateY(50vh) translateX(-40px) rotate(180deg);
             }
             100% {
-                transform: translateY(100vh) translateX(-60px) rotate(360deg);
+                transform: translateY(100vh) translateX(-80px) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        /* Větší vločky při kliknutí na logo */
+        /* Větší kousky listí při kliknutí na logo */
         @keyframes burstParticle {
             0% {
                 transform: translate(0, 0) scale(0.6) rotate(0deg);
@@ -98,12 +96,10 @@
         }
 
         .particle.burst-leaf {
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #ffffff, #60a5fa);
-            border: 1px solid #3b82f6;
-            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.9), 0 0 12px rgba(96, 165, 250, 0.9);
-            border-radius: 3px;
+            background: linear-gradient(135deg, #4ade80, #16a34a);
+            border: 2px solid #14532d;
+            border-radius: 6px;
+            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4), 0 0 12px rgba(74, 222, 128, 0.7);
             top: 0;
             left: 0;
             animation: burstParticle 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
@@ -928,7 +924,7 @@
 </head>
 <body>
 
-    <!-- Kontejner pro padající prvky (vločky) -->
+    <!-- Kontejner pro padající prvky -->
     <div class="falling-container" id="fallingContainer"></div>
 
     <!-- Achievement Toast (Oznámení) -->
@@ -980,8 +976,8 @@
             <!-- Achievementy -->
             <div class="badges-container">
                 <span class="badge-tag" id="badge-10">
-                    <i class="fa-solid fa-snowflake"></i> 10 kliků
-                    <span class="badge-tooltip">Začínáš to rozjíždět! Zimní bouře začíná.</span>
+                    <i class="fa-solid fa-seedling"></i> 10 kliků
+                    <span class="badge-tooltip">Začínáš to rozjíždět! Minecraftové listí tě sleduje.</span>
                 </span>
                 <span class="badge-tag" id="badge-67">
                     <i class="fa-solid fa-ghost"></i> 67 KLIKNUTÍ
@@ -993,7 +989,7 @@
                 </span>
                 <span class="badge-tag" id="badge-250">
                     <i class="fa-solid fa-fire"></i> 250 kliků
-                    <span class="badge-tooltip">Horká čokoláda v mrazu! Pokračuj.</span>
+                    <span class="badge-tooltip">Horká půda pod nohama! Pokračuj.</span>
                 </span>
                 <span class="badge-tag" id="badge-500">
                     <i class="fa-solid fa-bolt"></i> 500 kliků
@@ -1147,7 +1143,7 @@
     </footer>
 
     <script>
-        // --- LOGIKA PADAJÍCÍCH VLOČEK ---
+        // --- LOGIKA PADAJÍCÍCH PRVKŮ ---
         const fallingContainer = document.getElementById('fallingContainer');
 
         function updateFallingContainerHeight() {
@@ -1181,8 +1177,7 @@
                 particle.style.textShadow = `0 0 14px ${randomColor}`;
             } else {
                 particle.classList.add('leaf-particle');
-                // Velikost pro vánoční pixelové vločky
-                const size = Math.random() * 6 + 10;
+                const size = Math.random() * 6 + 18; // velikost odpovídající listům
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
             }
@@ -1199,7 +1194,7 @@
             }, duration * 1000);
         }
 
-        setInterval(createParticle, 250);
+        setInterval(createParticle, 300);
 
         window.addEventListener('resize', updateFallingContainerHeight);
         window.addEventListener('load', updateFallingContainerHeight);
@@ -1300,6 +1295,9 @@
                 const burstLeaf = document.createElement('div');
                 burstLeaf.classList.add('particle', 'burst-leaf');
                 
+                burstLeaf.style.width = '24px';
+                burstLeaf.style.height = '24px';
+
                 burstLeaf.style.left = (centerX + window.scrollX) + 'px';
                 burstLeaf.style.top = (centerY + window.scrollY) + 'px';
 
